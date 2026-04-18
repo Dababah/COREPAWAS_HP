@@ -1,0 +1,936 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
+import {
+  Cpu,
+  LayoutDashboard,
+  Smartphone,
+  BookOpen,
+  Settings,
+  LogOut,
+  Plus,
+  Pencil,
+  Trash2,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  XCircle,
+  Search,
+  Save,
+  X,
+  BarChart3,
+  TrendingUp,
+  Package,
+  MessageSquare,
+} from 'lucide-react';
+import { useData } from '../context/DataContext';
+import { Product, defaultProducts } from '../data/products';
+import { BlogPost, defaultBlogPosts } from '../data/blog';
+
+const ADMIN_PASSWORD = 'corepawas2024';
+
+type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan';
+
+function formatPrice(price: number) {
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
+}
+
+// ─── Login Component ────────────────────────────────────────────────────────
+function LoginScreen({ onLogin }: { onLogin: () => void }) {
+  const [password, setPassword] = useState('');
+  const [showPw, setShowPw] = useState(false);
+  const [error, setError] = useState('');
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      sessionStorage.setItem('cp_admin', 'true');
+      onLogin();
+    } else {
+      setError('Password salah. Coba lagi.');
+      setPassword('');
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
+            <Cpu className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-2xl font-black text-white">Admin COREPAWAS</h1>
+          <p className="text-slate-400 text-sm mt-1">Masukkan password untuk melanjutkan</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="relative">
+            <input
+              type={showPw ? 'text' : 'password'}
+              placeholder="Password Admin"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setError(''); }}
+              className="w-full px-4 py-3.5 pr-12 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw(!showPw)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+            >
+              {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
+          </div>
+
+          {error && (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <XCircle className="w-4 h-4" />
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25"
+          >
+            Masuk ke Dashboard
+          </button>
+        </form>
+
+        <p className="text-center text-slate-600 text-xs mt-6">
+          Demo password: <span className="text-slate-500 font-mono">corepawas2024</span>
+        </p>
+
+        <div className="mt-4 text-center">
+          <Link to="/" className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+            ← Kembali ke Website
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Product Modal ───────────────────────────────────────────────────────────
+const emptyProduct: Omit<Product, 'id' | 'createdAt'> = {
+  name: '',
+  brand: 'iPhone',
+  price: 0,
+  originalPrice: undefined,
+  condition: 'Like New',
+  batteryHealth: 90,
+  storage: '128GB',
+  ram: '8GB',
+  chipset: '',
+  color: '',
+  image: '',
+  status: 'Ready',
+  antutuScore: undefined,
+  description: '',
+  hasUBL: false,
+  isRooted: false,
+  warrantyStatus: 'No Warranty',
+  accessories: [],
+  isFeatured: false,
+};
+
+function ProductModal({
+  product,
+  onSave,
+  onClose,
+}: {
+  product?: Product | null;
+  onSave: (p: Product) => void;
+  onClose: () => void;
+}) {
+  const [form, setForm] = useState<Omit<Product, 'id' | 'createdAt'>>(
+    product ? { ...product } : { ...emptyProduct }
+  );
+  const [accessoriesInput, setAccessoriesInput] = useState(product?.accessories.join(', ') || '');
+
+  function set(field: string, value: any) {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function handleSave() {
+    const acc = accessoriesInput
+      .split(',')
+      .map((a) => a.trim())
+      .filter(Boolean);
+    const saved: Product = {
+      ...form,
+      accessories: acc,
+      id: product?.id || Date.now().toString(),
+      createdAt: product?.createdAt || new Date().toISOString().split('T')[0],
+    };
+    onSave(saved);
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+      <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl my-8">
+        <div className="flex items-center justify-between p-5 border-b border-slate-800">
+          <h2 className="text-white font-bold text-lg">{product ? 'Edit Produk' : 'Tambah Produk Baru'}</h2>
+          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-5 grid grid-cols-2 gap-4">
+          {/* Name */}
+          <div className="col-span-2">
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Nama Produk *</label>
+            <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="cth: iPhone 13 128GB" />
+          </div>
+
+          {/* Brand */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Brand *</label>
+            <select value={form.brand} onChange={(e) => set('brand', e.target.value as any)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500">
+              {['iPhone', 'Samsung', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Other'].map((b) => (
+                <option key={b} value={b}>{b}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Condition */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Kondisi *</label>
+            <select value={form.condition} onChange={(e) => set('condition', e.target.value as any)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500">
+              {['Like New', 'Very Good', 'Good'].map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Harga (Rp) *</label>
+            <input type="number" value={form.price} onChange={(e) => set('price', Number(e.target.value))}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500" />
+          </div>
+
+          {/* Original Price */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Harga Asli (opsional)</label>
+            <input type="number" value={form.originalPrice || ''} onChange={(e) => set('originalPrice', e.target.value ? Number(e.target.value) : undefined)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="Untuk strikethrough" />
+          </div>
+
+          {/* RAM */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">RAM</label>
+            <input type="text" value={form.ram} onChange={(e) => set('ram', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="8GB" />
+          </div>
+
+          {/* Storage */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Storage</label>
+            <input type="text" value={form.storage} onChange={(e) => set('storage', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="128GB" />
+          </div>
+
+          {/* Chipset */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Chipset</label>
+            <input type="text" value={form.chipset} onChange={(e) => set('chipset', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="Apple A15 Bionic" />
+          </div>
+
+          {/* Color */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Warna</label>
+            <input type="text" value={form.color} onChange={(e) => set('color', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="Midnight Black" />
+          </div>
+
+          {/* Battery Health */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Battery Health (%)</label>
+            <input type="number" min="0" max="100" value={form.batteryHealth} onChange={(e) => set('batteryHealth', Number(e.target.value))}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500" />
+          </div>
+
+          {/* Antutu Score */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">AnTuTu Score (opsional)</label>
+            <input type="number" value={form.antutuScore || ''} onChange={(e) => set('antutuScore', e.target.value ? Number(e.target.value) : undefined)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="cth: 789000" />
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Status</label>
+            <select value={form.status} onChange={(e) => set('status', e.target.value as any)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500">
+              <option value="Ready">Ready</option>
+              <option value="Sold">Sold</option>
+            </select>
+          </div>
+
+          {/* Warranty */}
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Status Garansi</label>
+            <input type="text" value={form.warrantyStatus} onChange={(e) => set('warrantyStatus', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="No Warranty / Garansi Toko 1bln" />
+          </div>
+
+          {/* Image URL */}
+          <div className="col-span-2">
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">URL Foto Produk *</label>
+            <input type="text" value={form.image} onChange={(e) => set('image', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="https://..." />
+          </div>
+
+          {/* Accessories */}
+          <div className="col-span-2">
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Kelengkapan (pisahkan dengan koma)</label>
+            <input type="text" value={accessoriesInput} onChange={(e) => setAccessoriesInput(e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="Dus Original, Kabel Lightning, Charger Head" />
+          </div>
+
+          {/* Description */}
+          <div className="col-span-2">
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Deskripsi</label>
+            <textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={3}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none"
+              placeholder="Deskripsi kondisi dan keunggulan unit..." />
+          </div>
+
+          {/* Checkboxes */}
+          <div className="col-span-2 flex flex-wrap gap-4">
+            {[
+              { key: 'hasUBL', label: 'UBL Aktif' },
+              { key: 'isRooted', label: 'Rooted' },
+              { key: 'isFeatured', label: 'Featured (Roti Tawar)' },
+            ].map(({ key, label }) => (
+              <label key={key} className="flex items-center gap-2 cursor-pointer select-none">
+                <div
+                  onClick={() => set(key, !(form as any)[key])}
+                  className={`w-10 h-6 rounded-full transition-colors relative ${(form as any)[key] ? 'bg-blue-600' : 'bg-slate-700'}`}
+                >
+                  <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${(form as any)[key] ? 'left-5' : 'left-1'}`} />
+                </div>
+                <span className="text-slate-300 text-sm">{label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex gap-3 p-5 border-t border-slate-800">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-medium hover:bg-slate-800 transition-colors">
+            Batal
+          </button>
+          <button onClick={handleSave}
+            disabled={!form.name || !form.price || !form.image}
+            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+            <Save className="w-4 h-4" />
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Blog Modal ──────────────────────────────────────────────────────────────
+function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: (p: BlogPost) => void; onClose: () => void }) {
+  const [form, setForm] = useState<BlogPost>(
+    post || {
+      id: '',
+      slug: '',
+      title: '',
+      excerpt: '',
+      content: '',
+      image: '',
+      date: new Date().toISOString().split('T')[0],
+      readTime: '5 menit',
+      category: 'Tips & Tricks',
+      author: 'Tim COREPAWAS',
+    }
+  );
+
+  function set(field: string, value: string) {
+    setForm((prev) => ({ ...prev, [field]: value }));
+    if (field === 'title' && !post) {
+      const slug = value
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+      setForm((prev) => ({ ...prev, title: value, slug }));
+    }
+  }
+
+  function handleSave() {
+    const saved: BlogPost = { ...form, id: post?.id || Date.now().toString() };
+    onSave(saved);
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+      <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl my-8">
+        <div className="flex items-center justify-between p-5 border-b border-slate-800">
+          <h2 className="text-white font-bold text-lg">{post ? 'Edit Artikel' : 'Tambah Artikel Baru'}</h2>
+          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"><X className="w-5 h-5" /></button>
+        </div>
+
+        <div className="p-5 space-y-4">
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Judul Artikel *</label>
+            <input type="text" value={form.title} onChange={(e) => set('title', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500" />
+          </div>
+
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Slug URL *</label>
+            <input type="text" value={form.slug} onChange={(e) => set('slug', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-sm focus:outline-none focus:border-blue-500"
+              placeholder="otomatis dari judul" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Kategori</label>
+              <select value={form.category} onChange={(e) => set('category', e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500">
+                {['Tips & Tricks', 'Edukasi Teknis', 'Panduan', 'Berita'].map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Estimasi Baca</label>
+              <input type="text" value={form.readTime} onChange={(e) => set('readTime', e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                placeholder="5 menit" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Tanggal</label>
+              <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500" />
+            </div>
+            <div>
+              <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Penulis</label>
+              <input type="text" value={form.author} onChange={(e) => set('author', e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">URL Foto Cover *</label>
+            <input type="text" value={form.image} onChange={(e) => set('image', e.target.value)}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              placeholder="https://..." />
+          </div>
+
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Ringkasan (Excerpt) *</label>
+            <textarea value={form.excerpt} onChange={(e) => set('excerpt', e.target.value)} rows={2}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none" />
+          </div>
+
+          <div>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Konten (Markdown)</label>
+            <textarea value={form.content} onChange={(e) => set('content', e.target.value)} rows={8}
+              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none font-mono" />
+          </div>
+        </div>
+
+        <div className="flex gap-3 p-5 border-t border-slate-800">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-medium hover:bg-slate-800 transition-colors">Batal</button>
+          <button onClick={handleSave} disabled={!form.title || !form.slug || !form.image}
+            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity disabled:opacity-40 flex items-center justify-center gap-2">
+            <Save className="w-4 h-4" />
+            Simpan
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Admin Dashboard ─────────────────────────────────────────────────────
+function AdminDashboard({ onLogout }: { onLogout: () => void }) {
+  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress } = useData();
+  const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [productSearch, setProductSearch] = useState('');
+  const [blogSearch, setBlogSearch] = useState('');
+  const [editingProduct, setEditingProduct] = useState<Product | null | undefined>(undefined);
+  const [editingBlog, setEditingBlog] = useState<BlogPost | null | undefined>(undefined);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [settingsWa, setSettingsWa] = useState(waNumber);
+  const [settingsAddr, setSettingsAddr] = useState(storeAddress);
+  const [saved, setSaved] = useState(false);
+
+  const readyCount = products.filter((p) => p.status === 'Ready').length;
+  const soldCount = products.filter((p) => p.status === 'Sold').length;
+  const totalValue = products.filter((p) => p.status === 'Ready').reduce((s, p) => s + p.price, 0);
+
+  const filteredProducts = products.filter(
+    (p) =>
+      !productSearch ||
+      p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
+      p.brand.toLowerCase().includes(productSearch.toLowerCase())
+  );
+
+  const filteredBlog = blogPosts.filter(
+    (p) =>
+      !blogSearch ||
+      p.title.toLowerCase().includes(blogSearch.toLowerCase())
+  );
+
+  function handleSaveProduct(p: Product) {
+    const updated = editingProduct?.id
+      ? products.map((x) => (x.id === p.id ? p : x))
+      : [...products, p];
+    setProducts(updated);
+    setEditingProduct(undefined);
+  }
+
+  function handleDeleteProduct(id: string) {
+    setProducts(products.filter((p) => p.id !== id));
+    setDeleteConfirm(null);
+  }
+
+  function handleSaveBlog(p: BlogPost) {
+    const updated = editingBlog?.id
+      ? blogPosts.map((x) => (x.id === p.id ? p : x))
+      : [...blogPosts, p];
+    setBlogPosts(updated);
+    setEditingBlog(undefined);
+  }
+
+  function handleDeleteBlog(id: string) {
+    setBlogPosts(blogPosts.filter((p) => p.id !== id));
+  }
+
+  function toggleStatus(id: string) {
+    setProducts(
+      products.map((p) =>
+        p.id === id ? { ...p, status: p.status === 'Ready' ? 'Sold' : 'Ready' } : p
+      )
+    );
+  }
+
+  function handleSaveSettings() {
+    setWaNumber(settingsWa);
+    setStoreAddress(settingsAddr);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  function handleResetData() {
+    if (window.confirm('Reset semua data ke default? Ini akan menghapus semua perubahan.')) {
+      setProducts(defaultProducts);
+      setBlogPosts(defaultBlogPosts);
+    }
+  }
+
+  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
+    { id: 'produk', label: 'Produk', icon: <Smartphone className="w-4 h-4" /> },
+    { id: 'blog', label: 'Blog', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'pengaturan', label: 'Pengaturan', icon: <Settings className="w-4 h-4" /> },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-950 flex flex-col">
+      {/* Top Nav */}
+      <header className="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
+            <Cpu className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <span className="text-white font-black text-sm">COREPAWAS</span>
+            <span className="ml-2 px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-medium uppercase">Admin</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link to="/" target="_blank" className="text-slate-400 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+            <Eye className="w-4 h-4" />
+            <span className="hidden sm:inline">Lihat Web</span>
+          </Link>
+          <button
+            onClick={onLogout}
+            className="flex items-center gap-1.5 text-slate-400 hover:text-red-400 text-sm transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            <span className="hidden sm:inline">Keluar</span>
+          </button>
+        </div>
+      </header>
+
+      <div className="flex flex-1">
+        {/* Sidebar */}
+        <aside className="hidden sm:flex flex-col w-52 bg-slate-900 border-r border-slate-800 p-3 gap-1">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
+                activeTab === tab.id
+                  ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </aside>
+
+        {/* Mobile Tab Bar */}
+        <div className="sm:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 flex z-40">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-xs font-medium transition-colors ${
+                activeTab === tab.id ? 'text-blue-400' : 'text-slate-500'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 p-4 sm:p-6 overflow-auto pb-20 sm:pb-6">
+
+          {/* ─── Dashboard ─── */}
+          {activeTab === 'dashboard' && (
+            <div>
+              <h1 className="text-xl font-black text-white mb-6">Overview</h1>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {[
+                  { label: 'Total Produk', value: products.length, icon: <Package className="w-5 h-5 text-blue-400" />, color: 'blue' },
+                  { label: 'Ready Stock', value: readyCount, icon: <CheckCircle className="w-5 h-5 text-emerald-400" />, color: 'emerald' },
+                  { label: 'Terjual', value: soldCount, icon: <TrendingUp className="w-5 h-5 text-purple-400" />, color: 'purple' },
+                  { label: 'Total Artikel', value: blogPosts.length, icon: <BookOpen className="w-5 h-5 text-cyan-400" />, color: 'cyan' },
+                ].map((stat, i) => (
+                  <div key={i} className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-slate-400 text-xs font-medium">{stat.label}</span>
+                      {stat.icon}
+                    </div>
+                    <div className="text-3xl font-black text-white">{stat.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Value card */}
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-600/10 border border-blue-500/30 mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <BarChart3 className="w-5 h-5 text-blue-400" />
+                  <span className="text-slate-300 text-sm font-medium">Total Nilai Stok Ready</span>
+                </div>
+                <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+                  {formatPrice(totalValue)}
+                </div>
+              </div>
+
+              {/* Recent Products */}
+              <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
+                  <h3 className="text-white font-bold">Produk Terbaru</h3>
+                  <button onClick={() => setActiveTab('produk')} className="text-blue-400 text-sm hover:text-blue-300">Lihat Semua</button>
+                </div>
+                <div className="divide-y divide-slate-800">
+                  {products.slice(0, 4).map((p) => (
+                    <div key={p.id} className="flex items-center gap-3 px-5 py-3">
+                      <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm font-medium truncate">{p.name}</p>
+                        <p className="text-slate-400 text-xs">{formatPrice(p.price)}</p>
+                      </div>
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                        p.status === 'Ready'
+                          ? 'bg-emerald-500/10 text-emerald-400'
+                          : 'bg-red-500/10 text-red-400'
+                      }`}>
+                        {p.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ─── Produk ─── */}
+          {activeTab === 'produk' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-xl font-black text-white">Kelola Produk</h1>
+                <button
+                  onClick={() => setEditingProduct(null)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                >
+                  <Plus className="w-4 h-4" />
+                  Tambah Produk
+                </button>
+              </div>
+
+              {/* Search */}
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Cari produk..."
+                  value={productSearch}
+                  onChange={(e) => setProductSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                />
+              </div>
+
+              {/* Table */}
+              <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-slate-800">
+                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Produk</th>
+                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider hidden sm:table-cell">Harga</th>
+                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider hidden md:table-cell">Kondisi</th>
+                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Status</th>
+                        <th className="text-right px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800">
+                      {filteredProducts.map((p) => (
+                        <tr key={p.id} className="hover:bg-slate-800/30 transition-colors">
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                              <div className="min-w-0">
+                                <p className="text-white text-sm font-medium truncate">{p.name}</p>
+                                <p className="text-slate-500 text-xs">{p.brand}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 hidden sm:table-cell">
+                            <span className="text-white text-sm font-semibold">{formatPrice(p.price)}</span>
+                          </td>
+                          <td className="px-4 py-3 hidden md:table-cell">
+                            <span className="text-slate-300 text-sm">{p.condition}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <button
+                              onClick={() => toggleStatus(p.id)}
+                              className={`px-2.5 py-1 rounded-full text-xs font-bold transition-colors ${
+                                p.status === 'Ready'
+                                  ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'
+                                  : 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
+                              }`}
+                            >
+                              {p.status}
+                            </button>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => setEditingProduct(p)}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </button>
+                              {deleteConfirm === p.id ? (
+                                <div className="flex gap-1">
+                                  <button onClick={() => handleDeleteProduct(p.id)} className="px-2 py-1 rounded bg-red-600 text-white text-xs font-bold">Ya</button>
+                                  <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded bg-slate-700 text-slate-300 text-xs">Batal</button>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setDeleteConfirm(p.id)}
+                                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {filteredProducts.length === 0 && (
+                  <div className="text-center py-12 text-slate-500">Tidak ada produk ditemukan.</div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ─── Blog ─── */}
+          {activeTab === 'blog' && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-xl font-black text-white">Kelola Blog</h1>
+                <button
+                  onClick={() => setEditingBlog(null)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                >
+                  <Plus className="w-4 h-4" />
+                  Tambah Artikel
+                </button>
+              </div>
+
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Cari artikel..."
+                  value={blogSearch}
+                  onChange={(e) => setBlogSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                />
+              </div>
+
+              <div className="space-y-3">
+                {filteredBlog.map((post) => (
+                  <div key={post.id} className="flex items-center gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors">
+                    <img src={post.image} alt={post.title} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-semibold text-sm truncate">{post.title}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-purple-400 text-xs">{post.category}</span>
+                        <span className="text-slate-500 text-xs">·</span>
+                        <span className="text-slate-500 text-xs">{post.date}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <button onClick={() => setEditingBlog(post)} className="p-1.5 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => handleDeleteBlog(post.id)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {filteredBlog.length === 0 && (
+                  <div className="text-center py-12 text-slate-500">Tidak ada artikel ditemukan.</div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ─── Pengaturan ─── */}
+          {activeTab === 'pengaturan' && (
+            <div>
+              <h1 className="text-xl font-black text-white mb-6">Pengaturan</h1>
+
+              <div className="space-y-5 max-w-lg">
+                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 text-green-400" />
+                    WhatsApp
+                  </h3>
+                  <div>
+                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Nomor WhatsApp (tanpa +)</label>
+                    <input
+                      type="text"
+                      value={settingsWa}
+                      onChange={(e) => setSettingsWa(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                      placeholder="6281234567890"
+                    />
+                    <p className="text-slate-500 text-xs mt-1">Format: 628xxxxxxxxxx (tanpa spasi atau tanda +)</p>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <Settings className="w-4 h-4 text-blue-400" />
+                    Informasi Toko
+                  </h3>
+                  <div>
+                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Alamat Toko</label>
+                    <textarea
+                      value={settingsAddr}
+                      onChange={(e) => setSettingsAddr(e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleSaveSettings}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity"
+                >
+                  <Save className="w-4 h-4" />
+                  {saved ? '✓ Tersimpan!' : 'Simpan Pengaturan'}
+                </button>
+
+                <div className="p-5 rounded-2xl bg-red-500/5 border border-red-500/20">
+                  <h3 className="text-red-400 font-bold mb-2">Danger Zone</h3>
+                  <p className="text-slate-400 text-sm mb-4">Reset semua data produk dan blog ke kondisi awal (demo data).</p>
+                  <button onClick={handleResetData} className="px-4 py-2 rounded-lg border border-red-500/40 text-red-400 text-sm font-medium hover:bg-red-500/10 transition-colors">
+                    Reset ke Data Default
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+
+      {/* Modals */}
+      {editingProduct !== undefined && (
+        <ProductModal
+          product={editingProduct}
+          onSave={handleSaveProduct}
+          onClose={() => setEditingProduct(undefined)}
+        />
+      )}
+      {editingBlog !== undefined && (
+        <BlogModal
+          post={editingBlog}
+          onSave={handleSaveBlog}
+          onClose={() => setEditingBlog(undefined)}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── Admin Entry ─────────────────────────────────────────────────────────────
+export default function Admin() {
+  const [isAuth, setIsAuth] = useState<boolean>(() => {
+    return sessionStorage.getItem('cp_admin') === 'true';
+  });
+
+  function handleLogout() {
+    sessionStorage.removeItem('cp_admin');
+    setIsAuth(false);
+  }
+
+  if (!isAuth) {
+    return <LoginScreen onLogin={() => setIsAuth(true)} />;
+  }
+
+  return <AdminDashboard onLogout={handleLogout} />;
+}
