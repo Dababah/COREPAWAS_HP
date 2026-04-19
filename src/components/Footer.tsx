@@ -130,7 +130,7 @@ export default function Footer() {
             style={{ border: 0 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src={`https://www.google.com/maps/embed/v1/search?key=AIzaSyD-placeholder&q=${mapsQuery}`}
+            src={`https://maps.google.com/maps?q=${mapsQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
             className="grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
           />
         </div>
