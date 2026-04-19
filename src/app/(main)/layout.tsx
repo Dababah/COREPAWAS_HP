@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
