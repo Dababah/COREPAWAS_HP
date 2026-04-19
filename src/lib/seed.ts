@@ -36,7 +36,16 @@ export async function seedDatabase() {
     console.log('✓ Produk berhasil dipindah');
 
     // 2. Sync Blog
-    const { error: bError } = await supabase.from('blog_posts').upsert(defaultBlogPosts);
+    const mappedBlog = defaultBlogPosts.map(p => ({
+      ...p,
+      read_time: p.readTime,
+      // readTime is removed from the object to prevent Supabase from trying to insert it
+    }));
+    
+    // Remove the camelCase version to satisfy the DB schema
+    mappedBlog.forEach((p: any) => delete p.readTime);
+
+    const { error: bError } = await supabase.from('blog_posts').upsert(mappedBlog);
     if (bError) throw new Error(`Blog: ${bError.message}`);
     console.log('✓ Blog berhasil dipindah');
 
