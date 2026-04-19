@@ -27,6 +27,7 @@ import {
 import { useData } from '@/context/DataContext';
 import { Product, defaultProducts } from '@/data/products';
 import { BlogPost, defaultBlogPosts } from '@/data/blog';
+import { seedDatabase } from '@/lib/seed';
 
 const ADMIN_PASSWORD = 'corepawas2024';
 
@@ -484,6 +485,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [settingsMapUrl, setSettingsMapUrl] = useState(googleMapsUrl);
   const [settingsMapEmbed, setSettingsMapEmbed] = useState(googleMapsEmbedUrl);
   const [saved, setSaved] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [syncSuccess, setSyncSuccess] = useState(false);
 
   const readyCount = products.filter((p) => p.status === 'Ready').length;
   const soldCount = products.filter((p) => p.status === 'Sold').length;
@@ -543,6 +546,22 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setGoogleMapsEmbedUrl(settingsMapEmbed);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  }
+
+  async function handleSync() {
+    if (!confirm('Apakah Anda yakin ingin memindahkan data default ke Supabase? Ini akan menimpa data pengaturan yang ada.')) return;
+    
+    setSyncing(true);
+    const result = await seedDatabase();
+    setSyncing(false);
+    
+    if (result.success) {
+      setSyncSuccess(true);
+      setTimeout(() => setSyncSuccess(false), 3000);
+      alert('Berhasil! Data telah dipindah ke Supabase. Silakan refresh halaman.');
+    } else {
+      alert(`Gagal sync: ${result.error}`);
+    }
   }
 
   function handleResetData() {
@@ -938,6 +957,30 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   <Save className="w-4 h-4" />
                   {saved ? '✓ Tersimpan!' : 'Simpan Pengaturan'}
                 </button>
+
+                <div className="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
+                  <h3 className="text-blue-400 font-bold mb-3 flex items-center gap-2">
+                    <Database className="w-4 h-4" />
+                    Database Sync
+                  </h3>
+                  <p className="text-slate-400 text-sm mb-5">
+                    Gunakan fitur ini untuk memindahkan data awal (Produk & Blog) dari sistem ke database Supabase Anda jika tabel masih kosong.
+                  </p>
+                  <button
+                    onClick={handleSync}
+                    disabled={syncing}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                      syncing 
+                        ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                        : syncSuccess
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'
+                    }`}
+                  >
+                    <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
+                    {syncing ? 'Memindahkan Data...' : syncSuccess ? 'Data Terkirim!' : 'Sync Data ke Supabase'}
+                  </button>
+                </div>
 
                 <div className="p-5 rounded-2xl bg-red-500/5 border border-red-500/20">
                   <h3 className="text-red-400 font-bold mb-2">Danger Zone</h3>
