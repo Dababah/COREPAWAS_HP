@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router';
+import Link from 'next/link';
+import { usePathname as useLocation } from 'next/navigation';
 import { Menu, X, Cpu, ChevronDown } from 'lucide-react';
 
 const navLinks = [
@@ -12,7 +14,7 @@ const navLinks = [
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+  const pathname = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -22,7 +24,7 @@ export default function Navigation() {
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <nav
@@ -35,7 +37,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2 group">
             <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-shadow">
               <Cpu className="w-5 h-5 text-white" />
             </div>
@@ -52,12 +54,12 @@ export default function Navigation() {
             {navLinks.map((link) => {
               const isActive =
                 link.href === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(link.href);
+                  ? pathname === '/'
+                  : pathname?.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
-                  to={link.href}
+                  href={link.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30'
@@ -103,12 +105,12 @@ export default function Navigation() {
           {navLinks.map((link) => {
             const isActive =
               link.href === '/'
-                ? location.pathname === '/'
-                : location.pathname.startsWith(link.href);
+                ? pathname === '/'
+                : pathname?.startsWith(link.href);
             return (
               <Link
                 key={link.href}
-                to={link.href}
+                href={link.href}
                 className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   isActive
                     ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30'

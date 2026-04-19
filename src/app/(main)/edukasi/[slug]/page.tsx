@@ -1,11 +1,14 @@
-import { useParams, Link } from 'react-router';
+"use client";
+import React from "react";
+import Link from 'next/link';
+import { useParams,  } from 'next/navigation';
 import { Clock, Calendar, User, BookOpen, ChevronRight, MessageCircle } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 // Simple markdown renderer
 function MarkdownContent({ content }: { content: string }) {
   const lines = content.split('\n');
-  const elements: JSX.Element[] = [];
+  const elements: React.ReactNode[] = [];
   let i = 0;
 
   while (i < lines.length) {
@@ -110,8 +113,7 @@ export default function EdukasiDetail() {
         <div className="text-center">
           <BookOpen className="w-16 h-16 text-slate-700 mx-auto mb-4" />
           <h2 className="text-white font-bold text-xl mb-2">Artikel tidak ditemukan</h2>
-          <Link
-            to="/edukasi"
+          <Link href="/edukasi"
             className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors"
           >
             Kembali ke Edukasi
@@ -132,9 +134,9 @@ export default function EdukasiDetail() {
       <div className="max-w-3xl mx-auto px-4">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-6 mt-4">
-          <Link to="/" className="hover:text-white transition-colors">Beranda</Link>
+          <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link to="/edukasi" className="hover:text-white transition-colors">Edukasi</Link>
+          <Link href="/edukasi" className="hover:text-white transition-colors">Edukasi</Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-slate-300 truncate">{post.title}</span>
         </div>
@@ -192,7 +194,7 @@ export default function EdukasiDetail() {
             <h3 className="text-xl font-bold text-white mb-5">Artikel Terkait</h3>
             <div className="grid sm:grid-cols-2 gap-4">
               {related.map((r) => (
-                <Link key={r.id} to={`/edukasi/${r.slug}`} className="group">
+                <Link key={r.id} href={`/edukasi/${r.slug}`} className="group">
                   <div className="rounded-xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all">
                     <img src={r.image} alt={r.title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-500" />
                     <div className="p-4">

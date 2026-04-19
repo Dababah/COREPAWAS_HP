@@ -1,5 +1,6 @@
+"use client";
 import { MessageCircle } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 const TiktokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">

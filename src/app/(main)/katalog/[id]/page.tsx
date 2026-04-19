@@ -1,4 +1,6 @@
-import { useParams, Link, useNavigate } from 'react-router';
+"use client";
+import Link from 'next/link';
+import { useParams, useRouter as useNavigate } from 'next/navigation';
 import {
   ArrowLeft,
   Battery,
@@ -13,7 +15,7 @@ import {
   Zap,
   ChevronRight,
 } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 const conditionColors: Record<string, string> = {
   'Like New': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
@@ -45,7 +47,7 @@ export default function ProductDetail() {
           <Smartphone className="w-16 h-16 text-slate-700 mx-auto mb-4" />
           <h2 className="text-white font-bold text-xl mb-2">Produk tidak ditemukan</h2>
           <p className="text-slate-400 mb-6">Produk ini mungkin sudah terjual atau tidak tersedia.</p>
-          <Link to="/katalog" className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors">
+          <Link href="/katalog" className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors">
             Kembali ke Katalog
           </Link>
         </div>
@@ -105,9 +107,9 @@ export default function ProductDetail() {
       <div className="max-w-6xl mx-auto px-4">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-6 mt-4">
-          <Link to="/" className="hover:text-white transition-colors">Beranda</Link>
+          <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link to="/katalog" className="hover:text-white transition-colors">Katalog</Link>
+          <Link href="/katalog" className="hover:text-white transition-colors">Katalog</Link>
           <ChevronRight className="w-3 h-3" />
           <span className="text-slate-300 truncate">{product.name}</span>
         </div>
@@ -209,8 +211,7 @@ export default function ProductDetail() {
                   Tanya via WhatsApp
                 </a>
               ) : (
-                <Link
-                  to="/katalog"
+                <Link href="/katalog"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-bold text-lg hover:bg-slate-700 transition-colors mb-3"
                 >
                   <Smartphone className="w-5 h-5" />
@@ -313,7 +314,7 @@ export default function ProductDetail() {
             <h3 className="text-xl font-bold text-white mb-6">Unit {product.brand} Lainnya</h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map((p) => (
-                <Link key={p.id} to={`/katalog/${p.id}`} className="block">
+                <Link key={p.id} href={`/katalog/${p.id}`} className="block">
                   <div className="rounded-xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1">
                     <img src={p.image} alt={p.name} className="w-full h-36 object-cover" />
                     <div className="p-3">

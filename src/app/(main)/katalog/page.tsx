@@ -1,8 +1,9 @@
+"use client";
 import { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, X, Smartphone } from 'lucide-react';
-import { useData } from '../context/DataContext';
-import ProductCard from '../components/ProductCard';
-import { Product } from '../data/products';
+import { useData } from '@/context/DataContext';
+import ProductCard from '@/components/ProductCard';
+import { Product } from '@/data/products';
 
 const BRANDS = ['Semua', 'iPhone', 'Samsung', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Other'];
 const CONDITIONS = ['Semua', 'Like New', 'Very Good', 'Good'];

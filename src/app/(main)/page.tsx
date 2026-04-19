@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+"use client";
+import Link from 'next/link';
 import {
   ShieldCheck,
   Cpu,
@@ -12,8 +13,8 @@ import {
   ChevronRight,
   BookOpen,
 } from 'lucide-react';
-import { useData } from '../context/DataContext';
-import ProductCard from '../components/ProductCard';
+import { useData } from '@/context/DataContext';
+import ProductCard from '@/components/ProductCard';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1697545806245-9795b6056141?w=1400&q=80';
 const TECHNICIAN_IMG = 'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=800&q=80';
@@ -116,8 +117,7 @@ export default function Home() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/katalog"
+            <Link href="/katalog"
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg hover:opacity-90 transition-opacity shadow-xl shadow-blue-500/30 flex items-center gap-2 justify-center"
             >
               <Smartphone className="w-5 h-5" />
@@ -181,8 +181,7 @@ export default function Home() {
               <h2 className="text-3xl font-black text-white">Unit Tersedia Sekarang</h2>
               <p className="text-slate-400 mt-1">Unit-unit berikut sudah melalui inspeksi lengkap dan siap dimiliki.</p>
             </div>
-            <Link
-              to="/katalog"
+            <Link href="/katalog"
               className="hidden sm:flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
               Lihat Semua <ChevronRight className="w-4 h-4" />
@@ -203,8 +202,7 @@ export default function Home() {
           )}
 
           <div className="mt-8 sm:hidden text-center">
-            <Link
-              to="/katalog"
+            <Link href="/katalog"
               className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium"
             >
               Lihat Semua Katalog <ChevronRight className="w-4 h-4" />
@@ -294,8 +292,7 @@ export default function Home() {
               </ul>
 
               <div className="mt-8">
-                <Link
-                  to="/katalog"
+                <Link href="/katalog"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25"
                 >
                   Lihat Contoh Detail Produk <ArrowRight className="w-4 h-4" />
@@ -316,8 +313,7 @@ export default function Home() {
               </span>
               <h2 className="text-3xl font-black text-white">Biar Gak Ketipu Beli HP Second</h2>
             </div>
-            <Link
-              to="/edukasi"
+            <Link href="/edukasi"
               className="hidden sm:flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium"
             >
               Semua Artikel <ChevronRight className="w-4 h-4" />
@@ -326,7 +322,7 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogPosts.slice(0, 3).map((post) => (
-              <Link key={post.id} to={`/edukasi/${post.slug}`} className="group">
+              <Link key={post.id} href={`/edukasi/${post.slug}`} className="group">
                 <div className="rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 transition-all bg-slate-900 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/50">
                   <div className="h-44 overflow-hidden">
                     <img
@@ -362,8 +358,7 @@ export default function Home() {
             Stok terbatas. Hubungi sekarang untuk konsultasi gratis dan cek ketersediaan unit.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/katalog"
+            <Link href="/katalog"
               className="px-8 py-4 rounded-xl bg-white text-blue-600 font-bold hover:bg-blue-50 transition-colors shadow-lg"
             >
               Lihat Semua Katalog

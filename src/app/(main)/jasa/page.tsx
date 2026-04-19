@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+"use client";
+import Link from 'next/link';
 import {
   Database,
   ShieldCheck,
@@ -12,7 +13,7 @@ import {
   Zap,
   HelpCircle,
 } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 const JASA_BG = 'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=1400&q=80';
 

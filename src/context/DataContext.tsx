@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
-import { defaultProducts, Product } from '../data/products';
-import { defaultBlogPosts, BlogPost } from '../data/blog';
+"use client";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { defaultProducts, Product } from '@/data/products';
+import { defaultBlogPosts, BlogPost } from '@/data/blog';
 
 interface DataContextType {
   products: Product[];
@@ -17,31 +18,28 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | null>(null);
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
-  const [products, setProductsState] = useState<Product[]>(() => {
+  const [products, setProductsState] = useState<Product[]>(defaultProducts);
+  const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(defaultBlogPosts);
+  const [waNumber, setWaNumberState] = useState<string>('6281234567890');
+  const [storeAddress, setStoreAddressState] = useState<string>('Jl. Teknologi No. 88, Jakarta Selatan, DKI Jakarta 12345');
+
+  useEffect(() => {
     try {
-      const saved = localStorage.getItem('corepawas_products');
-      return saved ? JSON.parse(saved) : defaultProducts;
-    } catch {
-      return defaultProducts;
+      const savedProducts = localStorage.getItem('corepawas_products');
+      if (savedProducts) setProductsState(JSON.parse(savedProducts));
+
+      const savedBlog = localStorage.getItem('corepawas_blog');
+      if (savedBlog) setBlogPostsState(JSON.parse(savedBlog));
+
+      const savedWa = localStorage.getItem('corepawas_wa');
+      if (savedWa) setWaNumberState(savedWa);
+
+      const savedAddress = localStorage.getItem('corepawas_address');
+      if (savedAddress) setStoreAddressState(savedAddress);
+    } catch (e) {
+      console.error('Error loading data from localStorage', e);
     }
-  });
-
-  const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(() => {
-    try {
-      const saved = localStorage.getItem('corepawas_blog');
-      return saved ? JSON.parse(saved) : defaultBlogPosts;
-    } catch {
-      return defaultBlogPosts;
-    }
-  });
-
-  const [waNumber, setWaNumberState] = useState<string>(() => {
-    return localStorage.getItem('corepawas_wa') || '6281234567890';
-  });
-
-  const [storeAddress, setStoreAddressState] = useState<string>(() => {
-    return localStorage.getItem('corepawas_address') || 'Jl. Teknologi No. 88, Jakarta Selatan, DKI Jakarta 12345';
-  });
+  }, []);
 
   const setProducts = (products: Product[]) => {
     setProductsState(products);

@@ -1,5 +1,6 @@
+"use client";
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import {
   Cpu,
   LayoutDashboard,
@@ -22,9 +23,9 @@ import {
   Package,
   MessageSquare,
 } from 'lucide-react';
-import { useData } from '../context/DataContext';
-import { Product, defaultProducts } from '../data/products';
-import { BlogPost, defaultBlogPosts } from '../data/blog';
+import { useData } from '@/context/DataContext';
+import { Product, defaultProducts } from '@/data/products';
+import { BlogPost, defaultBlogPosts } from '@/data/blog';
 
 const ADMIN_PASSWORD = 'corepawas2024';
 
@@ -101,7 +102,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
         </p>
 
         <div className="mt-4 text-center">
-          <Link to="/" className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+          <Link href="/" className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
             ← Kembali ke Website
           </Link>
         </div>
@@ -565,7 +566,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Link to="/" target="_blank" className="text-slate-400 hover:text-white text-sm transition-colors flex items-center gap-1.5">
+          <Link href="/" target="_blank" className="text-slate-400 hover:text-white text-sm transition-colors flex items-center gap-1.5">
             <Eye className="w-4 h-4" />
             <span className="hidden sm:inline">Lihat Web</span>
           </Link>
@@ -919,13 +920,26 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
 // ─── Admin Entry ─────────────────────────────────────────────────────────────
 export default function Admin() {
-  const [isAuth, setIsAuth] = useState<boolean>(() => {
-    return sessionStorage.getItem('cp_admin') === 'true';
-  });
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const auth = sessionStorage.getItem('cp_admin') === 'true';
+    setIsAuth(auth);
+    setLoading(false);
+  }, []);
 
   function handleLogout() {
     sessionStorage.removeItem('cp_admin');
     setIsAuth(false);
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   if (!isAuth) {

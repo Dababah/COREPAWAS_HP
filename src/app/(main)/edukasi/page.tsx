@@ -1,7 +1,8 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import { Search, BookOpen, Clock, ChevronRight } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 const categories = ['Semua', 'Tips & Tricks', 'Edukasi Teknis', 'Panduan'];
 
@@ -52,7 +53,7 @@ export default function Edukasi() {
       <div className="max-w-7xl mx-auto px-4 py-10">
         {/* Featured Post */}
         {featured && (
-          <Link to={`/edukasi/${featured.slug}`} className="group block mb-12">
+          <Link href={`/edukasi/${featured.slug}`} className="group block mb-12">
             <div className="grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/40 transition-all hover:shadow-xl hover:shadow-blue-500/10">
               <div className="h-64 lg:h-auto overflow-hidden">
                 <img
@@ -125,7 +126,7 @@ export default function Edukasi() {
         {filtered.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((post) => (
-              <Link key={post.id} to={`/edukasi/${post.slug}`} className="group">
+              <Link key={post.id} href={`/edukasi/${post.slug}`} className="group">
                 <div className="h-full rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/50 flex flex-col">
                   <div className="h-48 overflow-hidden flex-shrink-0">
                     <img

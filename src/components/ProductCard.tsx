@@ -1,7 +1,8 @@
-import { Link } from 'react-router';
+"use client";
+import Link from 'next/link';
 import { Battery, HardDrive, Cpu, CheckCircle, XCircle, MessageCircle, ShieldCheck } from 'lucide-react';
-import { Product } from '../data/products';
-import { useData } from '../context/DataContext';
+import { Product } from '@/data/products';
+import { useData } from '@/context/DataContext';
 
 interface ProductCardProps {
   product: Product;
@@ -65,7 +66,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
       )}
 
       {/* Image */}
-      <Link to={`/katalog/${product.id}`}>
+      <Link href={`/katalog/${product.id}`}>
         <div className="relative h-52 overflow-hidden bg-slate-800">
           <img
             src={product.image}
@@ -80,7 +81,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
 
       {/* Content */}
       <div className="p-4">
-        <Link to={`/katalog/${product.id}`} className="hover:text-blue-400 transition-colors">
+        <Link href={`/katalog/${product.id}`} className="hover:text-blue-400 transition-colors">
           <h3 className="font-bold text-white mb-1 truncate">{product.name}</h3>
         </Link>
 
@@ -126,8 +127,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
 
         {/* Actions */}
         <div className="flex gap-2">
-          <Link
-            to={`/katalog/${product.id}`}
+          <Link href={`/katalog/${product.id}`}
             className="flex-1 py-2 rounded-lg border border-slate-700 text-slate-300 text-sm font-medium text-center hover:border-blue-500/50 hover:text-blue-400 transition-all"
           >
             Detail

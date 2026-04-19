@@ -1,6 +1,7 @@
-import { Link } from 'react-router';
+"use client";
+import Link from 'next/link';
 import { Cpu, MapPin, MessageCircle, Mail, Instagram } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData } from '@/context/DataContext';
 
 const TiktokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -19,7 +20,7 @@ export default function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
                 <Cpu className="w-5 h-5 text-white" />
               </div>
@@ -71,8 +72,7 @@ export default function Footer() {
                 { label: 'Edukasi & Blog', href: '/edukasi' },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
+                  <Link href={link.href}
                     className="text-slate-400 hover:text-white text-sm transition-colors"
                   >
                     {link.label}
