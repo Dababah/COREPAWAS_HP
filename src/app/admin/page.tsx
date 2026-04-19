@@ -23,6 +23,8 @@ import {
   Package,
   MessageSquare,
   MapPin,
+  Database,
+  RefreshCw,
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { Product, defaultProducts } from '@/data/products';
