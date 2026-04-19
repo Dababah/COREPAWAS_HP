@@ -471,7 +471,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
 
 // ─── Main Admin Dashboard ─────────────────────────────────────────────────────
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
-  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl } = useData();
+  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl, googleMapsEmbedUrl, setGoogleMapsEmbedUrl } = useData();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
@@ -482,6 +482,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [settingsAddr, setSettingsAddr] = useState(storeAddress);
   const [settingsMapKey, setSettingsMapKey] = useState(googleMapsApiKey);
   const [settingsMapUrl, setSettingsMapUrl] = useState(googleMapsUrl);
+  const [settingsMapEmbed, setSettingsMapEmbed] = useState(googleMapsEmbedUrl);
   const [saved, setSaved] = useState(false);
 
   const readyCount = products.filter((p) => p.status === 'Ready').length;
@@ -539,6 +540,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setStoreAddress(settingsAddr);
     setGoogleMapsApiKey(settingsMapKey);
     setGoogleMapsUrl(settingsMapUrl);
+    setGoogleMapsEmbedUrl(settingsMapEmbed);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -912,6 +914,19 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     />
                     <p className="text-slate-500 text-xs mt-2">
                       Gunakan link share dari Google Maps (seperti short link) untuk tombol navigasi lokasi.
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Manual Embed URL (Standard Iframe Src)</label>
+                    <textarea
+                      value={settingsMapEmbed}
+                      onChange={(e) => setSettingsMapEmbed(e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none font-mono"
+                      placeholder="https://www.google.com/maps/embed?pb=..."
+                    />
+                    <p className="text-slate-500 text-xs mt-2">
+                      Masukkan URL `src` dari kode iframe Google Maps. Metode ini paling stabil dan tidak memerlukan API key.
                     </p>
                   </div>
                 </div>

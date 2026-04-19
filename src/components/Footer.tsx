@@ -10,14 +10,16 @@ const TiktokIcon = () => (
 );
 
 export default function Footer() {
-  const { waNumber, storeAddress, googleMapsApiKey, googleMapsUrl } = useData();
+  const { waNumber, storeAddress, googleMapsApiKey, googleMapsUrl, googleMapsEmbedUrl } = useData();
 
   const mapsQuery = encodeURIComponent(storeAddress);
 
-  // Use official Embed API if key is available, else fallback to search embed
-  const mapSrc = googleMapsApiKey 
-    ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${mapsQuery}`
-    : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
+  // Priority: 1. Manual Embed Url, 2. API Key Format, 3. Legacy Search Format
+  const mapSrc = googleMapsEmbedUrl 
+    ? googleMapsEmbedUrl
+    : googleMapsApiKey 
+      ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${mapsQuery}`
+      : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
   return (
     <footer className="bg-slate-900 border-t border-slate-800">
