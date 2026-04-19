@@ -10,7 +10,7 @@ const TiktokIcon = () => (
 );
 
 export default function Footer() {
-  const { waNumber, storeAddress, googleMapsApiKey } = useData();
+  const { waNumber, storeAddress, googleMapsApiKey, googleMapsUrl } = useData();
 
   const mapsQuery = encodeURIComponent(storeAddress);
 
@@ -113,7 +113,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href={`https://maps.google.com/?q=${mapsQuery}`}
+                  href={googleMapsUrl || `https://maps.google.com/?q=${mapsQuery}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"

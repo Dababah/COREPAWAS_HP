@@ -471,7 +471,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
 
 // ─── Main Admin Dashboard ─────────────────────────────────────────────────────
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
-  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey } = useData();
+  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl } = useData();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
@@ -481,6 +481,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [settingsWa, setSettingsWa] = useState(waNumber);
   const [settingsAddr, setSettingsAddr] = useState(storeAddress);
   const [settingsMapKey, setSettingsMapKey] = useState(googleMapsApiKey);
+  const [settingsMapUrl, setSettingsMapUrl] = useState(googleMapsUrl);
   const [saved, setSaved] = useState(false);
 
   const readyCount = products.filter((p) => p.status === 'Ready').length;
@@ -537,6 +538,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setWaNumber(settingsWa);
     setStoreAddress(settingsAddr);
     setGoogleMapsApiKey(settingsMapKey);
+    setGoogleMapsUrl(settingsMapUrl);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -897,6 +899,19 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     />
                     <p className="text-slate-500 text-xs mt-2">
                       Dibutuhkan untuk performa map yang stabil. Jika dikosongkan, akan menggunakan mode gratis (mungkin tidak stabil).
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Direct Google Maps Link (Share Link)</label>
+                    <input
+                      type="text"
+                      value={settingsMapUrl}
+                      onChange={(e) => setSettingsMapUrl(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                      placeholder="https://maps.app.goo.gl/..."
+                    />
+                    <p className="text-slate-500 text-xs mt-2">
+                      Gunakan link share dari Google Maps (seperti short link) untuk tombol navigasi lokasi.
                     </p>
                   </div>
                 </div>

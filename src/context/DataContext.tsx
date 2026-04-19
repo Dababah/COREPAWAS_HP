@@ -16,6 +16,8 @@ interface DataContextType {
   setStoreAddress: (addr: string) => void;
   googleMapsApiKey: string;
   setGoogleMapsApiKey: (key: string) => void;
+  googleMapsUrl: string;
+  setGoogleMapsUrl: (url: string) => void;
   loading: boolean;
 }
 
@@ -25,8 +27,9 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [products, setProductsState] = useState<Product[]>(defaultProducts);
   const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(defaultBlogPosts);
   const [waNumber, setWaNumberState] = useState<string>('6282342309890');
-  const [storeAddress, setStoreAddressState] = useState<string>('Kos putra maruf, Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183');
+  const [storeAddress, setStoreAddressState] = useState<string>('Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183, Indonesia');
   const [googleMapsApiKey, setGoogleMapsApiKeyState] = useState<string>('');
+  const [googleMapsUrl, setGoogleMapsUrlState] = useState<string>('https://maps.app.goo.gl/TbLjY3wXDjm5VHuv7');
   const [loading, setLoading] = useState(true);
 
   // Initialize data from Supabase or Fallback
@@ -67,12 +70,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (!sError && dbSettings && dbSettings.length > 0) {
-          const wa = dbSettings.find(s => s.key === 'wa_number')?.value;
-          const addr = dbSettings.find(s => s.key === 'store_address')?.value;
           const mapKey = dbSettings.find(s => s.key === 'google_maps_api_key')?.value;
+          const mapUrl = dbSettings.find(s => s.key === 'google_maps_url')?.value;
           if (wa) setWaNumberState(wa);
           if (addr) setStoreAddressState(addr);
           if (mapKey) setGoogleMapsApiKeyState(mapKey);
+          if (mapUrl) setGoogleMapsUrlState(mapUrl);
         } else {
           const savedWa = localStorage.getItem('corepawas_wa');
           if (savedWa) setWaNumberState(savedWa);
@@ -80,6 +83,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           if (savedAddress) setStoreAddressState(savedAddress);
           const savedMapKey = localStorage.getItem('corepawas_google_maps_api_key');
           if (savedMapKey) setGoogleMapsApiKeyState(savedMapKey);
+          const savedMapUrl = localStorage.getItem('corepawas_google_maps_url');
+          if (savedMapUrl) setGoogleMapsUrlState(savedMapUrl);
         }
       } catch (e) {
         console.error('Error loading data', e);
@@ -169,6 +174,17 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const setGoogleMapsUrl = async (url: string) => {
+    setGoogleMapsUrlState(url);
+    localStorage.setItem('corepawas_google_maps_url', url);
+    
+    try {
+      await supabase.from('settings').upsert({ key: 'google_maps_url', value: url });
+    } catch (e) {
+      console.warn('Supabase sync failed for Google Maps URL', e);
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -183,6 +199,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         setStoreAddress,
         googleMapsApiKey,
         setGoogleMapsApiKey,
+        googleMapsUrl,
+        setGoogleMapsUrl,
         loading,
       }}
     >
