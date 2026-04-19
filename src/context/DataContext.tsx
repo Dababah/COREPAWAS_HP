@@ -22,8 +22,8 @@ const DataContext = createContext<DataContextType | null>(null);
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [products, setProductsState] = useState<Product[]>(defaultProducts);
   const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(defaultBlogPosts);
-  const [waNumber, setWaNumberState] = useState<string>('6281234567890');
-  const [storeAddress, setStoreAddressState] = useState<string>('Jl. Teknologi No. 88, Jakarta Selatan, DKI Jakarta 12345');
+  const [waNumber, setWaNumberState] = useState<string>('6282342309890');
+  const [storeAddress, setStoreAddressState] = useState<string>('Kos putra maruf, Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183');
   const [loading, setLoading] = useState(true);
 
   // Initialize data from Supabase or Fallback
