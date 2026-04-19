@@ -15,9 +15,9 @@ export default function Footer() {
   const mapsQuery = encodeURIComponent(storeAddress);
 
   // Priority: 1. Manual Embed Url, 2. API Key Format, 3. Legacy Search Format
-  const mapSrc = googleMapsEmbedUrl 
+  const mapSrc = googleMapsEmbedUrl
     ? googleMapsEmbedUrl
-    : googleMapsApiKey 
+    : googleMapsApiKey
       ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${mapsQuery}`
       : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
@@ -148,7 +148,7 @@ export default function Footer() {
             © {new Date().getFullYear()} COREPAWAS. All rights reserved.
           </p>
           <p className="text-slate-600 text-xs">
-            Built with React + Vite + Tailwind CSS · Hosted on Netlify
+            TERPACAYA 100%
           </p>
         </div>
       </div>
