@@ -46,6 +46,6 @@ CREATE TABLE IF NOT EXISTS settings (
 
 -- Contoh Data Awal Pengaturan
 INSERT INTO settings (key, value) VALUES 
-('wa_number', '6281234567890'),
-('store_address', 'Jl. Teknologi No. 88, Jakarta')
+('wa_number', '6282342309890'),
+('store_address', 'Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183, Indonesia')
 ON CONFLICT (key) DO NOTHING;
