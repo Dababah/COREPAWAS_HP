@@ -70,6 +70,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (!sError && dbSettings && dbSettings.length > 0) {
+          const wa = dbSettings.find(s => s.key === 'wa_number')?.value;
+          const addr = dbSettings.find(s => s.key === 'store_address')?.value;
           const mapKey = dbSettings.find(s => s.key === 'google_maps_api_key')?.value;
           const mapUrl = dbSettings.find(s => s.key === 'google_maps_url')?.value;
           if (wa) setWaNumberState(wa);
