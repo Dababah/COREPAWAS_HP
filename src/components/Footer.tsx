@@ -10,9 +10,14 @@ const TiktokIcon = () => (
 );
 
 export default function Footer() {
-  const { waNumber, storeAddress } = useData();
+  const { waNumber, storeAddress, googleMapsApiKey } = useData();
 
   const mapsQuery = encodeURIComponent(storeAddress);
+
+  // Use official Embed API if key is available, else fallback to search embed
+  const mapSrc = googleMapsApiKey 
+    ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${mapsQuery}`
+    : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
   return (
     <footer className="bg-slate-900 border-t border-slate-800">
@@ -130,7 +135,7 @@ export default function Footer() {
             style={{ border: 0 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src={`https://maps.google.com/maps?q=${mapsQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+            src={mapSrc}
             className="grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
           />
         </div>

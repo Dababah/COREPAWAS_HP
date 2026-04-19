@@ -14,6 +14,8 @@ interface DataContextType {
   storeName: string;
   storeAddress: string;
   setStoreAddress: (addr: string) => void;
+  googleMapsApiKey: string;
+  setGoogleMapsApiKey: (key: string) => void;
   loading: boolean;
 }
 
@@ -24,6 +26,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(defaultBlogPosts);
   const [waNumber, setWaNumberState] = useState<string>('6282342309890');
   const [storeAddress, setStoreAddressState] = useState<string>('Kos putra maruf, Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183');
+  const [googleMapsApiKey, setGoogleMapsApiKeyState] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
   // Initialize data from Supabase or Fallback
@@ -66,13 +69,17 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         if (!sError && dbSettings && dbSettings.length > 0) {
           const wa = dbSettings.find(s => s.key === 'wa_number')?.value;
           const addr = dbSettings.find(s => s.key === 'store_address')?.value;
+          const mapKey = dbSettings.find(s => s.key === 'google_maps_api_key')?.value;
           if (wa) setWaNumberState(wa);
           if (addr) setStoreAddressState(addr);
+          if (mapKey) setGoogleMapsApiKeyState(mapKey);
         } else {
           const savedWa = localStorage.getItem('corepawas_wa');
           if (savedWa) setWaNumberState(savedWa);
           const savedAddress = localStorage.getItem('corepawas_address');
           if (savedAddress) setStoreAddressState(savedAddress);
+          const savedMapKey = localStorage.getItem('corepawas_google_maps_api_key');
+          if (savedMapKey) setGoogleMapsApiKeyState(savedMapKey);
         }
       } catch (e) {
         console.error('Error loading data', e);
@@ -151,6 +158,17 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const setGoogleMapsApiKey = async (key: string) => {
+    setGoogleMapsApiKeyState(key);
+    localStorage.setItem('corepawas_google_maps_api_key', key);
+    
+    try {
+      await supabase.from('settings').upsert({ key: 'google_maps_api_key', value: key });
+    } catch (e) {
+      console.warn('Supabase sync failed for Google Maps API Key', e);
+    }
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -163,6 +181,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         storeName: 'COREPAWAS',
         storeAddress,
         setStoreAddress,
+        googleMapsApiKey,
+        setGoogleMapsApiKey,
         loading,
       }}
     >

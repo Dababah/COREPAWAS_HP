@@ -22,6 +22,7 @@ import {
   TrendingUp,
   Package,
   MessageSquare,
+  MapPin,
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { Product, defaultProducts } from '@/data/products';
@@ -470,7 +471,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
 
 // ─── Main Admin Dashboard ─────────────────────────────────────────────────────
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
-  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress } = useData();
+  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey } = useData();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
@@ -479,6 +480,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [settingsWa, setSettingsWa] = useState(waNumber);
   const [settingsAddr, setSettingsAddr] = useState(storeAddress);
+  const [settingsMapKey, setSettingsMapKey] = useState(googleMapsApiKey);
   const [saved, setSaved] = useState(false);
 
   const readyCount = products.filter((p) => p.status === 'Ready').length;
@@ -534,6 +536,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   function handleSaveSettings() {
     setWaNumber(settingsWa);
     setStoreAddress(settingsAddr);
+    setGoogleMapsApiKey(settingsMapKey);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
@@ -875,6 +878,26 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       rows={3}
                       className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none"
                     />
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
+                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-red-400" />
+                    Google Maps
+                  </h3>
+                  <div>
+                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Google Maps API Key</label>
+                    <input
+                      type="password"
+                      value={settingsMapKey}
+                      onChange={(e) => setSettingsMapKey(e.target.value)}
+                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                      placeholder="AIza..."
+                    />
+                    <p className="text-slate-500 text-xs mt-2">
+                      Dibutuhkan untuk performa map yang stabil. Jika dikosongkan, akan menggunakan mode gratis (mungkin tidak stabil).
+                    </p>
                   </div>
                 </div>
 
