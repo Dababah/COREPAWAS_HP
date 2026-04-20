@@ -805,13 +805,22 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         <p className="text-white text-sm font-medium truncate">{p.name}</p>
                         <p className="text-slate-400 text-xs">{formatPrice(p.price)}</p>
                       </div>
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                        p.status === 'Ready'
-                          ? 'bg-emerald-500/10 text-emerald-400'
-                          : 'bg-red-500/10 text-red-400'
-                      }`}>
-                        {p.status}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={() => window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.origin + '/katalog/' + p.id)}`, '_blank')}
+                          className="p-1.5 rounded bg-slate-800 text-slate-400 hover:text-white"
+                          title="Generate QR"
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                        </button>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          p.status === 'Ready'
+                            ? 'bg-emerald-500/10 text-emerald-400'
+                            : 'bg-red-500/10 text-red-400'
+                        }`}>
+                          {p.status}
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>

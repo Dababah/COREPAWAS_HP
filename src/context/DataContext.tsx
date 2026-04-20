@@ -20,6 +20,8 @@ interface DataContextType {
   setGoogleMapsUrl: (url: string) => void;
   googleMapsEmbedUrl: string;
   setGoogleMapsEmbedUrl: (url: string) => void;
+  compareIds: string[];
+  toggleCompare: (id: string) => void;
   loading: boolean;
 }
 
@@ -33,7 +35,14 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [googleMapsApiKey, setGoogleMapsApiKeyState] = useState<string>('');
   const [googleMapsUrl, setGoogleMapsUrlState] = useState<string>('https://maps.app.goo.gl/TbLjY3wXDjm5VHuv7');
   const [googleMapsEmbedUrl, setGoogleMapsEmbedUrlState] = useState<string>('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.8297076823324!2d110.32227837357968!3d-7.807844992212534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7af9401f5c9481%3A0x92e4e47d9c0be6ba!2sCOREPAWAS_HP!5e0!3m2!1sen!2sus!4v1776598485909!5m2!1sen!2sus');
+  const [compareIds, setCompareIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const toggleCompare = (id: string) => {
+    setCompareIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
 
   // Initialize data from Supabase or Fallback
   useEffect(() => {
@@ -293,6 +302,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         setGoogleMapsUrl,
         googleMapsEmbedUrl,
         setGoogleMapsEmbedUrl,
+        compareIds,
+        toggleCompare,
         loading,
       }}
     >

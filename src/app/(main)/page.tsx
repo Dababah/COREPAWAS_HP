@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import ProductCard from '@/components/ProductCard';
+import Testimonials from '@/components/Testimonials';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1697545806245-9795b6056141?w=1400&q=80';
 const TECHNICIAN_IMG = 'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=800&q=80';
@@ -211,6 +212,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Testimonials />
 
       {/* ─── HOW IT WORKS ─── */}
       <section className="py-12 sm:py-20 bg-slate-950">

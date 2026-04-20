@@ -4,6 +4,7 @@ export const revalidate = 0;
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
+import CompareBar from '@/components/CompareBar';
 
 export default function MainLayout({
   children,
@@ -18,6 +19,7 @@ export default function MainLayout({
         {children}
       </main>
       <Footer />
+      <CompareBar />
       <FloatingButtons />
     </>
   );

@@ -2,13 +2,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Cpu, Home, BookOpen, Wrench, Smartphone } from 'lucide-react';
+import { Menu, X, Cpu, Home, BookOpen, Wrench, Smartphone, RefreshCw } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 
 const navLinks = [
   { label: 'Beranda', href: '/', icon: Home },
   { label: 'Katalog HP', href: '/katalog', icon: Smartphone },
   { label: 'Jasa & Servis', href: '/jasa', icon: Wrench },
+  { label: 'Trade-In', href: '/tukar-tambah', icon: RefreshCw },
   { label: 'Edukasi', href: '/edukasi', icon: BookOpen },
 ];
 
