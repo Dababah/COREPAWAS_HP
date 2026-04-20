@@ -32,8 +32,8 @@ export default function Footer() {
                 <Cpu className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="block text-white font-black tracking-tight text-lg">COREPAWAS JOGJA</span>
-                <span className="block text-cyan-400 text-[10px] tracking-widest uppercase">Gadget Second Amanah</span>
+                <span className="block text-white font-black tracking-tight text-lg">CORE PAWAS JOGJA</span>
+                <span className="block text-cyan-400 text-[10px] tracking-widest uppercase">Teman Setia Cari Gadget Kamu</span>
               </div>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-sm">

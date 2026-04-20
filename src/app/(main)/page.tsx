@@ -12,6 +12,7 @@ import {
   Database,
   ChevronRight,
   BookOpen,
+  MessageSquare,
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import ProductCard from '@/components/ProductCard';
@@ -23,23 +24,23 @@ const TECHNICIAN_IMG = 'https://images.unsplash.com/photo-1633997011021-0254baa2
 const uspItems = [
   {
     icon: <ShieldCheck className="w-6 h-6 text-blue-400" />,
-    title: 'Unit Pilihan & Amanah',
-    desc: 'Kami mendahulukan kejujuran. Setiap unit melalui pengecekan fisik menyeluruh dan dilaporkan apa adanya tanpa ada yang disembunyikan.',
+    title: 'Kejujuran adalah Koentji',
+    desc: 'Kami percaya hubungan baik dimulai dari keterbukaan. Kalau ada lecet dikit atau fungsi yang kurang maksimal, pasti langsung kami infoin di depan. Gak ada drama!',
   },
   {
     icon: <Lock className="w-6 h-6 text-cyan-400" />,
-    title: 'Transparan & Terpercaya',
-    desc: 'Kami terbuka soal status perangkat seperti UBL dan Root. Di COREPAWAS Jogja, kamu berhak tahu kondisi sebenarnya sebelum membeli.',
+    title: 'QC Ketat, Hati Tenang',
+    desc: 'Tiap unit sudah kami "manjakan" dengan pengecekan total. Mulai dari layar sampai lubang charger, semua dipastikan normal dan siap pakai buat harian.',
   },
   {
     icon: <Database className="w-6 h-6 text-purple-400" />,
-    title: 'Layanan Lengkap Jogja',
-    desc: 'Beli HP di sini sudah termasuk bantuan pindah data gratis (kontak, foto, WA) dan konsultasi setup akun langsung di lokasi kami.',
+    title: 'Pindah Data Gratis, Kak!',
+    desc: 'Beli HP di sini gak perlu repot. Kami bantu pindahin data dari HP lama ke HP baru Kakak sampai tuntas: kontak, foto, sampai chat WhatsApp.',
   },
   {
     icon: <Zap className="w-6 h-6 text-yellow-400" />,
-    title: 'Garansi Kejujuran',
-    desc: 'Kami bukan sekadar penjual, tapi mitra gadget kamu di Jogja. Jika ada ketidaksesuaian data, kami bertanggung jawab penuh.',
+    title: 'Ngobrol Santai & Edukatif',
+    desc: 'Bingung pilih tipe yang mana? Atau takut soal keamanan? Tenang Kak, kita bisa diskusi santai pakai bahasa sehari-hari. Anggap aja lagi ngobrol sama teman!',
   },
 ];
 
@@ -83,18 +84,18 @@ export default function Home() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs sm:text-sm font-bold mb-8 animate-fade-in">
             <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
-            JUAL BELI AMANAH & TERPERCAYA — KHUSUS JOGJA
+            HALO KAK! SELAMAT DATANG DI CORE PAWAS JOGJA
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
-            Gadget Second <br />
-            <span className="text-gradient">Pilihan Amanah.</span>
+            Teman Setia Cari <br />
+            <span className="text-gradient">Gadget Pilihan.</span>
           </h1>
 
           <p className="text-slate-400 text-base sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Menghadirkan unit gadget terbaik di Jogja dengan prinsip <b>Kejujuran & Transparansi</b>. 
-            Setiap unit dilaporkan apa adanya agar kamu bisa beli dengan tenang tanpa rasa khawatir.
+            Kami tahu banget rasanya pengen ganti HP tapi sering ragu sama kondisi barang bekas. 
+            Di sini, kami bukan cuma sekadar jualan, tapi ingin jadi <b>teman diskusi</b> yang bisa kasih solusi buat kebutuhan gadget Kakak.
           </p>
 
           {/* CTAs */}
@@ -362,21 +363,43 @@ export default function Home() {
           <p className="text-blue-100 mb-8">
             Stok terbatas. Hubungi sekarang untuk konsultasi gratis dan cek ketersediaan unit.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/katalog"
-              className="px-8 py-4 rounded-xl bg-white text-blue-600 font-bold hover:bg-blue-50 transition-colors shadow-lg"
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up">
+            <Link 
+              href="/katalog"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-blue-600 text-white font-black text-lg hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2 group"
             >
-              Lihat Semua Katalog
+              Lihat Katalog Unit <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a
-              href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20mau%20konsultasi%20beli%20HP%20second.`}
+              href={`https://wa.me/${waNumber}?text=Halo%20Kak%20CORE%20PAWAS!%20Mau%20konsultasi%20budget%20dan%20spek%20HP%20dong`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-xl bg-white/10 border border-white/30 text-white font-bold hover:bg-white/20 transition-colors"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-md flex items-center justify-center gap-2"
             >
-              Chat Sekarang
+              <MessageSquare className="w-5 h-5" /> Chat Santai Dulu, Yuk!
             </a>
           </div>
+        </div>
+      </section>
+      <section className="py-20 bg-slate-950 border-t border-slate-900">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="w-16 h-16 rounded-full bg-blue-600/10 flex items-center justify-center mx-auto mb-6">
+            <MessageSquare className="w-8 h-8 text-blue-400" />
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-4">
+            Masih Bingung Pilih yang Mana?
+          </h2>
+          <p className="text-slate-400 text-lg mb-8 italic">
+            "Mau sekadar tanya spek atau konsultasi budget? Chat aja dulu yuk, Kak, jangan sungkan!"
+          </p>
+          <a
+            href={`https://wa.me/${waNumber}?text=Halo%20Kak%20CORE%20PAWAS!%20Mau%20tanya-tanya%20santai%20soal%20gadget%20dong`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-10 py-5 rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-xl shadow-2xl shadow-blue-500/25 hover:scale-105 transition-all"
+          >
+            <MessageSquare className="w-6 h-6" /> Chat Sekarang di WhatsApp
+          </a>
         </div>
       </section>
     </div>
