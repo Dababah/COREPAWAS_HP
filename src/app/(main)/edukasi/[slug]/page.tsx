@@ -124,7 +124,7 @@ export default function EdukasiDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-16">
       {/* Hero image */}
       <div className="relative h-72 sm:h-96 overflow-hidden">
         <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
@@ -133,11 +133,11 @@ export default function EdukasiDetail() {
 
       <div className="max-w-3xl mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-slate-500 mb-6 mt-4">
-          <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link href="/edukasi" className="hover:text-white transition-colors">Edukasi</Link>
-          <ChevronRight className="w-3 h-3" />
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-4 sm:mb-6 mt-3 sm:mt-4 overflow-hidden">
+          <Link href="/" className="hover:text-white transition-colors flex-shrink-0">Beranda</Link>
+          <ChevronRight className="w-3 h-3 flex-shrink-0" />
+          <Link href="/edukasi" className="hover:text-white transition-colors flex-shrink-0">Edukasi</Link>
+          <ChevronRight className="w-3 h-3 flex-shrink-0" />
           <span className="text-slate-300 truncate">{post.title}</span>
         </div>
 
@@ -148,8 +148,8 @@ export default function EdukasiDetail() {
               {post.category}
             </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-white mb-4 leading-tight">{post.title}</h1>
-          <p className="text-slate-400 text-lg leading-relaxed mb-5">{post.excerpt}</p>
+          <h1 className="text-2xl sm:text-4xl font-black text-white mb-4 leading-tight">{post.title}</h1>
+          <p className="text-slate-400 text-base sm:text-lg leading-relaxed mb-5">{post.excerpt}</p>
           <div className="flex flex-wrap items-center gap-4 text-slate-500 text-sm pb-6 border-b border-slate-800">
             <span className="flex items-center gap-1.5">
               <User className="w-4 h-4" />
@@ -192,7 +192,7 @@ export default function EdukasiDetail() {
         {related.length > 0 && (
           <div>
             <h3 className="text-xl font-bold text-white mb-5">Artikel Terkait</h3>
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {related.map((r) => (
                 <Link key={r.id} href={`/edukasi/${r.slug}`} className="group">
                   <div className="rounded-xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all">

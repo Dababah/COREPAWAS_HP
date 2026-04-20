@@ -102,6 +102,76 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       }
     }
     initData();
+
+    // ─── SUPABASE REALTIME LISTENERS ───
+    // These listeners ensure the app updates instantly when the DB changes
+    
+    // 1. Listen for Product changes
+    const productChannel = supabase
+      .channel('public:products')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, (payload) => {
+        // Re-fetch all products on any change to ensure correct mapping and sorting
+        const fetchProducts = async () => {
+          const { data } = await supabase.from('products').select('*');
+          if (data) {
+            const mapped = data.map(p => ({
+              ...p,
+              originalPrice: p.original_price,
+              batteryHealth: p.battery_health,
+              antutuScore: p.antutu_score,
+              hasUBL: p.has_ubl,
+              isRooted: p.is_rooted,
+              warrantyStatus: p.warranty_status,
+              isFeatured: p.is_featured,
+              createdAt: p.created_at
+            }));
+            setProductsState(mapped);
+          }
+        };
+        fetchProducts();
+      })
+      .subscribe();
+
+    // 2. Listen for Blog changes
+    const blogChannel = supabase
+      .channel('public:blog_posts')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'blog_posts' }, (payload) => {
+        const fetchBlog = async () => {
+          const { data } = await supabase.from('blog_posts').select('*');
+          if (data) setBlogPostsState(data);
+        };
+        fetchBlog();
+      })
+      .subscribe();
+
+    // 3. Listen for Settings changes
+    const settingsChannel = supabase
+      .channel('public:settings')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'settings' }, (payload) => {
+        const fetchSettings = async () => {
+          const { data } = await supabase.from('settings').select('*');
+          if (data) {
+            const wa = data.find(s => s.key === 'wa_number')?.value;
+            const addr = data.find(s => s.key === 'store_address')?.value;
+            const mapKey = data.find(s => s.key === 'google_maps_api_key')?.value;
+            const mapUrl = data.find(s => s.key === 'google_maps_url')?.value;
+            const embedUrl = data.find(s => s.key === 'google_maps_embed_url')?.value;
+            if (wa) setWaNumberState(wa);
+            if (addr) setStoreAddressState(addr);
+            if (mapKey) setGoogleMapsApiKeyState(mapKey);
+            if (mapUrl) setGoogleMapsUrlState(mapUrl);
+            if (embedUrl) setGoogleMapsEmbedUrlState(embedUrl);
+          }
+        };
+        fetchSettings();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(productChannel);
+      supabase.removeChannel(blogChannel);
+      supabase.removeChannel(settingsChannel);
+    };
   }, []);
 
   const setProducts = async (newProducts: Product[]) => {

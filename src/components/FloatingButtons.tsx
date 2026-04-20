@@ -18,7 +18,7 @@ export default function FloatingButtons() {
   const { waNumber } = useData();
 
   return (
-    <div className="fixed right-4 bottom-6 z-50 flex flex-col gap-3">
+    <div className="fixed right-4 bottom-20 md:bottom-6 z-40 flex flex-col gap-3">
       {/* TikTok */}
       <a
         href="https://tiktok.com/@corepawas"

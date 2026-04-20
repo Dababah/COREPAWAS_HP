@@ -23,8 +23,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-slate-900 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
@@ -122,6 +122,7 @@ export default function Footer() {
                 >
                   <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-red-400" />
                   {storeAddress}
+
                 </a>
               </li>
             </ul>
@@ -129,7 +130,7 @@ export default function Footer() {
         </div>
 
         {/* Google Maps Embed */}
-        <div className="rounded-xl overflow-hidden border border-slate-800 mb-8 h-40">
+        <div className="rounded-xl overflow-hidden border border-slate-800 mb-8 h-48 sm:h-40">
           <iframe
             title="Lokasi COREPAWAS"
             width="100%"

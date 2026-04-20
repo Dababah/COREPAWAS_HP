@@ -127,9 +127,9 @@ export default function Jasa() {
   const { waNumber } = useData();
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-16">
       {/* Hero */}
-      <div className="relative bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-16 overflow-hidden">
+      <div className="relative bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-10 sm:py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <img src={JASA_BG} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-900/80" />
@@ -138,13 +138,13 @@ export default function Jasa() {
           <span className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4">
             Jasa & Servis
           </span>
-          <h1 className="text-4xl font-black text-white mb-4">
+          <h1 className="text-2xl sm:text-4xl font-black text-white mb-4">
             Value Added untuk{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
               Pengalaman Terbaik
             </span>
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-base sm:text-lg">
             Bukan hanya jual beli, kami juga menyediakan berbagai layanan teknis yang memastikan kamu mendapat
             pengalaman terbaik dari HP second kamu.
           </p>
@@ -152,8 +152,8 @@ export default function Jasa() {
       </div>
 
       {/* Services Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-4 py-10 sm:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service, i) => (
             <div
               key={i}
@@ -222,7 +222,7 @@ export default function Jasa() {
 
       {/* CTA */}
       <div className="max-w-2xl mx-auto px-4 text-center">
-        <div className="p-8 rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-600/10 border border-blue-500/30">
+        <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-600/10 border border-blue-500/30">
           <Smartphone className="w-10 h-10 text-blue-400 mx-auto mb-4" />
           <h3 className="text-2xl font-black text-white mb-3">Siap Mulai?</h3>
           <p className="text-slate-400 mb-6">

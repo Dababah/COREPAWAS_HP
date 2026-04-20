@@ -103,25 +103,25 @@ export default function ProductDetail() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-24 md:pb-16">
       <div className="max-w-6xl mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-slate-500 mb-6 mt-4">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-4 sm:mb-6 mt-3 sm:mt-4 overflow-hidden">
           <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
           <ChevronRight className="w-3 h-3" />
           <Link href="/katalog" className="hover:text-white transition-colors">Katalog</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-slate-300 truncate">{product.name}</span>
+          <span className="text-slate-300 truncate max-w-[150px] sm:max-w-none">{product.name}</span>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-10">
           {/* Left: Image */}
           <div className="space-y-4">
             <div className="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800">
               <img
                 src={product.image}
                 alt={product.name}
-                className={`w-full h-96 object-cover ${isSold ? 'grayscale opacity-70' : ''}`}
+                className={`w-full h-64 sm:h-96 object-cover ${isSold ? 'grayscale opacity-70' : ''}`}
               />
               {isSold && (
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-950/50">
@@ -168,7 +168,7 @@ export default function ProductDetail() {
           <div>
             <div className="mb-6">
               <p className="text-slate-500 text-sm mb-1">{product.brand}</p>
-              <h1 className="text-3xl font-black text-white mb-3">{product.name}</h1>
+              <h1 className="text-2xl sm:text-3xl font-black text-white mb-3">{product.name}</h1>
 
               {/* Status badges */}
               <div className="flex flex-wrap gap-2 mb-4">
@@ -186,7 +186,7 @@ export default function ProductDetail() {
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-2">
-                <span className="text-4xl font-black text-white">{formatPrice(product.price)}</span>
+                <span className="text-3xl sm:text-4xl font-black text-white">{formatPrice(product.price)}</span>
                 {product.originalPrice && (
                   <span className="text-lg text-slate-500 line-through mb-1">{formatPrice(product.originalPrice)}</span>
                 )}
@@ -212,7 +212,7 @@ export default function ProductDetail() {
                 </a>
               ) : (
                 <Link href="/katalog"
-                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-bold text-lg hover:bg-slate-700 transition-colors mb-3"
+                  className="hidden sm:flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 font-bold text-lg hover:bg-slate-700 transition-colors mb-3"
                 >
                   <Smartphone className="w-5 h-5" />
                   Lihat Unit Lainnya
@@ -312,7 +312,7 @@ export default function ProductDetail() {
         {relatedProducts.length > 0 && (
           <div className="mt-12">
             <h3 className="text-xl font-bold text-white mb-6">Unit {product.brand} Lainnya</h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {relatedProducts.map((p) => (
                 <Link key={p.id} href={`/katalog/${p.id}`} className="block">
                   <div className="rounded-xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1">
@@ -330,6 +330,21 @@ export default function ProductDetail() {
           </div>
         )}
       </div>
+
+      {/* ── MOBILE STICKY BOTTOM CTA ── */}
+      {!isSold && (
+        <div className="md:hidden fixed bottom-16 left-0 right-0 z-30 px-4 pb-2">
+          <a
+            href={`https://wa.me/${waNumber}?text=${waMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-3 w-full py-3.5 rounded-xl bg-green-600 text-white font-bold text-base shadow-xl shadow-green-900/50"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Tanya via WhatsApp
+          </a>
+        </div>
+      )}
     </div>
   );
 }

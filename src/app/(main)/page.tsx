@@ -62,7 +62,7 @@ export default function Home() {
   return (
     <div className="overflow-x-hidden">
       {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16">
+      <section className="relative min-h-[100dvh] flex items-center justify-center pt-14 sm:pt-16">
         {/* BG */}
         <div className="absolute inset-0">
           <img src={HERO_BG} alt="Hero" className="w-full h-full object-cover" />
@@ -72,7 +72,7 @@ export default function Home() {
         {/* Floating glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-blue-600/10 blur-[100px] pointer-events-none" />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center py-20">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center py-12 sm:py-20">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-medium mb-6">
             <Cpu className="w-4 h-4" />
@@ -80,7 +80,7 @@ export default function Home() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight">
             Gadget Second{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
               Kualitas Teknisi.
@@ -92,26 +92,26 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-slate-300 text-lg sm:text-xl mb-8 max-w-2xl mx-auto">
+          <p className="text-slate-300 text-base sm:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto">
             Jual beli HP second dengan standar inspeksi teknisi berpengalaman. Setiap unit dicek 3uTools, Antutu
             benchmark, dan stress test. Transparansi adalah prioritas kami.
           </p>
 
           {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-6 mb-10">
+          <div className="flex justify-center items-center gap-4 sm:gap-6 mb-8 sm:mb-10">
             <div className="text-center">
-              <div className="text-3xl font-black text-white">{readyCount}+</div>
-              <div className="text-slate-400 text-sm">Unit Ready</div>
+              <div className="text-2xl sm:text-3xl font-black text-white">{readyCount}+</div>
+              <div className="text-slate-400 text-xs sm:text-sm">Unit Ready</div>
             </div>
-            <div className="w-px bg-slate-700 hidden sm:block" />
+            <div className="w-px h-8 bg-slate-700" />
             <div className="text-center">
-              <div className="text-3xl font-black text-white">{soldCount}+</div>
-              <div className="text-slate-400 text-sm">Unit Terjual</div>
+              <div className="text-2xl sm:text-3xl font-black text-white">{soldCount}+</div>
+              <div className="text-slate-400 text-xs sm:text-sm">Unit Terjual</div>
             </div>
-            <div className="w-px bg-slate-700 hidden sm:block" />
+            <div className="w-px h-8 bg-slate-700" />
             <div className="text-center">
-              <div className="text-3xl font-black text-white">100%</div>
-              <div className="text-slate-400 text-sm">Transparan</div>
+              <div className="text-2xl sm:text-3xl font-black text-white">100%</div>
+              <div className="text-slate-400 text-xs sm:text-sm">Transparan</div>
             </div>
           </div>
 
@@ -136,13 +136,13 @@ export default function Home() {
       </section>
 
       {/* ─── USP / WHY CHOOSE ─── */}
-      <section className="py-20 bg-slate-950">
+      <section className="py-12 sm:py-20 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
+          <div className="text-center mb-8 sm:mb-14">
             <span className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-3">
               Kenapa COREPAWAS?
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
+            <h2 className="text-2xl sm:text-4xl font-black text-white mb-4">
               Bukan Sekedar Jual HP, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
                 Kami Jual Ketenangan Pikiran
@@ -153,7 +153,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {uspItems.map((item, i) => (
               <div
                 key={i}
@@ -171,14 +171,14 @@ export default function Home() {
       </section>
 
       {/* ─── FEATURED PRODUCTS ─── */}
-      <section className="py-20 bg-slate-900/50">
+      <section className="py-12 sm:py-20 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-6 sm:mb-10">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-3">
                 🍞 Roti Tawar — Ready Stock
               </span>
-              <h2 className="text-3xl font-black text-white">Unit Tersedia Sekarang</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">Unit Tersedia Sekarang</h2>
               <p className="text-slate-400 mt-1">Unit-unit berikut sudah melalui inspeksi lengkap dan siap dimiliki.</p>
             </div>
             <Link href="/katalog"
@@ -189,7 +189,7 @@ export default function Home() {
           </div>
 
           {featuredProducts.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} showFeaturedBadge />
               ))}
@@ -212,14 +212,14 @@ export default function Home() {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section className="py-20 bg-slate-950">
+      <section className="py-12 sm:py-20 bg-slate-950">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-black text-white mb-3">Cara Beli di COREPAWAS</h2>
+          <div className="text-center mb-8 sm:mb-14">
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">Cara Beli di COREPAWAS</h2>
             <p className="text-slate-400">Prosesnya mudah dan transparan.</p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {steps.map((s, i) => (
               <div key={i} className="relative">
                 {i < steps.length - 1 && (
@@ -239,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* ─── TECHNICIAN TRUST SECTION ─── */}
-      <section className="py-20 bg-slate-900/50">
+      <section className="py-12 sm:py-20 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative">
@@ -304,14 +304,14 @@ export default function Home() {
       </section>
 
       {/* ─── BLOG PREVIEW ─── */}
-      <section className="py-20 bg-slate-950">
+      <section className="py-12 sm:py-20 bg-slate-950">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex items-end justify-between mb-6 sm:mb-10">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-3">
                 Edukasi & Tips
               </span>
-              <h2 className="text-3xl font-black text-white">Biar Gak Ketipu Beli HP Second</h2>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">Biar Gak Ketipu Beli HP Second</h2>
             </div>
             <Link href="/edukasi"
               className="hidden sm:flex items-center gap-2 text-blue-400 hover:text-blue-300 font-medium"
@@ -320,7 +320,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {blogPosts.slice(0, 3).map((post) => (
               <Link key={post.id} href={`/edukasi/${post.slug}`} className="group">
                 <div className="rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 transition-all bg-slate-900 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/50">
@@ -351,9 +351,9 @@ export default function Home() {
       </section>
 
       {/* ─── CTA BANNER ─── */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-cyan-500">
+      <section className="py-12 sm:py-16 bg-gradient-to-r from-blue-600 to-cyan-500">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-black text-white mb-4">Siap Dapatkan HP Impianmu?</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-white mb-4">Siap Dapatkan HP Impianmu?</h2>
           <p className="text-blue-100 mb-8">
             Stok terbatas. Hubungi sekarang untuk konsultasi gratis dan cek ketersediaan unit.
           </p>

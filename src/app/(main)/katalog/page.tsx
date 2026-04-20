@@ -80,11 +80,11 @@ export default function Katalog() {
     search || brand !== 'Semua' || condition !== 'Semua' || status !== 'Semua' || priceRange !== 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-16">
       {/* Header */}
-      <div className="bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-10">
+      <div className="bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-6 sm:py-10">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-3xl font-black text-white mb-1">Katalog HP Second</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-white mb-1">Katalog HP Second</h1>
           <p className="text-slate-400">
             {readyCount} unit ready ·{' '}
             <span className="text-blue-400">Semua sudah diinspeksi teknisi</span>
@@ -92,10 +92,11 @@ export default function Katalog() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-8">
+      <div className="max-w-7xl mx-auto px-4 mt-5 sm:mt-8">
         {/* Search + controls */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="flex-1 relative">
+        <div className="flex flex-col gap-3 mb-5 sm:mb-6">
+          <div className="flex gap-3">
+            <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               type="text"
@@ -112,39 +113,40 @@ export default function Katalog() {
                 <X className="w-4 h-4" />
               </button>
             )}
+            </div>
+
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl border font-medium transition-all flex-shrink-0 ${
+                showFilters || hasActiveFilters
+                  ? 'bg-blue-500/10 border-blue-500/40 text-blue-400'
+                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600'
+              }`}
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              Filter
+              {hasActiveFilters && (
+                <span className="w-2 h-2 rounded-full bg-blue-400" />
+              )}
+            </button>
           </div>
 
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer"
+            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer text-sm"
           >
-            <option value="newest">Terbaru</option>
+            <option value="newest">Urutkan: Terbaru</option>
             <option value="price_asc">Harga: Terendah</option>
             <option value="price_desc">Harga: Tertinggi</option>
             <option value="battery">Battery Terbaik</option>
           </select>
-
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-3 rounded-xl border font-medium transition-all ${
-              showFilters || hasActiveFilters
-                ? 'bg-blue-500/10 border-blue-500/40 text-blue-400'
-                : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600'
-            }`}
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-            Filter
-            {hasActiveFilters && (
-              <span className="w-2 h-2 rounded-full bg-blue-400" />
-            )}
-          </button>
         </div>
 
         {/* Filters panel */}
         {showFilters && (
           <div className="mb-6 p-5 rounded-2xl bg-slate-900 border border-slate-800">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               {/* Brand */}
               <div>
                 <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Brand</label>
@@ -240,7 +242,7 @@ export default function Katalog() {
         {filtered.length > 0 ? (
           <>
             <p className="text-slate-500 text-sm mb-4">{filtered.length} produk ditemukan</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filtered.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

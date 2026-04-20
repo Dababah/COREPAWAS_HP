@@ -31,38 +31,38 @@ export default function Edukasi() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-20 pb-16">
+    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-16">
       {/* Header */}
-      <div className="bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-12">
+      <div className="bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-8 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <span className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-4">
             Edukasi & Blog
           </span>
-          <h1 className="text-4xl font-black text-white mb-3">
+          <h1 className="text-2xl sm:text-4xl font-black text-white mb-3">
             Belajar Biar{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
               Gak Tertipu
             </span>
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-base sm:text-lg">
             Tips, panduan, dan edukasi teknis seputar jual beli HP second dari teknisi berpengalaman.
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-10">
         {/* Featured Post */}
         {featured && (
-          <Link href={`/edukasi/${featured.slug}`} className="group block mb-12">
+          <Link href={`/edukasi/${featured.slug}`} className="group block mb-8 sm:mb-12">
             <div className="grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-slate-800 hover:border-blue-500/40 transition-all hover:shadow-xl hover:shadow-blue-500/10">
-              <div className="h-64 lg:h-auto overflow-hidden">
+              <div className="h-48 sm:h-64 lg:h-auto overflow-hidden">
                 <img
                   src={featured.image}
                   alt={featured.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-8 bg-slate-900 flex flex-col justify-center">
+              <div className="p-5 sm:p-8 bg-slate-900 flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium">
                     Artikel Terbaru
@@ -71,7 +71,7 @@ export default function Edukasi() {
                     {featured.category}
                   </span>
                 </div>
-                <h2 className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors mb-3 leading-tight">
+                <h2 className="text-xl sm:text-2xl font-black text-white group-hover:text-blue-400 transition-colors mb-3 leading-tight">
                   {featured.title}
                 </h2>
                 <p className="text-slate-400 mb-5 leading-relaxed">{featured.excerpt}</p>
@@ -94,7 +94,7 @@ export default function Edukasi() {
         )}
 
         {/* Search & Filter */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
+        <div className="flex flex-col gap-3 mb-6 sm:mb-8">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
@@ -105,12 +105,13 @@ export default function Edukasi() {
               className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
-          <div className="flex gap-2">
+          {/* Horizontal scroll on mobile for categories */}
+          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                   category === cat
                     ? 'bg-blue-600 text-white'
                     : 'bg-slate-900 border border-slate-700 text-slate-400 hover:border-slate-600 hover:text-white'
@@ -124,7 +125,7 @@ export default function Edukasi() {
 
         {/* Article Grid */}
         {filtered.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filtered.map((post) => (
               <Link key={post.id} href={`/edukasi/${post.slug}`} className="group">
                 <div className="h-full rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/50 flex flex-col">
