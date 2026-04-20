@@ -35,6 +35,8 @@ import { BlogPost, defaultBlogPosts } from '@/data/blog';
 import { seedDatabase } from '@/lib/seed';
 
 
+type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan';
+
 function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
 }
