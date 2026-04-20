@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 import type { Metadata, Viewport } from 'next';
-import '@/index.css';
+import './globals.css';
 import { DataProvider } from '@/context/DataContext';
 
 export const metadata: Metadata = {

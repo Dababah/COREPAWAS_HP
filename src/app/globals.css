@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "../styles/globals.css";
+@import "tw-animate-css";
+
+@layer base {
+  html, body {
+    min-height: 100dvh;
+    margin: 0;
+    @apply bg-slate-950 text-white selection:bg-blue-500/30;
+  }
+}
+
+/* Fix for mobile scroll and potential overflow */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
