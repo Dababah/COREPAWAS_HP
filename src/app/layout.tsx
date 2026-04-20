@@ -34,13 +34,21 @@ export const viewport: Viewport = {
   themeColor: '#020617', // slate-950
 };
 
+import { Outfit } from 'next/font/google';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="dark">
+    <html lang="id" className={`dark ${outfit.variable}`}>
       <head>
         {/* Anti-flash white background script */}
         <script
@@ -57,7 +65,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-[100dvh] bg-slate-950 text-slate-50 antialiased selection:bg-blue-500/30 selection:text-white">
+      <body className="font-sans min-h-[100dvh] bg-slate-950 text-slate-50 antialiased selection:bg-blue-500/30 selection:text-white">
         <DataProvider>
           {children}
         </DataProvider>

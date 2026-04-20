@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Cpu, Home, BookOpen, Wrench, Smartphone } from 'lucide-react';
+import { useData } from '@/context/DataContext';
 
 const navLinks = [
   { label: 'Beranda', href: '/', icon: Home },
@@ -15,6 +16,7 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { waNumber } = useData();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -224,8 +226,6 @@ export default function Navigation() {
             );
           })}
         </div>
-      </div>
-    </div>
       </div>
     </>
   );

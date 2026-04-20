@@ -13,8 +13,8 @@ export default function MainLayout({
   return (
     <>
       <Navigation />
-      {/* pb-16 on mobile accounts for the fixed bottom nav bar height */}
-      <main className="flex-1 text-white pb-16 md:pb-0">
+      {/* pb-32 on mobile accounts for the fixed bottom nav bar height */}
+      <main className="flex-1 text-white pb-32 md:pb-0">
         {children}
       </main>
       <Footer />
