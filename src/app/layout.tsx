@@ -28,8 +28,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  minimumScale: 1,
-  maximumScale: 5,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: '#020617', // slate-950
 };
 
 export default function RootLayout({
@@ -38,8 +40,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-slate-950 flex flex-col">
+    <html lang="id" className="dark">
+      <head>
+        {/* Anti-flash white background script */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-[100dvh] bg-slate-950 text-slate-50 antialiased selection:bg-blue-500/30 selection:text-white">
         <DataProvider>
           {children}
         </DataProvider>

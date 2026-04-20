@@ -18,16 +18,19 @@ export default function FloatingButtons() {
   const { waNumber } = useData();
 
   return (
-    <div className="fixed right-4 bottom-20 md:bottom-6 z-40 flex flex-col gap-3">
+    <div className="fixed right-6 bottom-24 md:bottom-8 z-[100] flex flex-col gap-4 animate-fade-in-up">
       {/* TikTok */}
       <a
         href="https://tiktok.com/@corepawas"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="TikTok COREPAWAS"
-        className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-white hover:bg-slate-700 hover:scale-110 transition-all duration-200 shadow-lg"
+        className="group relative w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-white hover:bg-slate-800 hover:scale-110 transition-all duration-300 shadow-2xl"
       >
         <TiktokIcon />
+        <span className="absolute right-full mr-3 px-2 py-1 rounded bg-slate-900 border border-white/10 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          TikTok
+        </span>
       </a>
 
       {/* Instagram */}
@@ -36,9 +39,12 @@ export default function FloatingButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram COREPAWAS"
-        className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-200 shadow-lg"
+        className="group relative w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/20"
       >
         <InstagramIcon />
+        <span className="absolute right-full mr-3 px-2 py-1 rounded bg-slate-900 border border-white/10 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          Instagram
+        </span>
       </a>
 
       {/* WhatsApp */}
@@ -47,9 +53,13 @@ export default function FloatingButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp COREPAWAS"
-        className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-400 hover:scale-110 transition-all duration-200 shadow-lg shadow-green-500/40 animate-pulse"
+        className="group relative w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-400 hover:scale-110 transition-all duration-300 shadow-2xl shadow-green-500/40"
       >
         <MessageCircle className="w-7 h-7" />
+        <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-20" />
+        <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-green-500 text-white text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl pointer-events-none">
+          Chat Sekarang
+        </span>
       </a>
     </div>
   );

@@ -1,21 +1,84 @@
 @import "tailwindcss";
-@import "../styles/globals.css";
-@import "tw-animate-css";
+
+@theme {
+  --color-primary: #3b82f6;
+  --color-secondary: #06b6d4;
+  --color-accent: #8b5cf6;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
 
 @layer base {
-  html, body {
-    min-height: 100dvh;
-    margin: 0;
-    @apply bg-slate-950 text-white selection:bg-blue-500/30;
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-50 min-h-[100dvh] flex flex-col;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Prevent horizontal scroll */
+  * {
+    @apply border-slate-800;
   }
 }
 
-/* Fix for mobile scroll and potential overflow */
-* {
-  box-sizing: border-box;
+@layer utilities {
+  .glass {
+    @apply bg-slate-950/70 backdrop-blur-md border border-white/10;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400;
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
-body {
-  overflow-x: hidden;
-  width: 100%;
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 rounded-full hover:bg-slate-700 transition-colors;
 }

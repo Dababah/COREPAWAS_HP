@@ -60,77 +60,78 @@ export default function Home() {
   const soldCount = products.filter((p) => p.status === 'Sold').length;
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden bg-slate-950">
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[100dvh] flex items-center justify-center pt-14 sm:pt-16">
-        {/* BG */}
-        <div className="absolute inset-0">
-          <img src={HERO_BG} alt="Hero" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/90 to-blue-950/80" />
+      <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-24 px-4 overflow-hidden">
+        {/* Background Layers */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={HERO_BG} 
+            alt="Hero Background" 
+            className="w-full h-full object-cover scale-105 animate-pulse-slow opacity-40" 
+          />
+          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
         </div>
 
-        {/* Floating glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-blue-600/10 blur-[100px] pointer-events-none" />
+        {/* Animated Glows */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] animate-pulse delay-1000" />
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center py-12 sm:py-20">
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-medium mb-6">
-            <Cpu className="w-4 h-4" />
-            Inspeksi Level Teknisi — No Tipu-Tipu
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs sm:text-sm font-bold mb-8 animate-fade-in">
+            <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
+            INSPEKSI LEVEL TEKNISI — 100% TRANSPARAN
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white mb-4 sm:mb-6 leading-tight">
-            Gadget Second{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Kualitas Teknisi.
-            </span>{' '}
-            <br />
-            Deep Inspection,{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-              No Tipu-Tipu.
-            </span>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+            Gadget Second <br />
+            <span className="text-gradient">Standar Teknisi.</span>
           </h1>
 
-          <p className="text-slate-300 text-base sm:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto">
-            Jual beli HP second dengan standar inspeksi teknisi berpengalaman. Setiap unit dicek 3uTools, Antutu
-            benchmark, dan stress test. Transparansi adalah prioritas kami.
+          <p className="text-slate-400 text-base sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+            Bukan sekedar jual HP bekas. Kami melakukan <b>Deep Inspection</b> dengan 3uTools, Antutu, dan 
+            stress test 30 menit untuk memastikan kamu dapat unit terbaik tanpa drama.
           </p>
 
-          {/* Stats */}
-          <div className="flex justify-center items-center gap-4 sm:gap-6 mb-8 sm:mb-10">
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black text-white">{readyCount}+</div>
-              <div className="text-slate-400 text-xs sm:text-sm">Unit Ready</div>
-            </div>
-            <div className="w-px h-8 bg-slate-700" />
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black text-white">{soldCount}+</div>
-              <div className="text-slate-400 text-xs sm:text-sm">Unit Terjual</div>
-            </div>
-            <div className="w-px h-8 bg-slate-700" />
-            <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-black text-white">100%</div>
-              <div className="text-slate-400 text-xs sm:text-sm">Transparan</div>
-            </div>
-          </div>
-
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/katalog"
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-lg hover:opacity-90 transition-opacity shadow-xl shadow-blue-500/30 flex items-center gap-2 justify-center"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link 
+              href="/katalog"
+              className="group relative px-8 py-4 rounded-2xl bg-blue-600 text-white font-black text-lg shadow-2xl shadow-blue-600/40 hover:bg-blue-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
             >
-              <Smartphone className="w-5 h-5" />
-              Lihat Katalog HP
+              <div className="flex items-center justify-center gap-2">
+                <Smartphone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                Lihat Katalog HP
+              </div>
             </Link>
+            
             <a
               href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20ingin%20tanya%20stok%20HP%20second.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-xl bg-slate-800 border border-slate-700 text-white font-bold text-lg hover:bg-slate-700 transition-colors flex items-center gap-2 justify-center"
+              className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 backdrop-blur-md transition-all w-full sm:w-auto flex items-center gap-2 justify-center"
             >
               Tanya via WhatsApp
             </a>
+          </div>
+
+          {/* Highlight Stats */}
+          <div className="mt-16 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
+              <div className="text-2xl sm:text-3xl font-black text-white">{readyCount}+</div>
+              <div className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-widest font-bold">Ready</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
+              <div className="text-2xl sm:text-3xl font-black text-white">{soldCount}+</div>
+              <div className="text-slate-500 text-[10px] sm:text-xs uppercase tracking-widest font-bold">Terjual</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-blue-500/10 border border-blue-500/10 backdrop-blur-sm">
+              <div className="text-2xl sm:text-3xl font-black text-blue-400">100%</div>
+              <div className="text-blue-500/60 text-[10px] sm:text-xs uppercase tracking-widest font-bold">Aman</div>
+            </div>
           </div>
         </div>
       </section>

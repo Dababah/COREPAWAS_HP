@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Battery, HardDrive, Cpu, CheckCircle, XCircle, MessageCircle, ShieldCheck } from 'lucide-react';
+import { Smartphone, Star, ShieldCheck, ArrowRight, MessageCircle } from 'lucide-react';
 import { Product } from '@/data/products';
 import { useData } from '@/context/DataContext';
 
@@ -9,12 +9,6 @@ interface ProductCardProps {
   showFeaturedBadge?: boolean;
 }
 
-const conditionColors: Record<string, string> = {
-  'Like New': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-  'Very Good': 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  Good: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30',
-};
-
 function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
 }
@@ -22,129 +16,89 @@ function formatPrice(price: number) {
 export default function ProductCard({ product, showFeaturedBadge }: ProductCardProps) {
   const { waNumber } = useData();
   const isSold = product.status === 'Sold';
-
+  
   const waMessage = encodeURIComponent(
     `Halo COREPAWAS! Saya tertarik dengan *${product.name}* seharga ${formatPrice(product.price)}. Apakah masih tersedia?`
   );
 
   return (
-    <div
-      className={`relative rounded-2xl overflow-hidden border transition-all duration-300 group ${
-        isSold
-          ? 'bg-slate-900/40 border-slate-800 opacity-70'
-          : 'bg-slate-900 border-slate-800 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1'
+    <Link 
+      href={`/katalog/${product.id}`}
+      className={`group relative flex flex-col bg-slate-900 border border-white/5 rounded-3xl overflow-hidden transition-all duration-500 ${
+        isSold ? 'opacity-70' : 'hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10'
       }`}
     >
-      {/* Badges */}
-      <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-        {showFeaturedBadge && !isSold && (
-          <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[10px] font-bold tracking-wider uppercase shadow-lg">
-            ⭐ Roti Tawar
+      {/* Image Container */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-slate-800">
+        <img
+          src={product.image}
+          alt={product.name}
+          className={`w-full h-full object-cover transition-transform duration-700 ${!isSold && 'group-hover:scale-110'} ${isSold && 'grayscale'}`}
+        />
+        
+        {/* Badges Overlay */}
+        <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md border ${
+            isSold 
+              ? 'bg-red-500/20 border-red-500/50 text-red-400' 
+              : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+          }`}>
+            {isSold ? 'Sold Out' : 'Ready Stock'}
           </span>
+          {showFeaturedBadge && product.isFeatured && !isSold && (
+            <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-500/20 border border-blue-500/50 text-blue-400 backdrop-blur-md">
+              Featured
+            </span>
+          )}
+        </div>
+
+        {/* 3uTools Verified Bottom Overlay */}
+        {!isSold && (
+          <div className="absolute bottom-4 left-4 right-4 translate-y-12 group-hover:translate-y-0 transition-transform duration-500 z-10">
+            <div className="bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center justify-between shadow-2xl">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-blue-400" />
+                <span className="text-[10px] font-black text-white uppercase tracking-wider">Technician Verified</span>
+              </div>
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </div>
+          </div>
         )}
-        <span
-          className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider ${conditionColors[product.condition]}`}
-        >
-          {product.condition}
-        </span>
       </div>
-
-      {/* Status overlay */}
-      {isSold && (
-        <div className="absolute top-3 right-3 z-10">
-          <span className="px-2.5 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-[10px] font-bold uppercase tracking-wider">
-            TERJUAL
-          </span>
-        </div>
-      )}
-      {!isSold && (
-        <div className="absolute top-3 right-3 z-10">
-          <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
-            READY
-          </span>
-        </div>
-      )}
-
-      {/* Image */}
-      <Link href={`/katalog/${product.id}`}>
-        <div className="relative h-52 overflow-hidden bg-slate-800">
-          <img
-            src={product.image}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 ${
-              !isSold ? 'group-hover:scale-105' : ''
-            } ${isSold ? 'grayscale' : ''}`}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
-        </div>
-      </Link>
 
       {/* Content */}
-      <div className="p-4">
-        <Link href={`/katalog/${product.id}`} className="hover:text-blue-400 transition-colors">
-          <h3 className="font-bold text-white mb-1 truncate">{product.name}</h3>
-        </Link>
-
-        {/* Specs quick info */}
-        <div className="flex flex-wrap gap-x-3 gap-y-1 mb-3">
-          <span className="flex items-center gap-1 text-slate-400 text-xs">
-            <Battery className="w-3 h-3 text-green-400" />
-            {product.batteryHealth}%
-          </span>
-          <span className="flex items-center gap-1 text-slate-400 text-xs">
-            <HardDrive className="w-3 h-3 text-blue-400" />
-            {product.storage}
-          </span>
-          <span className="flex items-center gap-1 text-slate-400 text-xs">
-            <Cpu className="w-3 h-3 text-purple-400" />
-            {product.ram} RAM
-          </span>
+      <div className="p-6 flex flex-col flex-1">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-lg font-black text-white group-hover:text-blue-400 transition-colors line-clamp-1">
+            {product.name}
+          </h3>
+          <div className="flex items-center gap-1 text-yellow-500">
+            <Star className="w-3 h-3 fill-current" />
+            <span className="text-[10px] font-bold text-slate-400">NEW</span>
+          </div>
         </div>
+        
+        <p className="text-slate-400 text-xs line-clamp-2 mb-6 h-8 leading-relaxed">
+          {product.description}
+        </p>
 
-        {/* UBL / Root check */}
-        <div className="flex gap-3 mb-3">
-          <span className={`flex items-center gap-1 text-xs ${product.hasUBL ? 'text-orange-400' : 'text-emerald-400'}`}>
-            {product.hasUBL ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
-            UBL {product.hasUBL ? 'ON' : 'OFF'}
-          </span>
-          <span className={`flex items-center gap-1 text-xs ${product.isRooted ? 'text-orange-400' : 'text-emerald-400'}`}>
-            {product.isRooted ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
-            Root {product.isRooted ? 'YES' : 'NO'}
-          </span>
-          <span className="flex items-center gap-1 text-xs text-blue-400">
-            <ShieldCheck className="w-3 h-3" />
-            QC Teknisi
-          </span>
-        </div>
-
-        {/* Price */}
-        <div className="flex items-end gap-2 mb-4">
-          <span className="text-xl font-black text-white">{formatPrice(product.price)}</span>
-          {product.originalPrice && (
-            <span className="text-sm text-slate-500 line-through">{formatPrice(product.originalPrice)}</span>
-          )}
-        </div>
-
-        {/* Actions */}
-        <div className="flex gap-2">
-          <Link href={`/katalog/${product.id}`}
-            className="flex-1 py-2 rounded-lg border border-slate-700 text-slate-300 text-sm font-medium text-center hover:border-blue-500/50 hover:text-blue-400 transition-all"
+        <div className="mt-auto flex items-center justify-between">
+          <div>
+            <div className="text-slate-500 text-[10px] uppercase font-bold tracking-widest mb-1">Harga Nett</div>
+            <div className="text-xl font-black text-white">{formatPrice(product.price)}</div>
+          </div>
+          
+          <button 
+            className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all ${
+              isSold 
+                ? 'bg-slate-800 text-slate-600' 
+                : 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 group-hover:scale-110 group-hover:rotate-6'
+            }`}
           >
-            Detail
-          </Link>
-          {!isSold && (
-            <a
-              href={`https://wa.me/${waNumber}?text=${waMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors"
-            >
-              <MessageCircle className="w-4 h-4" />
-              WA
-            </a>
-          )}
+            {isSold ? <ArrowRight className="w-5 h-5" /> : <Smartphone className="w-5 h-5" />}
+          </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
