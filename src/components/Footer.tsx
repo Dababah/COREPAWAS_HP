@@ -32,13 +32,13 @@ export default function Footer() {
                 <Cpu className="w-5 h-5 text-white" />
               </div>
               <div>
-                <span className="block text-white font-black tracking-tight text-lg">COREPAWAS</span>
-                <span className="block text-cyan-400 text-[10px] tracking-widest uppercase">Gadget Second Terpercaya</span>
+                <span className="block text-white font-black tracking-tight text-lg">COREPAWAS JOGJA</span>
+                <span className="block text-cyan-400 text-[10px] tracking-widest uppercase">Gadget Second Amanah</span>
               </div>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-sm">
-              Jual beli HP second dengan standar inspeksi teknisi. Deep Inspection, No Tipu-Tipu. Setiap unit dicek
-              3uTools, AnTuTu, dan stress test sebelum dijual.
+              Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong>Kejujuran & Transparansi</strong> 
+              kondisi unit apa adanya agar kamu bisa beli dengan tenang.
             </p>
             <div className="flex items-center gap-3">
               <a

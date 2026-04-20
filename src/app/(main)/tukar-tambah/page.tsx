@@ -267,14 +267,12 @@ export default function TradeInPage() {
                   </div>
                   
                   <div className="bg-slate-900 text-white rounded-3xl p-6 mb-8">
-                    <div className="flex gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
-                        <Info className="w-5 h-5" />
-                      </div>
+                    <div className="flex gap-4 p-5 rounded-3xl bg-white/10 backdrop-blur-md border border-white/10">
+                      <Info className="w-6 h-6 text-blue-100 flex-shrink-0" />
                       <div>
-                        <h4 className="font-bold text-sm mb-1 uppercase tracking-wider">Harga Penampungan</h4>
-                        <p className="text-slate-400 text-[10px] leading-relaxed">
-                          Ini adalah harga beli kami untuk sistem bakul. Harga final bersifat mutlak setelah pengecekan hardware di toko. Kondisi fisik sangat berpengaruh.
+                        <h4 className="font-bold text-sm mb-1">Penawaran Nett (Harga Bakul)</h4>
+                        <p className="text-blue-100 text-[10px] leading-relaxed">
+                          Kami memberikan harga beli terbaik untuk sistem penampungan di <span className="font-bold text-white">COD Jogja</span>. Penilaian final ditentukan setelah tim kami melakukan pengecekan fisik menyeluruh di lokasi.
                         </p>
                       </div>
                     </div>

@@ -66,13 +66,13 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
           </button>
         )}
 
-        {/* 3uTools Verified Bottom Overlay */}
+        {/* Quality Badge Bottom Overlay */}
         {!isSold && (
           <div className="absolute bottom-4 left-4 right-4 translate-y-12 group-hover:translate-y-0 transition-transform duration-500 z-10">
             <div className="bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center justify-between shadow-2xl">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-blue-400" />
-                <span className="text-[10px] font-black text-white uppercase tracking-wider">Technician Verified</span>
+                <span className="text-[10px] font-black text-white uppercase tracking-wider">Terpercaya & Amanah</span>
               </div>
               <ArrowRight className="w-4 h-4 text-slate-400" />
             </div>

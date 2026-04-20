@@ -23,31 +23,31 @@ const TECHNICIAN_IMG = 'https://images.unsplash.com/photo-1633997011021-0254baa2
 const uspItems = [
   {
     icon: <ShieldCheck className="w-6 h-6 text-blue-400" />,
-    title: 'Deep Inspection Teknisi',
-    desc: 'Setiap unit dicek dengan 3uTools, Antutu, dan stress test 30 menit. Kami verifikasi keaslian komponen: layar, baterai, kamera.',
+    title: 'Unit Pilihan & Amanah',
+    desc: 'Kami mendahulukan kejujuran. Setiap unit melalui pengecekan fisik menyeluruh dan dilaporkan apa adanya tanpa ada yang disembunyikan.',
   },
   {
     icon: <Lock className="w-6 h-6 text-cyan-400" />,
-    title: 'Cek UBL & Root Status',
-    desc: 'Kami transparan soal status Unlock Bootloader dan Root. Kamu berhak tahu kondisi asli HP sebelum beli.',
+    title: 'Transparan & Terpercaya',
+    desc: 'Kami terbuka soal status perangkat seperti UBL dan Root. Di COREPAWAS Jogja, kamu berhak tahu kondisi sebenarnya sebelum membeli.',
   },
   {
     icon: <Database className="w-6 h-6 text-purple-400" />,
-    title: 'Gratis Migrasi Data',
-    desc: 'Beli HP di sini, pindah semua data lama kamu gratis: kontak, foto, WhatsApp, hingga setup akun.',
+    title: 'Layanan Lengkap Jogja',
+    desc: 'Beli HP di sini sudah termasuk bantuan pindah data gratis (kontak, foto, WA) dan konsultasi setup akun langsung di lokasi kami.',
   },
   {
     icon: <Zap className="w-6 h-6 text-yellow-400" />,
-    title: 'Edukasi Keamanan HP',
-    desc: 'Setiap pembeli mendapat edukasi cara mengamankan HP baru: aktifkan 2FA, setup Find My Device, dan tips privasi.',
+    title: 'Garansi Kejujuran',
+    desc: 'Kami bukan sekadar penjual, tapi mitra gadget kamu di Jogja. Jika ada ketidaksesuaian data, kami bertanggung jawab penuh.',
   },
 ];
 
 const steps = [
-  { step: '01', title: 'Pilih Unit', desc: 'Browse katalog kami, filter berdasarkan budget dan brand pilihanmu.' },
-  { step: '02', title: 'Lihat Laporan Inspeksi', desc: 'Setiap unit dilengkapi transparency report: screenshot 3uTools dan hasil benchmark.' },
-  { step: '03', title: 'Tanya via WhatsApp', desc: 'Hubungi kami, tanya kondisi lebih detail atau minta video call untuk lihat unit langsung.' },
-  { step: '04', title: 'Deal & Migrasi', desc: 'Transaksi aman, langsung dapat layanan gratis migrasi data di tempat.' },
+  { step: '01', title: 'Pilih Unit', desc: 'Pilih unit impianmu dari katalog kami di Jogja, sesuaikan dengan budget dan kebutuhan.' },
+  { step: '02', title: 'Cek Transparansi', desc: 'Kami tunjukkan semua detail: status fisik, baterai, dan fungsi hardware secara jujur.' },
+  { step: '03', title: 'Konsultasi WA', desc: 'Tanya apa saja, kami akan jawab dengan sejujur-jujurnya sesuai kondisi unit asli.' },
+  { step: '04', title: 'Cod Jogja / Kirim', desc: 'Bisa langsung cek unit di lokasi kami di Jogja atau kirim aman ke seluruh Indonesia.' },
 ];
 
 function formatPrice(price: number) {
@@ -83,18 +83,18 @@ export default function Home() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs sm:text-sm font-bold mb-8 animate-fade-in">
             <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
-            INSPEKSI LEVEL TEKNISI — 100% TRANSPARAN
+            JUAL BELI AMANAH & TERPERCAYA — KHUSUS JOGJA
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
             Gadget Second <br />
-            <span className="text-gradient">Standar Teknisi.</span>
+            <span className="text-gradient">Pilihan Amanah.</span>
           </h1>
 
           <p className="text-slate-400 text-base sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Bukan sekedar jual HP bekas. Kami melakukan <b>Deep Inspection</b> dengan 3uTools, Antutu, dan 
-            stress test 30 menit untuk memastikan kamu dapat unit terbaik tanpa drama.
+            Menghadirkan unit gadget terbaik di Jogja dengan prinsip <b>Kejujuran & Transparansi</b>. 
+            Setiap unit dilaporkan apa adanya agar kamu bisa beli dengan tenang tanpa rasa khawatir.
           </p>
 
           {/* CTAs */}
@@ -249,6 +249,7 @@ export default function Home() {
             <div className="relative">
               <div className="rounded-2xl overflow-hidden">
                 <img src={TECHNICIAN_IMG} alt="Teknisi COREPAWAS" className="w-full h-80 object-cover" />
+                <img src={TECHNICIAN_IMG} alt="COREPAWAS Jogja" className="w-full h-80 object-cover" />
               </div>
               {/* Badge floating */}
               <div className="absolute -bottom-5 -right-5 bg-slate-900 border border-slate-700 rounded-2xl p-4 shadow-xl">
@@ -257,8 +258,8 @@ export default function Home() {
                     <ShieldCheck className="w-5 h-5 text-blue-400" />
                   </div>
                   <div>
-                    <div className="text-white font-bold text-sm">3uTools Verified</div>
-                    <div className="text-slate-400 text-xs">Semua unit dicek</div>
+                    <div className="text-white font-bold text-sm">Terpercaya di Jogja</div>
+                    <div className="text-slate-400 text-xs">Amanah & Transparan</div>
                   </div>
                 </div>
               </div>
@@ -266,27 +267,27 @@ export default function Home() {
 
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4">
-                Transparansi Laporan
+                Prinsip Kejujuran
               </span>
               <h2 className="text-3xl font-black text-white mb-5">
-                Kami Tunjukkan{' '}
+                Kondisi Unit{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  Semua Buktinya
+                  Apa Adanya
                 </span>
               </h2>
               <p className="text-slate-400 mb-6 leading-relaxed">
-                Tidak hanya bilang "kondisi bagus", kami sertakan bukti nyata. Setiap produk dilengkapi transparency
-                report berupa screenshot 3uTools yang menunjukkan keaslian komponen.
+                Kami tidak suka berlebihan. Di COREPAWAS Jogja, kami melaporkan setiap lecet, kondisi baterai, dan minus fitur 
+                secara detail sebelum kamu membeli. Kami percaya kejujuran adalah kunci hubungan jangka panjang.
               </p>
 
               <ul className="space-y-3">
                 {[
-                  'Screenshot 3uTools — verifikasi komponen original',
-                  'Hasil benchmark Antutu — performa CPU/GPU riil',
-                  'Stress test 30 menit — tidak throttle berlebihan',
-                  'Status UBL dan Root dicantumkan jelas',
-                  'Battery health diukur akurat dengan tools',
-                  'Cek iCloud OFF untuk iPhone',
+                  'Laporan fisik unit yang sangat detail (jujur)',
+                  'Cek kesehatan baterai secara transparan',
+                  'Status software (UBL/Root) diinformasikan jelas',
+                  'Pengecekan fungsi hardware menyeluruh',
+                  'Gratis bantuan pindah data dan setup',
+                  'Bisa COD atau cek langsung di lokasi Jogja',
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-300 text-sm">
                     <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />

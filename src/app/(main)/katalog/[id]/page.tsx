@@ -270,8 +270,8 @@ export default function ProductDetail() {
               <ShieldCheck className="w-5 h-5 text-blue-400" />
             </div>
             <div>
-              <h3 className="text-white font-bold">Transparency Report</h3>
-              <p className="text-slate-400 text-sm">Laporan inspeksi lengkap dari teknisi COREPAWAS</p>
+              <h3 className="text-white font-bold">Detail Kondisi Unit</h3>
+              <p className="text-slate-400 text-sm">Laporan kejujuran pengecekan fisik COREPAWAS Jogja</p>
             </div>
           </div>
 
@@ -301,8 +301,8 @@ export default function ProductDetail() {
 
           <div className="mt-5 p-4 rounded-xl bg-slate-800/60 border border-slate-700">
             <p className="text-slate-400 text-xs leading-relaxed">
-              ⚠️ <strong className="text-slate-300">Disclaimer:</strong> COREPAWAS berkomitmen penuh pada transparansi. Semua informasi di atas
-              adalah hasil inspeksi aktual oleh teknisi kami. Jika ada pertanyaan atau ingin minta video call untuk melihat unit langsung,
+              ⚠️ <strong className="text-slate-300">Disclaimer:</strong> COREPAWAS Jogja berkomitmen penuh pada kejujuran. Semua informasi di atas
+              adalah hasil pengecekan aktual kami. Jika ada pertanyaan atau ingin COD langsung di outlet Jogja kami untuk melihat unit,
               silakan hubungi kami via WhatsApp.
             </p>
           </div>
