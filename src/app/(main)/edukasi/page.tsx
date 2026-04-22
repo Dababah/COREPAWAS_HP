@@ -129,30 +129,30 @@ export default function Edukasi() {
             {filtered.map((post) => (
               <Link key={post.id} href={`/edukasi/${post.slug}`} className="group">
                 <div className="h-full rounded-2xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/50 flex flex-col">
-                  <div className="h-48 overflow-hidden flex-shrink-0">
+                  <div className="h-40 sm:h-48 overflow-hidden flex-shrink-0">
                     <img
                       src={post.image}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium">
+                  <div className="p-4 sm:p-5 flex flex-col flex-1">
+                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                      <span className="px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] sm:text-xs font-medium">
                         {post.category}
                       </span>
-                      <span className="flex items-center gap-1 text-slate-500 text-xs">
+                      <span className="flex items-center gap-1 text-slate-500 text-[10px] sm:text-xs">
                         <Clock className="w-3 h-3" />
                         {post.readTime}
                       </span>
                     </div>
-                    <h3 className="font-bold text-white group-hover:text-blue-400 transition-colors leading-snug mb-2 flex-1">
+                    <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-blue-400 transition-colors leading-snug mb-2 flex-1 line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-slate-400 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
+                    <p className="text-slate-400 text-[11px] sm:text-sm line-clamp-2 mb-4">{post.excerpt}</p>
                     <div className="flex items-center justify-between pt-3 border-t border-slate-800">
-                      <span className="text-slate-500 text-xs">{formatDate(post.date)}</span>
-                      <span className="text-blue-400 text-xs font-medium flex items-center gap-1">
+                      <span className="text-slate-500 text-[10px] sm:text-xs">{formatDate(post.date)}</span>
+                      <span className="text-blue-400 text-[10px] sm:text-xs font-medium flex items-center gap-1">
                         Baca <ChevronRight className="w-3 h-3" />
                       </span>
                     </div>
