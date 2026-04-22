@@ -188,9 +188,9 @@ function ProductModal({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check size (limit to 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      setUploadError('Ukuran file terlalu besar (maks 2MB)');
+    // Check size (limit to 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError('Ukuran file terlalu besar (maks 10MB). Foto galeri HP biasanya berukuran besar.');
       return;
     }
 
@@ -206,7 +206,12 @@ function ProductModal({
         .from('product-images')
         .upload(filePath, file);
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('row-level security') || error.message.includes('policy')) {
+          throw new Error('Izin ditolak (RLS Violation). Pastikan bucket "product-images" sudah memiliki policy Public.');
+        }
+        throw error;
+      };
 
       const { data: { publicUrl } } = supabase.storage
         .from('product-images')
