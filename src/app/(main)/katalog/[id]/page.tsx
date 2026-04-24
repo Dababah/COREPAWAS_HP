@@ -15,6 +15,7 @@ import {
   Zap,
   ChevronRight,
 } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
 const conditionColors: Record<string, string> = {
@@ -207,7 +208,7 @@ export default function ProductDetail() {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 w-full py-4 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold text-lg transition-colors shadow-lg shadow-green-600/30 mb-3"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <WhatsAppIcon className="w-5 h-5" />
                   Tanya via WhatsApp
                 </a>
               ) : (
@@ -340,7 +341,7 @@ export default function ProductDetail() {
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 w-full py-3.5 rounded-xl bg-green-600 text-white font-bold text-base shadow-xl shadow-green-900/50"
           >
-            <MessageCircle className="w-5 h-5" />
+            <WhatsAppIcon className="w-5 h-5" />
             Tanya via WhatsApp
           </a>
         </div>

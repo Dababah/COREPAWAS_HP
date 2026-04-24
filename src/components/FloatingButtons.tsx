@@ -1,5 +1,5 @@
 "use client";
-import { MessageCircle } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
 const TiktokIcon = () => (
@@ -55,7 +55,7 @@ export default function FloatingButtons() {
         aria-label="WhatsApp COREPAWAS"
         className="group relative w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-400 hover:scale-110 transition-all duration-300 shadow-2xl shadow-green-500/40"
       >
-        <MessageCircle className="w-7 h-7" />
+        <WhatsAppIcon className="w-7 h-7" />
         <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-20" />
         <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-green-500 text-white text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl pointer-events-none">
           Chat Sekarang

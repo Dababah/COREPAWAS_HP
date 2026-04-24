@@ -14,6 +14,7 @@ import {
   BookOpen,
   MessageSquare,
 } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 import ProductCard from '@/components/ProductCard';
 import Testimonials from '@/components/Testimonials';
@@ -116,6 +117,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 backdrop-blur-md transition-all w-full sm:w-auto flex items-center gap-2 justify-center"
             >
+              <WhatsAppIcon className="w-5 h-5" />
               Tanya via WhatsApp
             </a>
           </div>
@@ -376,7 +378,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-all backdrop-blur-md flex items-center justify-center gap-2"
             >
-              <MessageSquare className="w-5 h-5" /> Chat Santai Dulu, Yuk!
+              <WhatsAppIcon className="w-5 h-5" /> Chat Santai Dulu, Yuk!
             </a>
           </div>
         </div>
@@ -398,7 +400,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-10 py-5 rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-black text-xl shadow-2xl shadow-blue-500/25 hover:scale-105 transition-all"
           >
-            <MessageSquare className="w-6 h-6" /> Chat Sekarang di WhatsApp
+            <WhatsAppIcon className="w-6 h-6" /> Chat Sekarang di WhatsApp
           </a>
         </div>
       </section>

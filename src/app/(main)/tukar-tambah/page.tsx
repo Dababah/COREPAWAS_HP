@@ -1,6 +1,7 @@
 "use client";
 import { useState, useMemo } from 'react';
 import { Smartphone, RefreshCw, ShieldCheck, Info, MessageCircle, ChevronDown, CheckCircle2, TrendingDown } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
 const BRANDS = ['iPhone', 'Samsung', 'Infinix', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Google Pixel', 'Others'];
@@ -283,7 +284,7 @@ export default function TradeInPage() {
                     target="_blank"
                     className="flex items-center justify-center gap-3 w-full py-6 rounded-3xl bg-blue-600 text-white font-black text-xl transition-all hover:bg-blue-700 shadow-xl shadow-blue-600/30"
                   >
-                    <MessageCircle className="w-6 h-6" />
+                    <WhatsAppIcon className="w-6 h-6" />
                     Kabari Admin via WA
                   </a>
                 </div>
