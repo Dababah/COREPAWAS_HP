@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { Cpu, MapPin, MessageCircle, Mail, Instagram } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
 const TiktokIcon = () => (
@@ -75,8 +76,19 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
                 >
-                  <MessageCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-400" />
+                  <WhatsAppIcon className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" />
                   +{waNumber}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  <Instagram className="w-4 h-4 mt-0.5 flex-shrink-0 text-pink-500" />
+                  @corepawas.gadget
                 </a>
               </li>
               <li>
