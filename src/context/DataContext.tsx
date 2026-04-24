@@ -7,8 +7,10 @@ import { supabase } from '@/lib/supabase';
 interface DataContextType {
   products: Product[];
   setProducts: (products: Product[]) => void;
+  deleteProduct: (id: string) => Promise<void>;
   blogPosts: BlogPost[];
   setBlogPosts: (posts: BlogPost[]) => void;
+  deleteBlogPost: (id: string) => Promise<void>;
   waNumber: string;
   setWaNumber: (num: string) => void;
   storeName: string;
@@ -55,7 +57,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         const { data: dbBlog, error: bError } = await supabase.from('blog_posts').select('*');
         const { data: dbSettings, error: sError } = await supabase.from('settings').select('*');
 
-        if (!pError && dbProducts && dbProducts.length > 0) {
+        if (!pError && dbProducts) {
           // Map snake_case from DB to camelCase for App
           const mappedProducts = dbProducts.map(p => ({
             ...p,
@@ -69,13 +71,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             createdAt: p.created_at
           }));
           setProductsState(mappedProducts);
+          localStorage.setItem('corepawas_products', JSON.stringify(mappedProducts));
         } else {
           const savedProducts = localStorage.getItem('corepawas_products');
           if (savedProducts) setProductsState(JSON.parse(savedProducts));
         }
 
-        if (!bError && dbBlog && dbBlog.length > 0) {
+        if (!bError && dbBlog) {
           setBlogPostsState(dbBlog);
+          localStorage.setItem('corepawas_blog', JSON.stringify(dbBlog));
         } else {
           const savedBlog = localStorage.getItem('corepawas_blog');
           if (savedBlog) setBlogPostsState(JSON.parse(savedBlog));
@@ -218,6 +222,30 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const deleteProduct = async (id: string) => {
+    const updatedProducts = products.filter(p => p.id !== id);
+    setProductsState(updatedProducts);
+    localStorage.setItem('corepawas_products', JSON.stringify(updatedProducts));
+
+    try {
+      await supabase.from('products').delete().eq('id', id);
+    } catch (e) {
+      console.warn('Supabase delete failed for product', e);
+    }
+  };
+
+  const deleteBlogPost = async (id: string) => {
+    const updatedPosts = blogPosts.filter(p => p.id !== id);
+    setBlogPostsState(updatedPosts);
+    localStorage.setItem('corepawas_blog', JSON.stringify(updatedPosts));
+
+    try {
+      await supabase.from('blog_posts').delete().eq('id', id);
+    } catch (e) {
+      console.warn('Supabase delete failed for blog post', e);
+    }
+  };
+
   const setBlogPosts = async (posts: BlogPost[]) => {
     setBlogPostsState(posts);
     localStorage.setItem('corepawas_blog', JSON.stringify(posts));
@@ -289,8 +317,10 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       value={{
         products,
         setProducts,
+        deleteProduct,
         blogPosts,
         setBlogPosts,
+        deleteBlogPost,
         waNumber,
         setWaNumber,
         storeName: 'COREPAWAS',

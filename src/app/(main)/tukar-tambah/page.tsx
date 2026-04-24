@@ -257,8 +257,8 @@ export default function TradeInPage() {
           <div className="lg:col-span-5">
             {isCalculated ? (
               <div className="sticky top-28 space-y-8 animate-fade-in-up">
-                <div className="bg-slate-100 rounded-[3rem] p-10 text-slate-950 shadow-2xl border-4 border-blue-600 relative">
-                  <div className="absolute top-6 right-8 text-[10px] font-black text-blue-600 uppercase border border-blue-600 px-2 py-0.5 rounded">Verified Buy Price</div>
+                <div className="bg-slate-100 rounded-[3rem] p-8 sm:p-10 pt-14 sm:pt-10 text-slate-950 shadow-2xl border-4 border-blue-600 relative">
+                  <div className="absolute top-5 right-6 sm:top-6 sm:right-8 text-[9px] sm:text-[10px] font-black text-blue-600 uppercase border border-blue-600 px-2 py-0.5 rounded">Verified Buy Price</div>
                   
                   <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Estimasi Penawaran Kami</div>
                   <div className="text-5xl sm:text-6xl font-black mb-8 flex items-start">

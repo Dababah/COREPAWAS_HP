@@ -590,7 +590,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
 
 // ─── Main Admin Dashboard ─────────────────────────────────────────────────────
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
-  const { products, setProducts, blogPosts, setBlogPosts, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl, googleMapsEmbedUrl, setGoogleMapsEmbedUrl } = useData();
+  const { products, setProducts, deleteProduct, blogPosts, setBlogPosts, deleteBlogPost, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl, googleMapsEmbedUrl, setGoogleMapsEmbedUrl } = useData();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
@@ -632,7 +632,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   }
 
   function handleDeleteProduct(id: string) {
-    setProducts(products.filter((p) => p.id !== id));
+    deleteProduct(id);
     setDeleteConfirm(null);
   }
 
@@ -645,7 +645,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   }
 
   function handleDeleteBlog(id: string) {
-    setBlogPosts(blogPosts.filter((p) => p.id !== id));
+    deleteBlogPost(id);
   }
 
   function toggleStatus(id: string) {

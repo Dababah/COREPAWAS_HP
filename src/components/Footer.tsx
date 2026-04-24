@@ -40,32 +40,7 @@ export default function Footer() {
               Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong>Kejujuran & Transparansi</strong> 
               kondisi unit apa adanya agar kamu bisa beli dengan tenang.
             </p>
-            <div className="flex items-center gap-3">
-              <a
-                href={`https://wa.me/${waNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-green-600 flex items-center justify-center text-white hover:bg-green-500 transition-colors"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </a>
-              <a
-                href="https://instagram.com/corepawas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-white hover:opacity-80 transition-opacity"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a
-                href="https://tiktok.com/@corepawas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-slate-700 flex items-center justify-center text-white hover:bg-slate-600 transition-colors"
-              >
-                <TiktokIcon />
-              </a>
-            </div>
+
           </div>
 
           {/* Navigation */}
