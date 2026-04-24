@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Cpu, MapPin, MessageCircle, Mail, Instagram } from 'lucide-react';
+import { Cpu, MapPin, MessageCircle, Instagram } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
@@ -91,15 +91,7 @@ export default function Footer() {
                   @corepawas.gadget
                 </a>
               </li>
-              <li>
-                <a
-                  href="mailto:hello@corepawas.id"
-                  className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
-                >
-                  <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 text-blue-400" />
-                  hello@corepawas.id
-                </a>
-              </li>
+
               <li>
                 <a
                   href={googleMapsUrl || `https://maps.google.com/?q=${mapsQuery}`}
