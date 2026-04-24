@@ -68,10 +68,10 @@ export default function Home() {
       <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-24 px-4 overflow-hidden">
         {/* Background Layers */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={HERO_BG} 
-            alt="Hero Background" 
-            className="w-full h-full object-cover scale-105 animate-pulse-slow opacity-40" 
+          <img
+            src={HERO_BG}
+            alt="Hero Background"
+            className="w-full h-full object-cover scale-105 animate-pulse-slow opacity-40"
           />
           <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-[2px]" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-transparent to-slate-950" />
@@ -95,14 +95,14 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-400 text-base sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Takut kena prank beli HP bekas? Tenang, di <b>COREPAWAS</b> nggak ada drama. Kita siap jadi temen diskusi biar kamu dapet unit yang beneran seger dan harganya jujur!
+            Takut kena prank beli HP bekas? Tenang, di <b>COREPAWAS</b> nggak ada drama. Kita siap jadi temen diskusi biar kamu dapet unit yang beneran berkualitas dan harganya jujur!
             <br /><br />
             Mau jual HP atau tukar tambah ke yang lebih gahar? Sini, kita bayarin dengan proses sat-set dan harga yang fair. Langsung chat admin aja buat tanya-tanya atau cek harga!
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link 
+            <Link
               href="/katalog"
               className="group relative px-8 py-4 rounded-2xl bg-blue-600 text-white font-black text-lg shadow-2xl shadow-blue-600/40 hover:bg-blue-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto"
             >
@@ -111,7 +111,7 @@ export default function Home() {
                 Lihat Katalog HP
               </div>
             </Link>
-            
+
             <a
               href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20ingin%20tanya%20stok%20HP%20second.`}
               target="_blank"
@@ -280,7 +280,7 @@ export default function Home() {
                 </span>
               </h2>
               <p className="text-slate-400 mb-6 leading-relaxed">
-                Kami tidak suka berlebihan. Di COREPAWAS Jogja, kami melaporkan setiap lecet, kondisi baterai, dan minus fitur 
+                Kami tidak suka berlebihan. Di COREPAWAS Jogja, kami melaporkan setiap lecet, kondisi baterai, dan minus fitur
                 secara detail sebelum kamu membeli. Kami percaya kejujuran adalah kunci hubungan jangka panjang.
               </p>
 
@@ -367,7 +367,7 @@ export default function Home() {
             Stok terbatas. Hubungi sekarang untuk konsultasi gratis dan cek ketersediaan unit.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up">
-            <Link 
+            <Link
               href="/katalog"
               className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-blue-600 text-white font-black text-lg hover:bg-blue-500 transition-all shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2 group"
             >
