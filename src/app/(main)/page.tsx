@@ -95,8 +95,9 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-400 text-base sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Kami tahu banget rasanya pengen ganti HP tapi sering ragu sama kondisi barang bekas. 
-            Di sini, kami bukan cuma sekadar jualan, tapi ingin jadi <b>teman diskusi</b> yang bisa kasih solusi buat kebutuhan gadget Kakak.
+            Takut kena prank beli HP bekas? Tenang, di <b>COREPAWAS</b> nggak ada drama. Kita siap jadi temen diskusi biar kamu dapet unit yang beneran seger dan harganya jujur!
+            <br /><br />
+            Mau jual HP atau tukar tambah ke yang lebih gahar? Sini, kita bayarin dengan proses sat-set dan harga yang fair. Langsung chat admin aja buat tanya-tanya atau cek harga!
           </p>
 
           {/* CTAs */}
