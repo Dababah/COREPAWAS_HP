@@ -35,7 +35,7 @@ export default function FloatingButtons() {
 
       {/* Instagram */}
       <a
-        href="https://instagram.com/corepawas"
+        href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram COREPAWAS"
