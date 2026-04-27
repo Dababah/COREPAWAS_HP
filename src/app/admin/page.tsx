@@ -33,6 +33,7 @@ import { useData } from '@/context/DataContext';
 import { Product, defaultProducts } from '@/data/products';
 import { BlogPost, defaultBlogPosts } from '@/data/blog';
 import { seedDatabase } from '@/lib/seed';
+import AiAssistant from '@/components/AiAssistant';
 
 
 type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan';
@@ -606,6 +607,27 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [syncing, setSyncing] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
 
+  const handleAiFillProduct = (data: any) => {
+    setEditingProduct({
+      ...emptyProduct,
+      ...data,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString().split('T')[0],
+    });
+    setActiveTab('produk');
+  };
+
+  const handleAiFillBlog = (data: any) => {
+    setEditingBlog({
+      id: Date.now().toString(),
+      slug: data.title?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-'),
+      date: new Date().toISOString().split('T')[0],
+      author: 'Tim COREPAWAS',
+      ...data,
+    });
+    setActiveTab('blog');
+  };
+
   const readyCount = products.filter((p) => p.status === 'Ready').length;
   const soldCount = products.filter((p) => p.status === 'Sold').length;
   const totalValue = products.filter((p) => p.status === 'Ready').reduce((s, p) => s + p.price, 0);
@@ -1137,6 +1159,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           onClose={() => setEditingBlog(undefined)}
         />
       )}
+      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} />
     </div>
   );
 }
