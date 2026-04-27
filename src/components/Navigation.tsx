@@ -195,8 +195,8 @@ export default function Navigation() {
       </div>
 
       {/* ── MOBILE BOTTOM BAR (Minimalist) ── */}
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-50">
-        <div className="glass rounded-full px-6 py-3 flex items-center justify-between shadow-2xl shadow-blue-900/20 ring-1 ring-white/10">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 px-4 pb-[env(safe-area-inset-bottom,1.5rem)] pt-2 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent pointer-events-none">
+        <div className="max-w-sm mx-auto glass rounded-full px-6 py-3 flex items-center justify-between shadow-2xl shadow-blue-900/20 ring-1 ring-white/10 pointer-events-auto">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive =

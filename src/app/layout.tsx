@@ -23,6 +23,14 @@ export const metadata: Metadata = {
     description: 'Inspeksi level teknisi untuk HP second impianmu.',
   },
   robots: 'index, follow',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'COREPAWAS',
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {

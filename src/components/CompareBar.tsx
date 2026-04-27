@@ -15,7 +15,7 @@ export default function CompareBar() {
   return (
     <>
       {/* Floating Bar */}
-      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl z-[70] animate-fade-in-up">
+      <div className="fixed bottom-[calc(env(safe-area-inset-bottom,1.5rem)+4.5rem)] left-1/2 -translate-x-1/2 w-[90%] max-w-2xl z-[70] animate-fade-in-up">
         <div className="bg-slate-900 border border-blue-500/30 rounded-2xl p-3 shadow-2xl flex items-center justify-between gap-4 backdrop-blur-xl">
           <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1">
             {compareProducts.map(p => (

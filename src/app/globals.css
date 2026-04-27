@@ -19,18 +19,39 @@
   html {
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    /* Prevent text size adjustment after orientation change */
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     background-color: #020617; /* slate-950 */
     color: #f8fafc; /* slate-50 */
     min-height: 100dvh;
+    /* Use svh as fallback for older iOS Safari if needed, but dvh is better */
+    min-height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Support for dvh on Safari */
+  @supports (height: 100dvh) {
+    body {
+      min-height: 100dvh;
+    }
+  }
+
+  input, select, textarea {
+    /* Safari zooms on focus if font-size is < 16px */
+    font-size: 16px !important;
+  }
+
+  select {
+    -webkit-appearance: none;
+    appearance: none;
   }
 
   * {
