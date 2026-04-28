@@ -1,17 +1,25 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || "");
-
 export async function POST(req: Request) {
   try {
     const { prompt, type } = await req.json();
 
-    if (!process.env.GOOGLE_AI_API_KEY) {
-      return NextResponse.json({ error: "API Key not configured" }, { status: 500 });
+    const apiKey = process.env.GOOGLE_AI_API_KEY;
+
+    if (!apiKey) {
+      console.error("AI API Key is missing from environment variables.");
+      return NextResponse.json({ 
+        error: "API Key not configured",
+        details: "GOOGLE_AI_API_KEY is not defined in the environment." 
+      }, { status: 500 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash-latest",
+      generationConfig: { responseMimeType: "application/json" }
+    });
 
     let systemInstruction = "";
     if (type === 'product') {
@@ -53,11 +61,8 @@ export async function POST(req: Request) {
 
     const result = await model.generateContent([systemInstruction, prompt]);
     const response = await result.response;
-    let text = response.text();
+    const text = response.text();
     
-    // Clean up response if it has markdown blocks
-    text = text.replace(/```json/g, "").replace(/```/g, "").trim();
-
     return NextResponse.json(JSON.parse(text));
   } catch (error: any) {
     console.error("AI Error:", error);
