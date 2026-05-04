@@ -297,10 +297,6 @@ export default function Home() {
           </a>
         </div>
       </section>
-    </div>6" /> Chat Sekarang di WhatsApp
-          </a>
-        </div>
-      </section>
     </div>
   );
 }
