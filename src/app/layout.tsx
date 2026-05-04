@@ -73,7 +73,40 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans min-h-[100dvh] bg-slate-950 text-slate-50 antialiased selection:bg-blue-500/30 selection:text-white">
+      <body className={`${outfit.className} min-h-[100dvh] bg-[#020617] text-white antialiased noise-bg selection:bg-brand-orange/30 selection:text-white`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              const observerOptions = {
+                threshold: 0.1
+              };
+              const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                  }
+                });
+              }, observerOptions);
+
+              window.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+              });
+
+              // Also check for dynamically added content if needed
+              const mutationObserver = new MutationObserver((mutations) => {
+                mutations.forEach(mutation => {
+                  mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1) {
+                      if (node.classList.contains('reveal')) observer.observe(node);
+                      node.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                    }
+                  });
+                });
+              });
+              mutationObserver.observe(document.body, { childList: true, subtree: true });
+            `
+          }}
+        />
         <DataProvider>
           {children}
         </DataProvider>

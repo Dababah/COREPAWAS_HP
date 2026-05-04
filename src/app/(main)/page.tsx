@@ -1,22 +1,20 @@
 "use client";
 import Link from 'next/link';
-import {
-  ShieldCheck,
-  Cpu,
-  Smartphone,
-  ArrowRight,
-  CheckCircle,
-  Star,
-  Zap,
+import { 
+  Smartphone, 
+  ShieldCheck, 
+  Zap, 
+  ArrowRight, 
+  Star, 
+  MessageSquare,
   Lock,
   Database,
-  ChevronRight,
-  BookOpen,
-  MessageSquare,
+  ChevronRight
 } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 import ProductCard from '@/components/ProductCard';
+import ProductSkeleton from '@/components/ProductSkeleton';
 import Testimonials from '@/components/Testimonials';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1697545806245-9795b6056141?w=1400&q=80';
@@ -57,7 +55,7 @@ function formatPrice(price: number) {
 }
 
 export default function Home() {
-  const { products, blogPosts, waNumber } = useData();
+  const { products, blogPosts, waNumber, loading } = useData();
   const featuredProducts = products.filter((p) => p.isFeatured);
   const readyCount = products.filter((p) => p.status === 'Ready').length;
   const soldCount = products.filter((p) => p.status === 'Sold').length;
@@ -142,7 +140,7 @@ export default function Home() {
       </section>
 
       {/* ─── USP / WHY CHOOSE (Bento Grid) ─── */}
-      <section className="py-24 sm:py-32 bg-[#020617] relative overflow-hidden">
+      <section className="py-24 sm:py-32 bg-[#020617] relative overflow-hidden reveal">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-navy/5 blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -183,10 +181,10 @@ export default function Home() {
       </section>
 
       {/* ─── FEATURED PRODUCTS ─── */}
-      <section className="py-24 sm:py-32 bg-white/5 border-y border-white/5 relative">
+      <section className="py-24 sm:py-32 bg-white/5 border-y border-white/5 relative reveal">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 sm:mb-16 gap-6">
-            <div>
+            <div className="tilt-3d">
               <span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-black uppercase tracking-widest mb-6">
                 🔥 Unit Terlaris
               </span>
@@ -200,13 +198,17 @@ export default function Home() {
             </Link>
           </div>
 
-          {featuredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => <ProductSkeleton key={i} />)
+            ) : (
+              featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} showFeaturedBadge />
-              ))}
-            </div>
-          ) : (
+              ))
+            )}
+          </div>
+
+          {!loading && featuredProducts.length === 0 && (
             <div className="text-center py-24 text-slate-500 bg-white/5 rounded-[3rem] border border-dashed border-white/10">
               <Smartphone className="w-16 h-16 mx-auto mb-6 opacity-20" />
               <p className="text-xl font-bold">Belum ada unit featured.</p>
@@ -218,7 +220,7 @@ export default function Home() {
       <Testimonials />
 
       {/* ─── HOW IT WORKS (Timeline Bento) ─── */}
-      <section className="py-24 sm:py-32 bg-[#020617]">
+      <section className="py-24 sm:py-32 bg-[#020617] reveal">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16 sm:mb-24">
             <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter">Cara Beli di COREPAWAS</h2>
@@ -242,7 +244,7 @@ export default function Home() {
       </section>
 
       {/* ─── CTA BANNER (Habitline Style) ─── */}
-      <section className="py-24 sm:py-32 bg-[#020617] px-6">
+      <section className="py-24 sm:py-32 bg-[#020617] px-6 reveal">
         <div className="max-w-6xl mx-auto rounded-[3rem] bg-gradient-to-br from-brand-navy to-brand-navy-dark p-12 sm:p-24 text-center relative overflow-hidden border border-white/10 shadow-[0_40px_100px_-20px_rgba(11,53,94,0.5)]">
           <div className="absolute top-0 right-0 w-96 h-96 glow-orange opacity-20" />
           <div className="absolute bottom-0 left-0 w-96 h-96 glow-navy opacity-40" />
@@ -276,7 +278,7 @@ export default function Home() {
       </section>
 
       {/* ─── FINAL CONSULTATION CTA ─── */}
-      <section className="py-24 sm:py-32 bg-[#020617] border-t border-white/5">
+      <section className="py-24 sm:py-32 bg-[#020617] border-t border-white/5 reveal">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <div className="w-24 h-24 rounded-3xl bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-brand-orange/10 animate-float-premium">
             <MessageSquare className="w-12 h-12 text-brand-orange" />

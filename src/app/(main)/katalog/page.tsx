@@ -1,8 +1,9 @@
 "use client";
 import { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, X, Smartphone } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Smartphone, ChevronRight, ArrowRight } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import ProductCard from '@/components/ProductCard';
+import ProductSkeleton from '@/components/ProductSkeleton';
 import { Product } from '@/data/products';
 
 const BRANDS = ['Semua', 'iPhone', 'Samsung', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Other'];
@@ -18,7 +19,7 @@ const PRICE_RANGES = [
 ];
 
 export default function Katalog() {
-  const { products } = useData();
+  const { products, loading } = useData();
   const [search, setSearch] = useState('');
   const [brand, setBrand] = useState('Semua');
   const [condition, setCondition] = useState('Semua');
@@ -80,85 +81,88 @@ export default function Katalog() {
     search || brand !== 'Semua' || condition !== 'Semua' || status !== 'Semua' || priceRange !== 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-16">
+    <div className="min-h-screen bg-[#020617] pt-24 sm:pt-32 pb-24">
       {/* Header */}
-      <div className="bg-gradient-to-b from-slate-900 to-slate-950 border-b border-slate-800 py-6 sm:py-10">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-2xl sm:text-3xl font-black text-white mb-1">Katalog HP Second</h1>
-          <p className="text-slate-400">
-            {readyCount} unit ready ·{' '}
-            <span className="text-blue-400">Semua sudah diinspeksi teknisi</span>
+      <div className="relative py-12 sm:py-20 overflow-hidden reveal">
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] glow-navy opacity-10 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10 tilt-3d">
+          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-6">
+            Explore Collection
+          </div>
+          <h1 className="text-4xl sm:text-7xl font-black text-white mb-4 tracking-tighter">
+            Katalog <span className="text-gradient">Unit Pilihan.</span>
+          </h1>
+          <p className="text-slate-500 text-lg font-medium max-w-2xl">
+            {readyCount} unit ready · <span className="text-white font-black italic">"Kualitas teknisi, harga teman."</span>
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-5 sm:mt-8">
-        {/* Search + controls */}
-        <div className="flex flex-col gap-3 mb-5 sm:mb-6">
-          <div className="flex gap-3">
-            <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+      <div className="max-w-7xl mx-auto px-6 mt-8">
+        {/* Search + controls (Bento Style) */}
+        <div className="flex flex-col lg:flex-row gap-4 mb-8 reveal">
+          <div className="flex-1 relative group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-brand-orange transition-colors" />
             <input
               type="text"
               placeholder="Cari nama HP, brand, atau chipset..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full pl-14 pr-6 py-5 rounded-3xl bg-brand-navy-dark border border-white/5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 transition-all shadow-2xl"
             />
             {search && (
               <button
                 onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             )}
-            </div>
+          </div>
 
+          <div className="flex gap-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-3 rounded-xl border font-medium transition-all flex-shrink-0 ${
+              className={`flex items-center gap-3 px-8 py-5 rounded-3xl border font-black uppercase tracking-widest text-xs transition-all flex-shrink-0 shadow-2xl ${
                 showFilters || hasActiveFilters
-                  ? 'bg-blue-500/10 border-blue-500/40 text-blue-400'
-                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-600'
+                  ? 'bg-brand-orange text-white border-brand-orange'
+                  : 'bg-brand-navy-dark border-white/5 text-slate-400 hover:border-white/10'
               }`}
             >
               <SlidersHorizontal className="w-4 h-4" />
-              Filter
-              {hasActiveFilters && (
-                <span className="w-2 h-2 rounded-full bg-blue-400" />
-              )}
+              Filter {hasActiveFilters && `(${[brand, condition, status, priceRange].filter(x => x !== 'Semua' && x !== 0).length + (search ? 1 : 0)})`}
             </button>
-          </div>
 
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer text-sm"
-          >
-            <option value="newest">Urutkan: Terbaru</option>
-            <option value="price_asc">Harga: Terendah</option>
-            <option value="price_desc">Harga: Tertinggi</option>
-            <option value="battery">Battery Terbaik</option>
-          </select>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-6 py-5 rounded-3xl bg-brand-navy-dark border border-white/5 text-slate-400 font-black uppercase tracking-widest text-[10px] focus:outline-none focus:border-brand-orange/50 cursor-pointer shadow-2xl appearance-none pr-12 relative"
+              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2364748b\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\' /%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.5rem center', backgroundSize: '1.2em' }}
+            >
+              <option value="newest">Terbaru</option>
+              <option value="price_asc">Harga Terendah</option>
+              <option value="price_desc">Harga Tertinggi</option>
+              <option value="battery">Battery Terbaik</option>
+            </select>
+          </div>
         </div>
 
-        {/* Filters panel */}
+        {/* Filters panel (Bento Grid) */}
         {showFilters && (
-          <div className="mb-6 p-5 rounded-2xl bg-slate-900 border border-slate-800">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div className="mb-12 p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl animate-fade-in-up reveal active">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* Brand */}
               <div>
-                <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Brand</label>
-                <div className="flex flex-wrap gap-1.5">
+                <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Brand</label>
+                <div className="flex flex-wrap gap-2">
                   {BRANDS.map((b) => (
                     <button
                       key={b}
                       onClick={() => setBrand(b)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
                         brand === b
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                          ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/20'
+                          : 'bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
                       }`}
                     >
                       {b}
@@ -169,16 +173,16 @@ export default function Katalog() {
 
               {/* Condition */}
               <div>
-                <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Kondisi</label>
-                <div className="flex flex-wrap gap-1.5">
+                <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Kondisi</label>
+                <div className="flex flex-wrap gap-2">
                   {CONDITIONS.map((c) => (
                     <button
                       key={c}
                       onClick={() => setCondition(c)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
                         condition === c
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                          ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/20'
+                          : 'bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
                       }`}
                     >
                       {c}
@@ -189,16 +193,16 @@ export default function Katalog() {
 
               {/* Status */}
               <div>
-                <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Status</label>
-                <div className="flex flex-wrap gap-1.5">
+                <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Status</label>
+                <div className="flex flex-wrap gap-2">
                   {STATUSES.map((s) => (
                     <button
                       key={s}
                       onClick={() => setStatus(s)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
                         status === s
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                          ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/20'
+                          : 'bg-white/5 border-white/5 text-slate-500 hover:border-white/10 hover:text-slate-300'
                       }`}
                     >
                       {s}
@@ -209,11 +213,12 @@ export default function Katalog() {
 
               {/* Price Range */}
               <div>
-                <label className="block text-slate-400 text-xs font-medium mb-2 uppercase tracking-wider">Harga</label>
+                <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-4">Harga</label>
                 <select
                   value={priceRange}
                   onChange={(e) => setPriceRange(Number(e.target.value))}
-                  className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 text-sm focus:outline-none focus:border-blue-500"
+                  className="w-full px-5 py-3 rounded-2xl bg-white/5 border border-white/10 text-slate-300 text-sm font-bold focus:outline-none focus:border-brand-orange/50 appearance-none"
+                  style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2364748b\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\' /%3E%3C/svg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.2em' }}
                 >
                   {PRICE_RANGES.map((r, i) => (
                     <option key={i} value={i}>
@@ -225,10 +230,10 @@ export default function Katalog() {
             </div>
 
             {hasActiveFilters && (
-              <div className="mt-4 pt-4 border-t border-slate-800 flex justify-end">
+              <div className="mt-8 pt-8 border-t border-white/5 flex justify-end">
                 <button
                   onClick={resetFilters}
-                  className="flex items-center gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+                  className="flex items-center gap-3 text-slate-500 hover:text-brand-orange text-xs font-black uppercase tracking-widest transition-all"
                 >
                   <X className="w-4 h-4" />
                   Reset Filter
@@ -239,28 +244,45 @@ export default function Katalog() {
         )}
 
         {/* Results */}
-        {filtered.length > 0 ? (
-          <>
-            <p className="text-slate-500 text-sm mb-4">{filtered.length} produk ditemukan</p>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-              {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+        <div className="reveal">
+          {loading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+              {Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)}
             </div>
-          </>
-        ) : (
-          <div className="text-center py-20">
-            <Smartphone className="w-14 h-14 text-slate-700 mx-auto mb-4" />
-            <h3 className="text-slate-400 font-semibold mb-2">Tidak ada produk ditemukan</h3>
-            <p className="text-slate-500 text-sm mb-6">Coba ubah filter atau kata kunci pencarianmu.</p>
-            <button
-              onClick={resetFilters}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-500 transition-colors"
-            >
-              Reset Filter
-            </button>
-          </div>
-        )}
+          ) : filtered.length > 0 ? (
+            <>
+              <div className="flex items-center justify-between mb-8">
+                <p className="text-slate-500 text-xs font-black uppercase tracking-widest">
+                  <span className="text-white">{filtered.length}</span> Unit Ditemukan
+                </p>
+                {hasActiveFilters && (
+                   <span className="text-[10px] font-bold text-brand-orange bg-brand-orange/10 px-3 py-1 rounded-full border border-brand-orange/20 animate-pulse">
+                    Filter Aktif
+                  </span>
+                )}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8">
+                {filtered.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-32 bg-brand-navy-dark rounded-[3rem] border-2 border-dashed border-white/5">
+              <div className="w-24 h-24 rounded-[2rem] bg-white/5 flex items-center justify-center mx-auto mb-8">
+                <Smartphone className="w-12 h-12 text-slate-700" />
+              </div>
+              <h3 className="text-white text-2xl font-black mb-4 tracking-tight">Unit Tidak Ditemukan</h3>
+              <p className="text-slate-500 text-lg mb-10 max-w-md mx-auto">Sepertinya unit yang kamu cari belum ada di stok kami saat ini.</p>
+              <button
+                onClick={resetFilters}
+                className="px-10 py-4 rounded-[2rem] bg-brand-orange text-white font-black uppercase tracking-widest text-sm hover:bg-orange-500 transition-all shadow-2xl shadow-brand-orange/20"
+              >
+                Reset Semua Filter
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

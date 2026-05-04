@@ -1,5 +1,5 @@
 "use client";
-import { Star, Quote, Instagram, MessageCircle } from 'lucide-react';
+import { Star, Quote, Instagram, MessageCircle, CheckCircle } from 'lucide-react';
 
 const testimonials = [
   {
@@ -33,22 +33,23 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-slate-950 overflow-hidden relative">
-      {/* Decorative Blur */}
-      <div className="absolute top-1/2 -left-20 w-80 h-80 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-1/2 -right-20 w-80 h-80 bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
+    <section className="py-24 bg-[#020617] overflow-hidden relative">
+      {/* Premium Glows */}
+      <div className="absolute top-0 left-0 w-[600px] h-[600px] glow-navy opacity-10 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] glow-orange opacity-5 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <span className="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-4 uppercase tracking-widest">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-20 tilt-3d">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-6">
+            <MessageCircle className="w-4 h-4" />
             Customer Stories
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white mb-4">
+          </div>
+          <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter">
             Kepercayaan yang <br />
             <span className="text-gradient">Terus Bertumbuh</span>
           </h2>
-          <p className="text-slate-400 max-w-xl mx-auto">
-            Kepuasan pelanggan adalah standar tertinggi kami. Berikut adalah pengalaman mereka bersama COREPAWAS.
+          <p className="text-slate-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
+            Kepuasan pelanggan adalah standar tertinggi kami. Berikut adalah pengalaman tulus mereka bersama <span className="text-white font-black">COREPAWAS</span>.
           </p>
         </div>
 
@@ -56,58 +57,74 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <div 
               key={i}
-              className="group relative p-8 rounded-3xl bg-slate-900 border border-slate-800 hover:border-blue-500/30 transition-all duration-500 hover:-translate-y-2"
+              className="group relative p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 hover:border-brand-orange/30 transition-all duration-700 hover:-translate-y-3 shadow-2xl flex flex-col tilt-3d"
             >
-              <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote className="w-12 h-12 text-blue-400" />
+              <div className="absolute top-8 right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Quote className="w-16 h-16 text-brand-orange" />
               </div>
 
-              <div className="flex gap-1 mb-6">
+              <div className="flex gap-1.5 mb-8">
                 {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />
+                  <Star key={i} className="w-5 h-5 fill-brand-orange text-brand-orange shadow-lg shadow-brand-orange/20" />
                 ))}
               </div>
 
-              <p className="text-slate-300 mb-8 italic leading-relaxed relative z-10">
+              <p className="text-slate-300 text-lg mb-10 italic leading-relaxed relative z-10 font-medium">
                 "{t.content}"
               </p>
 
-              <div className="flex items-center gap-4 border-t border-slate-800 pt-6">
-                <img 
-                  src={t.avatar} 
-                  alt={t.name} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-blue-500/20"
-                />
+              <div className="mt-auto flex items-center gap-5 border-t border-white/5 pt-8">
+                <div className="relative">
+                   <img 
+                    src={t.avatar} 
+                    alt={t.name} 
+                    className="w-14 h-14 rounded-2xl object-cover border-2 border-brand-orange/20 shadow-xl"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-brand-orange flex items-center justify-center border-2 border-brand-navy-dark">
+                    <CheckCircle className="w-3 h-3 text-white" />
+                  </div>
+                </div>
                 <div className="flex-1">
-                  <h4 className="text-white font-bold text-sm leading-tight">{t.name}</h4>
-                  <p className="text-slate-500 text-xs mt-0.5">{t.role}</p>
+                  <h4 className="text-white font-black text-base tracking-tight">{t.name}</h4>
+                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">{t.role}</p>
                 </div>
-                <div className="text-right">
-                  <div className="text-[10px] font-black text-blue-400 uppercase">{t.unit}</div>
-                  <a 
-                    href={`https://instagram.com/${t.social.replace('@', '')}`}
-                    target="_blank"
-                    className="text-[10px] text-slate-500 hover:text-white flex items-center gap-1 mt-1 transition-colors"
-                  >
-                    <Instagram className="w-3 h-3" />
-                    {t.social}
-                  </a>
+              </div>
+              
+              <div className="mt-6 flex items-center justify-between">
+                <div className="px-3 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20 text-[10px] font-black text-brand-orange uppercase tracking-[0.2em]">
+                  {t.unit}
                 </div>
+                <a 
+                  href={`https://instagram.com/${t.social.replace('@', '')}`}
+                  target="_blank"
+                  className="text-[10px] text-slate-500 font-bold hover:text-white flex items-center gap-2 transition-all uppercase tracking-widest"
+                >
+                  <Instagram className="w-4 h-4 text-pink-500" />
+                  {t.social}
+                </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Closing CTA */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-3 p-2 pr-6 rounded-full bg-slate-900 border border-slate-800">
-            <div className="flex -space-x-2">
-              {[1, 2, 3, 4].map(i => (
-                <div key={i} className={`w-8 h-8 rounded-full border-2 border-slate-900 bg-slate-700 animate-pulse`} style={{ animationDelay: `${i*200}ms` }} />
+        {/* Closing Community Badge (Habitline Style) */}
+        <div className="mt-20 text-center animate-fade-in-up">
+          <div className="inline-flex items-center gap-4 px-8 py-4 rounded-3xl bg-brand-navy-dark border border-white/5 shadow-2xl">
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4, 5].map(i => (
+                <div 
+                  key={i} 
+                  className={`w-10 h-10 rounded-full border-2 border-brand-navy-dark bg-slate-800 flex items-center justify-center overflow-hidden shadow-xl`}
+                >
+                  <img src={`https://i.pravatar.cc/100?u=${i}`} alt="user" className="w-full h-full object-cover opacity-80" />
+                </div>
               ))}
+              <div className="w-10 h-10 rounded-full border-2 border-brand-navy-dark bg-brand-orange flex items-center justify-center text-white text-[10px] font-black shadow-xl">
+                +150
+              </div>
             </div>
-            <p className="text-slate-400 text-sm">
-              <span className="text-white font-bold">150+</span> Orang telah bergabung di komunitas kami
+            <p className="text-slate-400 text-sm font-medium">
+              Join <span className="text-white font-black">150+ Happy Users</span> in Jogja Community
             </p>
           </div>
         </div>
