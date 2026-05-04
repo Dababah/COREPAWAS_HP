@@ -101,7 +101,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
               {product.name}
             </h3>
             <div className="flex items-center gap-2 mt-2">
-               <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{product.category}</span>
+               <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{product.brand}</span>
                <span className="w-1 h-1 rounded-full bg-slate-700" />
                <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{product.storage}</span>
             </div>
