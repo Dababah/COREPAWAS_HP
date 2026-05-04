@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`dark ${outfit.variable}`}>
+    <html lang="id" className={`${outfit.variable}`}>
       <head>
         {/* Anti-flash white background script */}
         <script
@@ -73,7 +73,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${outfit.className} min-h-[100dvh] bg-[#020617] text-white antialiased noise-bg selection:bg-brand-orange/30 selection:text-white`}>
+      <body className={`${outfit.className} min-h-[100dvh] antialiased noise-bg selection:bg-brand-orange/30 selection:text-white`}>
         <script
           dangerouslySetInnerHTML={{
             __html: `
