@@ -2,13 +2,13 @@
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
 /* 
-  Apple Light Mode Theme
+  Monochrome Professional Theme (Black & White)
 */
 @theme {
-  --color-brand-navy: #0071e3; /* Mapped to Apple Blue */
-  --color-brand-orange: #1d1d1f; /* Mapped to Dark Gray */
-  --color-brand-navy-dark: #ffffff; /* Mapped to White Card */
-  --color-brand-orange-light: #86868b; /* Mapped to Light Gray */
+  --color-brand-navy: #000000; /* Primary: Pure Black */
+  --color-brand-orange: #333333; /* Secondary: Dark Gray */
+  --color-brand-navy-dark: #ffffff; /* Card: White */
+  --color-brand-orange-light: #666666; /* Muted: Medium Gray */
 
   --color-primary: var(--color-brand-navy);
   --color-primary-foreground: #ffffff;
@@ -17,23 +17,23 @@
   --color-accent: var(--color-brand-orange-light);
   --color-accent-foreground: #ffffff;
   
-  --color-background: #f5f5f7;
-  --color-foreground: #1d1d1f;
+  --color-background: #ffffff; /* Pure White */
+  --color-foreground: #111111; /* Off-Black Text */
   
   --color-card: #ffffff;
-  --color-card-foreground: #1d1d1f;
+  --color-card-foreground: #111111;
   --color-popover: #ffffff;
-  --color-popover-foreground: #1d1d1f;
+  --color-popover-foreground: #111111;
   
-  --color-muted: #f5f5f7;
-  --color-muted-foreground: #86868b;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #888888;
   
-  --color-destructive: #ff3b30;
+  --color-destructive: #000000;
   --color-destructive-foreground: #ffffff;
   
-  --color-border: #d2d2d7;
+  --color-border: #eaeaea;
   --color-input: #ffffff;
-  --color-ring: #0071e3;
+  --color-ring: #000000;
   
   --radius-lg: 1rem;
   --radius-md: calc(1rem - 2px);
@@ -44,17 +44,17 @@
 }
 
 :root {
-  --brand-navy: #0071e3;
-  --brand-orange: #1d1d1f;
+  --brand-navy: #000000;
+  --brand-orange: #333333;
   --brand-navy-dark: #ffffff;
-  --brand-orange-light: #86868b;
+  --brand-orange-light: #666666;
   
   --primary: var(--brand-navy);
   --secondary: var(--brand-orange);
   --accent: var(--brand-orange-light);
   
-  --background: #f5f5f7;
-  --foreground: #1d1d1f;
+  --background: #ffffff;
+  --foreground: #111111;
   
   --font-sans: "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", sans-serif;
 }
@@ -113,7 +113,7 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(135deg, #0071e3 0%, #1d1d1f 100%);
+    background-image: linear-gradient(135deg, #444444 0%, #000000 100%);
   }
 
   .bento-grid {
@@ -123,12 +123,12 @@
   }
 
   .bento-card {
-    @apply rounded-[2.5rem] bg-white border border-black/5 overflow-hidden transition-all duration-700 shadow-xl;
+    @apply rounded-[2.5rem] bg-white border border-[#eaeaea] overflow-hidden transition-all duration-700 shadow-xl;
   }
 
   .bento-card:hover {
-    @apply border-black/10 -translate-y-2;
-    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+    @apply border-[#cccccc] -translate-y-2;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
   }
 
   .tilt-3d {
@@ -165,13 +165,13 @@
 }
 
 .glow-navy {
-  background: radial-gradient(circle, #0071e3 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 70%);
   filter: blur(80px);
   animation: glow-pulse 8s infinite;
 }
 
 .glow-orange {
-  background: radial-gradient(circle, #86868b 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%);
   filter: blur(80px);
   animation: glow-pulse 10s infinite;
 }
@@ -211,9 +211,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c7c7cc;
+  background: #dddddd;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8e8e93;
+  background: #bbbbbb;
 }
