@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${outfit.variable}`}>
+    <html lang="id" className={`dark ${outfit.variable}`}>
       <head>
         {/* Anti-flash white background script */}
         <script
