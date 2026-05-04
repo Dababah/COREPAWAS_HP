@@ -24,102 +24,116 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
 
   return (
     <div 
-      className={`group relative flex flex-col bg-slate-900 border border-white/5 rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-500 ${
-        isSold ? 'opacity-70' : 'hover:border-blue-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10'
+      className={`group relative flex flex-col bento-card tilt-3d h-full ${
+        isSold ? 'opacity-60 grayscale' : ''
       }`}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-slate-800">
+      <div className="relative aspect-[4/5] overflow-hidden bg-brand-navy-dark">
         <Link href={`/katalog/${product.id}`} className="block w-full h-full">
           <img
             src={product.image}
             alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-700 ${!isSold && 'group-hover:scale-110'} ${isSold && 'grayscale'}`}
+            className={`w-full h-full object-cover transition-transform duration-700 ${!isSold && 'group-hover:scale-110'}`}
           />
         </Link>
         
+        {/* Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark/80 via-transparent to-transparent pointer-events-none" />
+
         {/* Badges Overlay */}
-        <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex flex-col gap-1 sm:gap-2 z-10">
-          <span className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-black uppercase tracking-widest backdrop-blur-md border ${
+        <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+          <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg border ${
             isSold 
               ? 'bg-red-500/20 border-red-500/50 text-red-400' 
-              : 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+              : 'bg-emerald-500 text-white border-emerald-400'
           }`}>
-            {isSold ? 'Sold' : 'Ready'}
+            {isSold ? 'Sold Out' : 'Ready Stock'}
           </span>
+          {showFeaturedBadge && product.isFeatured && !isSold && (
+            <span className="px-4 py-1.5 rounded-full bg-brand-orange text-white text-[10px] font-black uppercase tracking-widest shadow-xl shadow-brand-orange/40 border border-brand-orange/50">
+              ⭐ Pilihan Utama
+            </span>
+          )}
         </div>
 
-        {/* Compare Toggle (Top Right) */}
+        {/* Compare Toggle */}
         {!isSold && (
           <button 
             onClick={(e) => {
               e.preventDefault();
               toggleCompare(product.id);
             }}
-            className={`absolute top-2 right-2 sm:top-4 sm:right-4 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center transition-all backdrop-blur-md border ${
+            className={`absolute top-4 right-4 z-20 w-10 h-10 rounded-2xl flex items-center justify-center transition-all backdrop-blur-xl border ${
               isCompared 
-                ? 'bg-blue-600 border-blue-400 text-white shadow-lg' 
-                : 'bg-slate-900/60 border-white/10 text-slate-400 hover:text-white'
+                ? 'bg-brand-orange border-brand-orange text-white shadow-xl shadow-brand-orange/40' 
+                : 'bg-white/10 border-white/20 text-white/60 hover:text-white hover:bg-white/20'
             }`}
           >
-            <SlidersHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
+            <SlidersHorizontal className="w-5 h-5" />
           </button>
         )}
 
-        {/* Quality Badge Bottom Overlay (Hidden on very small mobile if desired, but let's keep it refined) */}
+        {/* Condition Info Bottom Overlay */}
         {!isSold && (
-          <div className="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 translate-y-16 sm:translate-y-20 group-hover:translate-y-0 transition-transform duration-500 z-10">
-            <div className="bg-slate-950/90 backdrop-blur-md border border-white/10 rounded-xl sm:rounded-2xl p-2 sm:p-4 flex items-center justify-between shadow-2xl">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-blue-400" />
-                <span className="text-[7px] sm:text-[10px] font-black text-white uppercase tracking-wider">Amanah</span>
+          <div className="absolute bottom-4 left-4 right-4 translate-y-20 group-hover:translate-y-0 transition-transform duration-500 z-10">
+            <div className="glass-premium rounded-2xl p-4 flex items-center justify-between shadow-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-brand-orange" />
+                </div>
+                <div>
+                  <div className="text-white font-black text-xs uppercase tracking-wider">Deep Inspection</div>
+                  <div className="text-slate-400 text-[10px]">100% Amanah</div>
+                </div>
               </div>
-              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400" />
+              <ArrowRight className="w-5 h-5 text-slate-400" />
             </div>
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-6 flex flex-col flex-1">
-        <Link href={`/katalog/${product.id}`} className="block flex-1 group/title">
-          <div className="flex justify-between items-start mb-1 sm:mb-2">
-            <h3 className="text-sm sm:text-lg font-black text-white group-hover/title:text-blue-400 transition-colors line-clamp-1">
+      <div className="p-6 flex flex-col flex-1">
+        <Link href={`/katalog/${product.id}`} className="block flex-1">
+          <div className="mb-4">
+            <h3 className="text-xl font-black text-white group-hover:text-brand-orange transition-colors line-clamp-1 tracking-tighter">
               {product.name}
             </h3>
+            <div className="flex items-center gap-2 mt-2">
+               <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{product.category}</span>
+               <span className="w-1 h-1 rounded-full bg-slate-700" />
+               <span className="text-xs font-black text-slate-500 uppercase tracking-widest">{product.storage}</span>
+            </div>
           </div>
           
-          <div className="flex items-center gap-1.5 mb-2 sm:mb-4">
-             <div className="px-1.5 py-0.5 rounded-md bg-slate-800 text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider border border-white/5">
-                {product.condition}
+          <div className="flex items-center gap-2 mb-6">
+             <div className="px-2 py-1 rounded-lg bg-brand-navy border border-white/5 text-[10px] font-black text-slate-300 uppercase tracking-wider">
+                Cond {product.condition}/10
              </div>
-             <div className="px-1.5 py-0.5 rounded-md bg-blue-500/10 text-[8px] sm:text-[10px] font-bold text-blue-400 uppercase tracking-wider border border-blue-500/20">
+             <div className="px-2 py-1 rounded-lg bg-brand-orange/10 border border-brand-orange/20 text-[10px] font-black text-brand-orange uppercase tracking-wider">
                 {product.batteryHealth}% BH
              </div>
           </div>
-
-          <p className="hidden sm:block text-slate-400 text-xs line-clamp-2 mb-6 h-8 leading-relaxed">
-            {product.description}
-          </p>
         </Link>
 
-        <div className="mt-auto flex items-center justify-between gap-2">
+        <div className="mt-auto flex items-center justify-between gap-4">
           <div className="min-w-0">
-            <div className="text-slate-500 text-[7px] sm:text-[10px] uppercase font-bold tracking-widest mb-0.5">Harga Nett</div>
-            <div className="text-sm sm:text-xl font-black text-white truncate">{formatPrice(product.price)}</div>
+            <div className="text-slate-500 text-[10px] uppercase font-black tracking-[0.2em] mb-1">Harga Nett</div>
+            <div className="text-2xl font-black text-white truncate tracking-tighter">{formatPrice(product.price)}</div>
           </div>
           
           <a
             href={`https://wa.me/${waNumber}?text=${waMessage}`}
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all flex-shrink-0 ${
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all flex-shrink-0 ${
               isSold 
                 ? 'bg-slate-800 text-slate-600 pointer-events-none' 
-                : 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 hover:scale-110 hover:rotate-6'
+                : 'bg-brand-orange text-white shadow-xl shadow-brand-orange/30 hover:scale-110 hover:-rotate-6 active:scale-90'
             }`}
           >
-            {isSold ? <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" /> : <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />}
+            {isSold ? <ArrowRight className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
           </a>
         </div>
       </div>

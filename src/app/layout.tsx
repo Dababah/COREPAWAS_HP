@@ -39,7 +39,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#020617', // slate-950
+  themeColor: '#0B355E', // brand-navy
 };
 
 import { Outfit } from 'next/font/google';

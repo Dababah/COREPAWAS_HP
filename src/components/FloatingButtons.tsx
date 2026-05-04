@@ -18,17 +18,17 @@ export default function FloatingButtons() {
   const { waNumber } = useData();
 
   return (
-    <div className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom,1.5rem)+5rem)] md:bottom-8 z-[100] flex flex-col gap-4 animate-fade-in-up">
+    <div className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom,1.5rem)+5.5rem)] lg:bottom-10 z-[100] flex flex-col gap-5 animate-fade-in-up">
       {/* TikTok */}
       <a
         href="https://tiktok.com/@corepawas"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="TikTok COREPAWAS"
-        className="group relative w-12 h-12 rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-white hover:bg-slate-800 hover:scale-110 transition-all duration-300 shadow-2xl"
+        className="group relative w-12 h-12 rounded-2xl bg-slate-900 border border-white/10 flex items-center justify-center text-white hover:bg-slate-800 hover:scale-110 transition-all duration-500 shadow-2xl"
       >
         <TiktokIcon />
-        <span className="absolute right-full mr-3 px-2 py-1 rounded bg-slate-900 border border-white/10 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
           TikTok
         </span>
       </a>
@@ -39,10 +39,10 @@ export default function FloatingButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram COREPAWAS"
-        className="group relative w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-300 shadow-2xl shadow-purple-500/20"
+        className="group relative w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-500 shadow-2xl shadow-purple-500/20"
       >
         <InstagramIcon />
-        <span className="absolute right-full mr-3 px-2 py-1 rounded bg-slate-900 border border-white/10 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
           Instagram
         </span>
       </a>
@@ -53,11 +53,11 @@ export default function FloatingButtons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp COREPAWAS"
-        className="group relative w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-400 hover:scale-110 transition-all duration-300 shadow-2xl shadow-green-500/40"
+        className="group relative w-14 h-14 rounded-[1.25rem] bg-brand-orange flex items-center justify-center text-white hover:bg-orange-500 hover:scale-110 transition-all duration-500 shadow-2xl shadow-brand-orange/40"
       >
-        <WhatsAppIcon className="w-7 h-7" />
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-20" />
-        <span className="absolute right-full mr-3 px-3 py-1.5 rounded-lg bg-green-500 text-white text-xs font-black opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-xl pointer-events-none">
+        <WhatsAppIcon className="w-8 h-8" />
+        <div className="absolute inset-0 rounded-[1.25rem] bg-brand-orange animate-ping opacity-20" />
+        <span className="absolute right-full mr-4 px-4 py-2 rounded-2xl bg-brand-orange text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap shadow-2xl shadow-brand-orange/40 pointer-events-none">
           Chat Sekarang
         </span>
       </a>

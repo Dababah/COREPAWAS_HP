@@ -23,31 +23,33 @@ export default function Footer() {
       : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
   return (
-    <footer className="bg-slate-900 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+    <footer className="bg-[#020617] border-t border-white/5 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 glow-orange opacity-5 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 glow-navy opacity-10 pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-6 py-12 sm:py-20 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
-                <Cpu className="w-5 h-5 text-white" />
+            <Link href="/" className="flex items-center gap-3 mb-6 group">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-navy to-brand-orange flex items-center justify-center shadow-xl shadow-brand-navy/20 group-hover:rotate-6 transition-transform">
+                <Cpu className="w-6 h-6 text-white" />
               </div>
               <div>
-                <span className="block text-white font-black tracking-tight text-lg">CORE PAWAS JOGJA</span>
-                <span className="block text-cyan-400 text-[10px] tracking-widest uppercase">Teman Setia Cari Gadget Kamu</span>
+                <span className="block text-white font-black tracking-tighter text-2xl uppercase">CORE PAWAS</span>
+                <span className="block text-orange-400 text-[10px] tracking-[0.3em] uppercase font-black">Teman Setia Gadget Kamu</span>
               </div>
             </Link>
-            <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-sm">
-              Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong>Kejujuran & Transparansi</strong> 
+            <p className="text-slate-400 text-base leading-relaxed mb-8 max-w-sm font-medium">
+              Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong className="text-white font-black">Kejujuran & Transparansi</strong> 
               kondisi unit apa adanya agar kamu bisa beli dengan tenang.
             </p>
-
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-white font-bold mb-4">Navigasi</h4>
-            <ul className="space-y-2.5">
+            <h4 className="text-white font-black uppercase tracking-widest text-sm mb-6">Navigasi</h4>
+            <ul className="space-y-4">
               {[
                 { label: 'Beranda', href: '/' },
                 { label: 'Katalog HP', href: '/katalog' },
@@ -56,8 +58,9 @@ export default function Footer() {
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}
-                    className="text-slate-400 hover:text-white text-sm transition-colors"
+                    className="text-slate-500 hover:text-brand-orange text-sm font-bold transition-all flex items-center gap-2 group"
                   >
+                    <div className="w-1 h-1 rounded-full bg-slate-800 group-hover:bg-brand-orange transition-colors" />
                     {link.label}
                   </Link>
                 </li>
@@ -67,16 +70,18 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-bold mb-4">Kontak</h4>
-            <ul className="space-y-3">
+            <h4 className="text-white font-black uppercase tracking-widest text-sm mb-6">Kontak</h4>
+            <ul className="space-y-4">
               <li>
                 <a
                   href={`https://wa.me/${waNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+                  className="flex items-center gap-3 text-slate-500 hover:text-white text-sm font-bold transition-colors group"
                 >
-                  <WhatsAppIcon className="w-4 h-4 mt-0.5 flex-shrink-0 text-green-500" />
+                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-green-500/20 transition-all">
+                    <WhatsAppIcon className="w-4 h-4 text-green-500" />
+                  </div>
                   +{waNumber}
                 </a>
               </li>
@@ -85,31 +90,33 @@ export default function Footer() {
                   href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+                  className="flex items-center gap-3 text-slate-500 hover:text-white text-sm font-bold transition-colors group"
                 >
-                  <Instagram className="w-4 h-4 mt-0.5 flex-shrink-0 text-pink-500" />
+                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-pink-500/20 transition-all">
+                    <Instagram className="w-4 h-4 text-pink-500" />
+                  </div>
                   @corepawas.gadget
                 </a>
               </li>
-
               <li>
                 <a
                   href={googleMapsUrl || `https://maps.google.com/?q=${mapsQuery}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-slate-400 hover:text-white text-sm transition-colors"
+                  className="flex items-center gap-3 text-slate-500 hover:text-white text-sm font-bold transition-colors group"
                 >
-                  <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-red-400" />
-                  {storeAddress}
-
+                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-red-500/20 transition-all">
+                    <MapPin className="w-4 h-4 text-red-500" />
+                  </div>
+                  <span className="line-clamp-1">{storeAddress}</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Google Maps Embed */}
-        <div className="rounded-xl overflow-hidden border border-slate-800 mb-8 h-48 sm:h-40">
+        {/* Google Maps Embed (Bento Style) */}
+        <div className="rounded-[2.5rem] overflow-hidden border border-white/5 mb-12 h-56 sm:h-64 shadow-2xl relative group">
           <iframe
             title="Lokasi COREPAWAS"
             width="100%"
@@ -118,18 +125,24 @@ export default function Footer() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src={mapSrc}
-            className="grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+            className="grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
           />
+          <div className="absolute inset-0 pointer-events-none border border-white/5 rounded-[2.5rem]" />
         </div>
 
         {/* Bottom */}
-        <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-500 text-xs">
+        <div className="pt-10 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <p className="text-slate-500 text-xs font-bold tracking-widest uppercase">
             © {new Date().getFullYear()} COREPAWAS. All rights reserved.
           </p>
-          <p className="text-slate-600 text-xs">
-            TERPACAYA 100%
-          </p>
+          <div className="flex items-center gap-4">
+             <span className="px-4 py-1 rounded-full bg-brand-orange/10 text-brand-orange text-[10px] font-black tracking-[0.2em] uppercase">
+                Terpercaya 100%
+             </span>
+             <span className="px-4 py-1 rounded-full bg-brand-navy/10 text-brand-navy text-[10px] font-black tracking-[0.2em] uppercase">
+                Jogja Based
+             </span>
+          </div>
         </div>
       </div>
     </footer>
