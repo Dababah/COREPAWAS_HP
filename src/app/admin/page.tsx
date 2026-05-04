@@ -126,14 +126,14 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-navy to-brand-orange text-white font-black text-lg hover:opacity-90 transition-all shadow-xl shadow-brand-orange/20 disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Masuk ke Dashboard'}
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <Link href="/" className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
+        <div className="mt-8 text-center">
+          <Link href="/" className="text-orange-400 hover:text-white text-sm font-bold transition-colors">
             ← Kembali ke Website
           </Link>
         </div>
