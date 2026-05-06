@@ -12,8 +12,7 @@ import {
   RefreshCw,
   Zap,
   HelpCircle,
-  ChevronRight,
-  Tools
+  ChevronRight
 } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
