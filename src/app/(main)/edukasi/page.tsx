@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
-import { Search, BookOpen, Clock, ChevronRight, ReadingBeam, Sparkles } from 'lucide-react';
+import { Search, BookOpen, Clock, ChevronRight } from 'lucide-react';
 import { useData } from '@/context/DataContext';
 
 const categories = ['Semua', 'Tips & Tricks', 'Edukasi Teknis', 'Panduan'];
