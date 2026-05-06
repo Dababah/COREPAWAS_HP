@@ -1,4 +1,5 @@
 "use client";
+import { useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter as useNavigate } from 'next/navigation';
 import {
@@ -41,6 +42,8 @@ export default function ProductDetail() {
   const product = products.find((p) => p.id === id);
   const relatedProducts = products.filter((p) => p.id !== id && p.brand === product?.brand).slice(0, 3);
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   if (!product) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
@@ -55,6 +58,8 @@ export default function ProductDetail() {
       </div>
     );
   }
+
+  const productImages = product.images || [product.image];
 
   const waMessage = encodeURIComponent(
     `Halo COREPAWAS! Saya tertarik dengan *${product.name}* (ID: #${product.id}) seharga ${formatPrice(product.price)}.\n\nBoleh minta info lebih lanjut?`
@@ -118,11 +123,11 @@ export default function ProductDetail() {
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-10">
           {/* Left: Image */}
           <div className="space-y-4">
-            <div className="relative rounded-2xl overflow-hidden bg-slate-900 border border-slate-800">
+            <div className="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 aspect-[4/5] sm:aspect-square">
               <img
-                src={product.image}
+                src={productImages[currentImageIndex]}
                 alt={product.name}
-                className={`w-full h-64 sm:h-96 object-cover ${isSold ? 'grayscale opacity-70' : ''}`}
+                className={`w-full h-full object-cover transition-all duration-700 ${isSold ? 'grayscale opacity-70' : ''}`}
               />
               {isSold && (
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-950/50">
@@ -137,6 +142,23 @@ export default function ProductDetail() {
                 </span>
               </div>
             </div>
+
+            {/* Thumbnails */}
+            {productImages.length > 1 && (
+              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                {productImages.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
+                      idx === currentImageIndex ? 'border-brand-orange scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Antutu Score Card */}
             {product.antutuScore && (

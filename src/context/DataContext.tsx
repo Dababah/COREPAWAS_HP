@@ -68,6 +68,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
             isRooted: p.is_rooted,
             warrantyStatus: p.warranty_status,
             isFeatured: p.is_featured,
+            images: p.images || [],
             createdAt: p.created_at
           }));
           setProductsState(mappedProducts);
@@ -136,6 +137,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
               isRooted: p.is_rooted,
               warrantyStatus: p.warranty_status,
               isFeatured: p.is_featured,
+              images: p.images || [],
               createdAt: p.created_at
             }));
             setProductsState(mapped);
@@ -214,6 +216,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         warranty_status: p.warrantyStatus,
         accessories: p.accessories,
         is_featured: p.isFeatured,
+        images: p.images || [],
         created_at: p.createdAt
       }));
       await supabase.from('products').upsert(mapped);

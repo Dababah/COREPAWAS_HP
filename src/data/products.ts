@@ -11,6 +11,7 @@ export interface Product {
   chipset: string;
   color: string;
   image: string;
+  images: string[];
   status: 'Ready' | 'Sold';
   antutuScore?: number;
   description: string;
@@ -36,6 +37,11 @@ export const defaultProducts: Product[] = [
     chipset: 'Apple A15 Bionic',
     color: 'Midnight',
     image: 'https://images.unsplash.com/photo-1760074016472-029d6b082429?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1760074016472-029d6b082429?w=500&q=80',
+      'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=500&q=80',
+      'https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=500&q=80'
+    ],
     status: 'Ready',
     antutuScore: 789000,
     description:
@@ -60,6 +66,11 @@ export const defaultProducts: Product[] = [
     chipset: 'Exynos 1380',
     color: 'Awesome Violet',
     image: 'https://images.unsplash.com/photo-1633686457670-2d80f3ce696b?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1633686457670-2d80f3ce696b?w=500&q=80',
+      'https://images.unsplash.com/photo-1610945415295-d9baf06020a1?w=500&q=80',
+      'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&q=80'
+    ],
     status: 'Ready',
     antutuScore: 492000,
     description:
@@ -83,6 +94,10 @@ export const defaultProducts: Product[] = [
     chipset: 'MediaTek Helio G99',
     color: 'Polar White',
     image: 'https://images.unsplash.com/photo-1728897061866-9933536214a9?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1728897061866-9933536214a9?w=500&q=80',
+      'https://images.unsplash.com/photo-1664447972886-0498b5849880?w=500&q=80'
+    ],
     status: 'Sold',
     antutuScore: 451000,
     description:
@@ -107,6 +122,10 @@ export const defaultProducts: Product[] = [
     chipset: 'Apple A14 Bionic',
     color: 'Product Red',
     image: 'https://images.unsplash.com/photo-1588515603140-81bd9f7d1db0?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1588515603140-81bd9f7d1db0?w=500&q=80',
+      'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=500&q=80'
+    ],
     status: 'Ready',
     antutuScore: 672000,
     description:
@@ -130,6 +149,10 @@ export const defaultProducts: Product[] = [
     chipset: 'Snapdragon 888',
     color: 'Graphite',
     image: 'https://images.unsplash.com/photo-1587749090881-1ea18126ab3a?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1587749090881-1ea18126ab3a?w=500&q=80',
+      'https://images.unsplash.com/photo-1610945264801-687430fef684?w=500&q=80'
+    ],
     status: 'Ready',
     antutuScore: 821000,
     description:
@@ -153,6 +176,10 @@ export const defaultProducts: Product[] = [
     chipset: 'MediaTek Dimensity 1300',
     color: 'Shimmer Gold',
     image: 'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=500&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=500&q=80',
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80'
+    ],
     status: 'Sold',
     antutuScore: 561000,
     description:
@@ -165,3 +192,4 @@ export const defaultProducts: Product[] = [
     createdAt: '2025-03-15',
   },
 ];
+

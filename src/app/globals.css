@@ -1,39 +1,39 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
 /* 
-  Monochrome Professional Theme (Dark Edition - Black & White)
+  Corepawas Premium Theme (Navy Blue + Orange)
 */
 @theme {
-  --color-brand-navy: #ffffff; /* Primary Accent: Pure White */
-  --color-brand-orange: #a1a1aa; /* Secondary: Light Gray */
-  --color-brand-navy-dark: #09090b; /* Card Background: Almost Black */
-  --color-brand-orange-light: #52525b; /* Muted: Medium Gray */
+  --color-brand-navy: #002140; 
+  --color-brand-orange: #fa8c16; 
+  --color-brand-navy-dark: #000b18; 
+  --color-brand-orange-light: #ffd591; 
 
   --color-primary: var(--color-brand-navy);
-  --color-primary-foreground: #000000; /* Text on primary button: Black */
+  --color-primary-foreground: #ffffff;
   --color-secondary: var(--color-brand-orange);
-  --color-secondary-foreground: #000000;
-  --color-accent: var(--color-brand-orange-light);
+  --color-secondary-foreground: #ffffff;
+  --color-accent: var(--color-brand-orange);
   --color-accent-foreground: #ffffff;
   
-  --color-background: #000000; /* Deep Black */
-  --color-foreground: #ffffff; /* Pure White */
+  --color-background: #000b18; 
+  --color-foreground: #ffffff; 
   
-  --color-card: #09090b;
+  --color-card: #001529;
   --color-card-foreground: #ffffff;
-  --color-popover: #09090b;
+  --color-popover: #001529;
   --color-popover-foreground: #ffffff;
   
-  --color-muted: #18181b;
-  --color-muted-foreground: #a1a1aa;
+  --color-muted: #002d5b;
+  --color-muted-foreground: #8cb7d9;
   
-  --color-destructive: #ffffff;
-  --color-destructive-foreground: #000000;
+  --color-destructive: #ff4d4f;
+  --color-destructive-foreground: #ffffff;
   
-  --color-border: #27272a;
-  --color-input: #000000;
-  --color-ring: #ffffff;
+  --color-border: #002d5b;
+  --color-input: #001529;
+  --color-ring: #fa8c16;
   
   --radius-lg: 1rem;
   --radius-md: calc(1rem - 2px);
@@ -44,16 +44,16 @@
 }
 
 :root {
-  --brand-navy: #ffffff;
-  --brand-orange: #a1a1aa;
-  --brand-navy-dark: #09090b;
-  --brand-orange-light: #52525b;
+  --brand-navy: #002140;
+  --brand-orange: #fa8c16;
+  --brand-navy-dark: #000b18;
+  --brand-orange-light: #ffd591;
   
   --primary: var(--brand-navy);
   --secondary: var(--brand-orange);
   --accent: var(--brand-orange-light);
   
-  --background: #000000;
+  --background: #000b18;
   --foreground: #ffffff;
   
   --font-sans: "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", sans-serif;

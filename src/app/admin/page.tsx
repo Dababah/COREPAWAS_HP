@@ -155,6 +155,7 @@ const emptyProduct: Omit<Product, 'id' | 'createdAt'> = {
   chipset: '',
   color: '',
   image: '',
+  images: [],
   status: 'Ready',
   antutuScore: undefined,
   description: '',
@@ -186,45 +187,68 @@ function ProductModal({
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Check size (limit to 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      setUploadError('Ukuran file terlalu besar (maks 10MB). Foto galeri HP biasanya berukuran besar.');
-      return;
-    }
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
     try {
       setUploading(true);
       setUploadError('');
 
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `products/${fileName}`;
+      const uploadedUrls: string[] = [];
 
-      const { data, error } = await supabase.storage
-        .from('product-images')
-        .upload(filePath, file);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (file.size > 10 * 1024 * 1024) continue;
 
-      if (error) {
-        if (error.message.includes('row-level security') || error.message.includes('policy')) {
-          throw new Error('Izin ditolak (RLS Violation). Pastikan bucket "product-images" sudah memiliki policy Public.');
-        }
-        throw error;
-      };
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+        const filePath = `products/${fileName}`;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(filePath);
+        const { error } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, file);
 
-      set('image', publicUrl);
+        if (error) throw error;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+        
+        uploadedUrls.push(publicUrl);
+      }
+
+      const newImages = [...(form.images || []), ...uploadedUrls];
+      setForm(prev => ({ 
+        ...prev, 
+        images: newImages,
+        image: prev.image || uploadedUrls[0] || ''
+      }));
     } catch (err: any) {
       console.error('Upload error:', err);
       setUploadError('Gagal upload: ' + (err.message || 'Error tidak diketahui'));
     } finally {
       setUploading(false);
     }
+  }
+
+  function addImageUrl(url: string) {
+    if (!url) return;
+    const newImages = [...(form.images || []), url];
+    setForm(prev => ({ 
+      ...prev, 
+      images: newImages,
+      image: prev.image || url
+    }));
+  }
+
+  function removeImage(index: number) {
+    const newImages = [...(form.images || [])];
+    newImages.splice(index, 1);
+    setForm(prev => ({ 
+      ...prev, 
+      images: newImages,
+      image: prev.image === form.images[index] ? (newImages[0] || '') : prev.image
+    }));
   }
 
   function handleSave() {
@@ -362,52 +386,71 @@ function ProductModal({
               placeholder="No Warranty / Garansi Toko 1bln" />
           </div>
 
-          {/* Image Upload */}
+          {/* Multiple Image Management */}
           <div className="col-span-2">
-            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Foto Produk *</label>
-            <div className="space-y-3">
-              {/* Preview */}
-              {form.image && (
-                <div className="relative w-full h-48 rounded-xl overflow-hidden border border-slate-700 bg-slate-800">
-                  <img src={form.image} alt="Preview" className="w-full h-full object-cover" />
-                  <button 
-                    onClick={() => set('image', '')}
-                    className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-500 text-white shadow-lg hover:bg-red-600 transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-              
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1">
-                  <label className="relative flex flex-col items-center justify-center w-full h-full min-h-[100px] border-2 border-dashed border-slate-700 rounded-xl hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group">
-                    {uploading ? (
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
-                        <span className="text-slate-400 text-xs">Mengupload...</span>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-1 p-4">
-                        <Upload className="w-6 h-6 text-slate-500 group-hover:text-blue-500 transition-colors" />
-                        <span className="text-slate-400 text-xs font-medium">Klik untuk upload foto</span>
-                        <span className="text-slate-600 text-[10px]">PNG, JPG up to 2MB</span>
+            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Galeri Foto Produk *</label>
+            <div className="space-y-4">
+              {/* Preview Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {(form.images || []).map((img, idx) => (
+                  <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-700 bg-slate-800 group">
+                    <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button 
+                        onClick={() => removeImage(idx)}
+                        className="p-1.5 rounded-lg bg-red-500 text-white shadow-lg hover:bg-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    {form.image === img && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-brand-orange text-white text-[8px] font-black uppercase text-center py-0.5">
+                        Main Image
                       </div>
                     )}
-                    <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} className="hidden" />
-                  </label>
-                </div>
+                  </div>
+                ))}
                 
-                <div className="flex-1">
-                  <div className="text-[10px] text-slate-500 mb-1 font-medium uppercase tracking-widest">Atau gunakan URL</div>
-                  <input 
-                    type="text" 
-                    value={form.image} 
-                    onChange={(e) => set('image', e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
-                    placeholder="https://google.com/image.jpg" 
-                  />
-                </div>
+                {/* Upload Placeholder */}
+                <label className={`relative aspect-square flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-xl hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                  {uploading ? (
+                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                  ) : (
+                    <>
+                      <Plus className="w-6 h-6 text-slate-500 group-hover:text-blue-500 transition-colors" />
+                      <span className="text-[10px] text-slate-600 mt-1">Add Photo</span>
+                    </>
+                  )}
+                  <input type="file" accept="image/*" multiple onChange={handleFileUpload} disabled={uploading} className="hidden" />
+                </label>
+              </div>
+              
+              {/* URL Input */}
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  id="img-url-input"
+                  className="flex-1 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:border-blue-500"
+                  placeholder="https://..." 
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addImageUrl((e.target as HTMLInputElement).value);
+                      (e.target as HTMLInputElement).value = '';
+                    }
+                  }}
+                />
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById('img-url-input') as HTMLInputElement;
+                    addImageUrl(el.value);
+                    el.value = '';
+                  }}
+                  className="px-4 py-2 rounded-lg bg-slate-700 text-white text-xs font-bold hover:bg-slate-600 transition-colors"
+                >
+                  Add URL
+                </button>
               </div>
               
               {uploadError && (

@@ -16,9 +16,9 @@ export async function POST(req: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
+    // Explicitly using v1 endpoint
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash-latest",
-      generationConfig: { responseMimeType: "application/json" }
+      model: "gemini-1.5-flash",
     });
 
     let systemInstruction = "";
@@ -61,7 +61,10 @@ export async function POST(req: Request) {
 
     const result = await model.generateContent([systemInstruction, prompt]);
     const response = await result.response;
-    const text = response.text();
+    let text = response.text();
+    
+    // Clean markdown code blocks if present
+    text = text.replace(/```json\n?/, "").replace(/\n?```/, "").trim();
     
     return NextResponse.json(JSON.parse(text));
   } catch (error: any) {
