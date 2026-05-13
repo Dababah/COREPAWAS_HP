@@ -76,12 +76,14 @@ Logo COREPAWAS menggabungkan simbol smartphone miring (15 derajat) dengan inisia
 
 ---
 
-## 7. Imagery Standard
+## 7. Imagery & Experience Standard
 - **Ratio**: Konsisten menggunakan 4:5 untuk katalog produk.
-- **Background**: Menggunakan background berkualitas tinggi dari **Unsplash** (seperti tekstur metalik gelap, arsitektur modern, atau abstrak minimalis) untuk menghindari estetika "AI slop".
-  - *Recommended Sources*: 
-    - [Dark Abstract Textures](https://unsplash.com/s/photos/dark-abstract-texture)
-    - [Minimalist Dark Architecture](https://unsplash.com/s/photos/dark-minimalist-architecture)
+- **Background**: Website menggunakan **Dynamic 3D Mesh Background** sebagai fondasi visual.
+  - *Tech Specs*: Kombinasi CSS Blobs (Navy/Orange), Technical Grid, dan High-Fidelity Textures dari Unsplash.
+  - *Goal*: Menghindari estetika "AI slop" dengan memberikan tekstur realistik dan kedalaman visual yang responsif.
+  - *Recommended Texture Sources*: 
+    - [Dark Abstract Tech](https://unsplash.com/s/photos/dark-abstract-technology)
+    - [Minimalist Dark Gradients](https://unsplash.com/s/photos/dark-minimalist-gradient)
     - [Industrial Tech Backgrounds](https://unsplash.com/s/photos/dark-tech-texture)
   - Background harus mendukung visibilitas detail fisik gadget tanpa distraksi visual yang berlebihan.
 - **Badging**: Badge teknis (BH, Antutu) diletakkan dengan padding yang lega agar tidak menumpuk dengan nama produk.

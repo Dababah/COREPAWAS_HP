@@ -43,6 +43,7 @@ export const viewport: Viewport = {
 };
 
 import { Outfit } from 'next/font/google';
+import Background from '@/components/Background';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -73,7 +74,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${outfit.className} min-h-[100dvh] antialiased noise-bg selection:bg-brand-orange/30 selection:text-white`}>
+      <body className={`${outfit.className} min-h-[100dvh] antialiased selection:bg-brand-orange/30 selection:text-white relative`}>
+        <Background />
+        <script
         <script
           dangerouslySetInnerHTML={{
             __html: `
