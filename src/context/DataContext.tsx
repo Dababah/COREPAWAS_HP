@@ -30,8 +30,8 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | null>(null);
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
-  const [products, setProductsState] = useState<Product[]>(defaultProducts);
-  const [blogPosts, setBlogPostsState] = useState<BlogPost[]>(defaultBlogPosts);
+  const [products, setProductsState] = useState<Product[]>([]);
+  const [blogPosts, setBlogPostsState] = useState<BlogPost[]>([]);
   const [waNumber, setWaNumberState] = useState<string>('6282342309890');
   const [storeAddress, setStoreAddressState] = useState<string>('Jalan Brawijaya No 172, Tegalwangi Rt 04, Geblagan, Tamantirto, Kec. Kasihan, YOGYAKARTA, Daerah Istimewa Yogyakarta 55183, Indonesia');
   const [googleMapsApiKey, setGoogleMapsApiKeyState] = useState<string>('');
@@ -75,7 +75,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem('corepawas_products', JSON.stringify(mappedProducts));
         } else {
           const savedProducts = localStorage.getItem('corepawas_products');
-          if (savedProducts) setProductsState(JSON.parse(savedProducts));
+          if (savedProducts !== null) {
+            setProductsState(JSON.parse(savedProducts));
+          } else {
+            // First time ever, load defaults
+            setProductsState(defaultProducts);
+          }
         }
 
         if (!bError && dbBlog) {
@@ -83,7 +88,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem('corepawas_blog', JSON.stringify(dbBlog));
         } else {
           const savedBlog = localStorage.getItem('corepawas_blog');
-          if (savedBlog) setBlogPostsState(JSON.parse(savedBlog));
+          if (savedBlog !== null) {
+            setBlogPostsState(JSON.parse(savedBlog));
+          } else {
+            setBlogPostsState(defaultBlogPosts);
+          }
         }
 
         if (!sError && dbSettings && dbSettings.length > 0) {
