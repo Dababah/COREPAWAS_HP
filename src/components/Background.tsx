@@ -7,6 +7,12 @@ const Background = () => {
       {/* Dynamic Animated Blobs */}
       <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-brand-navy/40 blur-[120px] animate-blob opacity-60" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-full bg-brand-orange/10 blur-[150px] animate-blob animation-delay-2000 opacity-40" />
+      
+      {/* Central Watermark Logo (Subtle) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.03] pointer-events-none animate-pulse">
+        <img src="/watermark-logo.png" alt="Corepawas Logo" className="w-full h-full object-contain grayscale brightness-200" />
+      </div>
+
       <div className="absolute top-[30%] right-[5%] w-[50vw] h-[50vw] rounded-full bg-brand-navy/20 blur-[100px] animate-blob animation-delay-4000 opacity-50" />
       <div className="absolute bottom-[20%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-brand-orange/5 blur-[80px] animate-blob animation-delay-3000 opacity-30" />
       
