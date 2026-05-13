@@ -21,7 +21,7 @@ import ProductCard from '@/components/ProductCard';
 import ProductSkeleton from '@/components/ProductSkeleton';
 import Testimonials from '@/components/Testimonials';
 
-const HERO_BG = 'https://images.unsplash.com/photo-1697545806245-9795b6056141?w=1400&q=80';
+const HERO_BG = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop';
 
 const uspItems = [
   {
@@ -150,7 +150,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-brand-orange/20 blur-[100px] rounded-full" />
                 <div className="relative glass-premium p-4 rounded-[3rem] border border-white/10 rotate-3 shadow-2xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=800&q=80" 
+                    src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&q=80" 
                     alt="Premium Device" 
                     className="rounded-[2.5rem] w-full h-[500px] object-cover"
                   />

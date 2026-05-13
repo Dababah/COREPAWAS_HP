@@ -34,6 +34,7 @@ import { Product, defaultProducts } from '@/data/products';
 import { BlogPost, defaultBlogPosts } from '@/data/blog';
 import { seedDatabase } from '@/lib/seed';
 import AiAssistant from '@/components/AiAssistant';
+import { addWatermark } from '@/lib/watermark';
 
 
 type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan';
@@ -197,8 +198,15 @@ function ProductModal({
       const uploadedUrls: string[] = [];
 
       for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+        let file = files[i];
         if (file.size > 10 * 1024 * 1024) continue;
+
+        // Apply watermark
+        try {
+          file = await addWatermark(file);
+        } catch (wmError) {
+          console.error('Watermark error:', wmError);
+        }
 
         const fileExt = file.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
