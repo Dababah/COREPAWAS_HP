@@ -228,8 +228,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         images: p.images || [],
         created_at: p.createdAt
       }));
-      await supabase.from('products').upsert(mapped);
-    } catch (e) {
+      const { error } = await supabase.from('products').upsert(mapped);
+      if (error) {
+        console.error('Supabase sync failed for products:', error);
+        alert(`Gagal sinkronisasi ke database: ${error.message}`);
+      }
+    } catch (e: any) {
       console.warn('Supabase sync failed for products', e);
     }
   };
@@ -240,8 +244,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('corepawas_products', JSON.stringify(updatedProducts));
 
     try {
-      await supabase.from('products').delete().eq('id', id);
-    } catch (e) {
+      const { error } = await supabase.from('products').delete().eq('id', id);
+      if (error) {
+        console.error('Supabase delete failed:', error);
+        alert(`Gagal menghapus dari database: ${error.message}\nPastikan RLS di Supabase sudah diizinkan.`);
+      }
+    } catch (e: any) {
       console.warn('Supabase delete failed for product', e);
     }
   };
