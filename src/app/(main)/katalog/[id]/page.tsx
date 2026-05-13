@@ -76,37 +76,6 @@ export default function ProductDetail() {
     { label: 'Garansi', value: product.warrantyStatus, icon: <ShieldCheck className="w-4 h-4 text-slate-400" /> },
   ];
 
-  const transparencyItems = [
-    {
-      label: 'Status UBL',
-      value: product.hasUBL ? 'UNLOCK (Aktif)' : 'LOCK (Aman)',
-      ok: !product.hasUBL,
-      desc: product.hasUBL
-        ? 'Bootloader sudah pernah di-unlock. Harga sudah disesuaikan.'
-        : 'Bootloader dalam kondisi lock/aman, tidak pernah dimodifikasi.',
-    },
-    {
-      label: 'Status Root',
-      value: product.isRooted ? 'ROOT (Aktif)' : 'NOT ROOTED (Aman)',
-      ok: !product.isRooted,
-      desc: product.isRooted ? 'Perangkat pernah di-root. Sudah kami informasikan.' : 'Perangkat tidak di-root, sistem OS berjalan murni dari pabrikan.',
-    },
-    {
-      label: 'Stress Test',
-      value: 'PASSED ✓',
-      ok: true,
-      desc: 'Dijalankan selama 30 menit. CPU dan GPU tidak mengalami throttle berlebihan.',
-    },
-    {
-      label: 'Komponen Original',
-      value: product.brand === 'iPhone' ? 'Dicek via 3uTools' : 'Dicek via ADB + Visual',
-      ok: true,
-      desc:
-        product.brand === 'iPhone'
-          ? 'Layar, baterai, dan kamera terverifikasi original melalui 3uTools Genuine Check.'
-          : 'Semua komponen utama sudah diverifikasi keasliannya secara visual dan software.',
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-24 md:pb-16">
@@ -286,50 +255,6 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* Transparency Report */}
-        <div className="mt-10 rounded-2xl bg-slate-900 border border-blue-500/20 p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5 text-blue-400" />
-            </div>
-            <div>
-              <h3 className="text-white font-bold">Detail Kondisi Unit</h3>
-              <p className="text-slate-400 text-sm">Laporan kejujuran pengecekan fisik COREPAWAS Jogja</p>
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            {transparencyItems.map((item, i) => (
-              <div
-                key={i}
-                className={`p-4 rounded-xl border ${
-                  item.ok ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-orange-500/5 border-orange-500/20'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-slate-400 text-xs font-medium uppercase tracking-wider">{item.label}</span>
-                  {item.ok ? (
-                    <CheckCircle className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <XCircle className="w-4 h-4 text-orange-400" />
-                  )}
-                </div>
-                <p className={`font-bold text-sm mb-1 ${item.ok ? 'text-emerald-400' : 'text-orange-400'}`}>
-                  {item.value}
-                </p>
-                <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 p-4 rounded-xl bg-slate-800/60 border border-slate-700">
-            <p className="text-slate-400 text-xs leading-relaxed">
-              ⚠️ <strong className="text-slate-300">Disclaimer:</strong> COREPAWAS Jogja berkomitmen penuh pada kejujuran. Semua informasi di atas
-              adalah hasil pengecekan aktual kami. Jika ada pertanyaan atau ingin COD langsung di outlet Jogja kami untuk melihat unit,
-              silakan hubungi kami via WhatsApp.
-            </p>
-          </div>
-        </div>
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (

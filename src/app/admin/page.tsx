@@ -486,8 +486,6 @@ function ProductModal({
           {/* Checkboxes */}
           <div className="col-span-2 flex flex-wrap gap-4">
             {[
-              { key: 'hasUBL', label: 'UBL Aktif' },
-              { key: 'isRooted', label: 'Rooted' },
               { key: 'isFeatured', label: 'Featured (Roti Tawar)' },
             ].map(({ key, label }) => (
               <label key={key} className="flex items-center gap-2 cursor-pointer select-none">
