@@ -52,7 +52,7 @@ const uspItems = [
 
 export default function Home() {
   const { products, waNumber, loading } = useData();
-  const featuredProducts = products.filter((p) => p.isFeatured).slice(0, 3);
+  const latestProducts = [...products].reverse().slice(0, 3);
   const readyCount = products.filter((p) => p.status === 'Ready').length;
   const soldCount = products.filter((p) => p.status === 'Sold').length;
 
@@ -204,7 +204,7 @@ export default function Home() {
                 <div className="w-2 h-2 rounded-full bg-brand-orange animate-ping" />
                 <span className="text-brand-orange text-xs font-black uppercase tracking-widest">Ready Stock</span>
               </div>
-              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tighter">Unit Terlaris Minggu Ini</h2>
+              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tighter">Stok Terbaru Minggu Ini</h2>
             </div>
             <Link href="/katalog" className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-black hover:bg-brand-orange transition-all">
               Semua Katalog <ChevronRight className="w-5 h-5" />
@@ -215,7 +215,7 @@ export default function Home() {
             {loading ? (
               Array.from({ length: 3 }).map((_, i) => <ProductSkeleton key={i} />)
             ) : (
-              featuredProducts.map((product) => (
+              latestProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))
             )}
