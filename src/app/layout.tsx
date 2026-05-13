@@ -77,7 +77,6 @@ export default function RootLayout({
       <body className={`${outfit.className} min-h-[100dvh] antialiased selection:bg-brand-orange/30 selection:text-white relative`}>
         <Background />
         <script
-        <script
           dangerouslySetInnerHTML={{
             __html: `
               const observerOptions = {
