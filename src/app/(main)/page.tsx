@@ -65,9 +65,9 @@ export default function Home() {
           <img
             src={HERO_BG}
             alt="Hero Background"
-            className="w-full h-full object-cover scale-105 opacity-[0.08] saturate-0"
+            className="w-full h-full object-cover scale-105 opacity-[0.25]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white" />
         </div>
 
         {/* Ambient Glows */}
@@ -78,13 +78,13 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 text-left mt-10 lg:mt-0">
               {/* Badge - Premium Capsule Style */}
-              <div className="inline-flex items-center gap-4 p-2 pr-8 rounded-full bg-slate-950/40 backdrop-blur-xl border border-white/5 mb-10 animate-fade-in group/badge">
-                <div className="w-12 h-12 rounded-full bg-brand-orange/20 flex items-center justify-center shadow-inner shadow-brand-orange/20 group-hover/badge:scale-110 transition-transform">
+              <div className="inline-flex items-center gap-4 p-2 pr-8 rounded-full bg-slate-100 backdrop-blur-xl border border-slate-200 mb-10 animate-fade-in group/badge">
+                <div className="w-12 h-12 rounded-full bg-brand-orange/10 flex items-center justify-center shadow-inner shadow-brand-orange/5 group-hover/badge:scale-110 transition-transform">
                   <Trophy className="w-5 h-5 text-brand-orange" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-brand-orange text-[10px] font-black uppercase tracking-[0.3em] mb-0.5">Premium Gadget</span>
-                  <span className="text-white text-xs sm:text-sm font-black uppercase tracking-[0.1em] italic">The Most Trusted Gadget Partner</span>
+                  <span className="text-slate-900 text-xs sm:text-sm font-black uppercase tracking-[0.1em] italic">The Most Trusted Gadget Partner</span>
                 </div>
               </div>
 
@@ -114,9 +114,9 @@ export default function Home() {
                   href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20ingin%20konsultasi%20stok%20HP%20terbaik.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group px-12 py-6 rounded-[2.5rem] bg-white/5 border border-white/10 text-white font-black text-xl hover:bg-white/10 transition-all duration-500 flex items-center justify-center gap-4 backdrop-blur-xl hover:scale-105 active:scale-95"
+                  className="group px-12 py-6 rounded-[2.5rem] bg-slate-100 border border-slate-200 text-slate-900 font-black text-xl hover:bg-slate-200 transition-all duration-500 flex items-center justify-center gap-4 hover:scale-105 active:scale-95 shadow-sm"
                 >
-                  <WhatsAppIcon className="w-7 h-7" />
+                  <WhatsAppIcon className="w-7 h-7 text-green-500" />
                   Konsultasi Unit
                 </a>
               </div>

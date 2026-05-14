@@ -15,7 +15,7 @@ const Background = () => {
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-white pointer-events-none">
       {/* Background Photo Collage/Grid Style */}
-      <div className="absolute inset-0 z-0 opacity-[0.15] grayscale saturate-0 grid grid-cols-2 lg:grid-cols-3 gap-0">
+      <div className="absolute inset-0 z-0 opacity-[0.3] grayscale saturate-0 grid grid-cols-2 lg:grid-cols-3 gap-0">
         {images.map((src, idx) => (
           <div key={idx} className="relative h-full w-full border-[0.5px] border-slate-900/5">
             <img 
@@ -28,7 +28,7 @@ const Background = () => {
       </div>
 
       {/* Modern Gradient Overlays to keep UI clean - Softened for better visibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/40 to-white/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/40" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(250,140,22,0.08),transparent_70%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(15,23,42,0.08),transparent_70%)]" />
 
