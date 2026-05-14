@@ -139,28 +139,48 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Floating Card Visual */}
+            {/* Floating Card Visual - Refined for Professional Aesthetic */}
             <div className="lg:col-span-5 hidden lg:block">
-              <div className="relative animate-float-premium">
-                <div className="absolute inset-0 bg-brand-orange/20 blur-[100px] rounded-full" />
-                <div className="relative glass-premium p-4 rounded-[3rem] border border-slate-200 rotate-3 shadow-2xl overflow-hidden">
-                  <img
-                    src="/float.jpeg"
-                    alt="Premium Device"
-                    className="rounded-[2.5rem] w-full h-[500px] object-cover opacity-100"
-                  />
-                  <div className="absolute -bottom-6 -left-6 glass-premium p-6 rounded-3xl border border-slate-200 -rotate-6 shadow-xl">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-brand-orange flex items-center justify-center">
+              <div className="relative animate-float-premium group">
+                {/* Dynamic Glow Behind Card */}
+                <div className="absolute -inset-4 bg-gradient-to-tr from-brand-orange/20 to-brand-navy/20 blur-[100px] rounded-full opacity-50 group-hover:opacity-80 transition-opacity duration-1000" />
+                
+                {/* Main Card Container */}
+                <div className="relative glass-premium p-5 rounded-[4rem] border border-white/40 rotate-2 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] overflow-hidden hover:rotate-0 transition-transform duration-700 ease-out">
+                  {/* Subtle Shimmer Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-white/5 z-10 pointer-events-none" />
+                  
+                  <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] sm:aspect-square">
+                    <img
+                      src="/float.jpeg"
+                      alt="Premium Device"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    />
+                    
+                    {/* Dark Vignette for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                  </div>
+
+                  {/* Refined Trust Badge */}
+                  <div className="absolute -bottom-4 -left-4 glass-premium p-5 rounded-[2.5rem] border border-white/50 -rotate-3 shadow-2xl transform transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-0">
+                    <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center shadow-lg shadow-brand-orange/30">
                         <ShieldCheck className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-slate-900 font-black text-sm">Full Warranty</div>
-                        <div className="text-brand-orange text-[10px] font-bold uppercase tracking-widest">Technician Verified</div>
+                        <div className="text-slate-900 font-black text-sm tracking-tight">Full Warranty</div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse" />
+                          <span className="text-brand-orange text-[9px] font-black uppercase tracking-[0.2em]">Technician Verified</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                
+                {/* Floating Decorative Elements */}
+                <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/10 backdrop-blur-3xl rounded-full border border-white/20 -z-10 animate-pulse" />
+                <div className="absolute -bottom-20 -right-10 w-40 h-40 bg-brand-orange/5 blur-3xl rounded-full -z-10" />
               </div>
             </div>
           </div>
