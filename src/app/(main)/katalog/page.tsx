@@ -80,7 +80,7 @@ export default function Katalog() {
     search || brand !== 'Semua' || condition !== 'Semua' || status !== 'Semua' || priceRange !== 0;
 
   return (
-    <div className="min-h-screen bg-background pt-24 sm:pt-32 pb-24">
+    <div className="min-h-screen bg-transparent pt-24 sm:pt-32 pb-24">
       {/* Header Section */}
       <div className="relative py-12 sm:py-20 overflow-hidden">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />

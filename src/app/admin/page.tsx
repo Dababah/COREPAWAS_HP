@@ -73,7 +73,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
@@ -274,7 +274,7 @@ function ProductModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-start justify-center p-4 overflow-y-auto">
       <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl my-8">
         <div className="flex items-center justify-between p-5 border-b border-slate-800">
           <h2 className="text-white font-bold text-lg">{product ? 'Edit Produk' : 'Tambah Produk Baru'}</h2>
@@ -553,7 +553,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-start justify-center p-4 overflow-y-auto">
       <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl my-8">
         <div className="flex items-center justify-between p-5 border-b border-slate-800">
           <h2 className="text-white font-bold text-lg">{post ? 'Edit Artikel' : 'Tambah Artikel Baru'}</h2>
@@ -768,9 +768,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
+    <div className="min-h-screen bg-transparent flex flex-col">
       {/* Top Nav */}
-      <header className="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
+      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
             <Cpu className="w-4 h-4 text-white" />
@@ -797,7 +797,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="hidden sm:flex flex-col w-52 bg-slate-900 border-r border-slate-800 p-3 gap-1">
+        <aside className="hidden sm:flex flex-col w-52 bg-slate-900/80 backdrop-blur-md border-r border-slate-800 p-3 gap-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}

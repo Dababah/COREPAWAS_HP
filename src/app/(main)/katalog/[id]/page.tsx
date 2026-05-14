@@ -46,7 +46,7 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-center">
           <Smartphone className="w-16 h-16 text-slate-200 mx-auto mb-4" />
           <h2 className="text-slate-900 font-bold text-xl mb-2">Produk tidak ditemukan</h2>

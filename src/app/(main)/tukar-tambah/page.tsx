@@ -135,7 +135,7 @@ export default function TradeInPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-32 px-6">
+    <div className="min-h-screen bg-transparent pt-24 pb-32 px-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20 relative">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />

@@ -125,7 +125,7 @@ export default function Jasa() {
   const { waNumber } = useData();
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24 px-6">
+    <div className="min-h-screen bg-transparent pt-24 pb-24 px-6">
       {/* Hero Section */}
       <div className="relative py-12 sm:py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10 -z-10">

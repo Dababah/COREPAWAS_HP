@@ -1,15 +1,7 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Background = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-white pointer-events-none">
       {/* 
@@ -19,10 +11,7 @@ const Background = () => {
       */}
       <div className="absolute inset-0 z-0 opacity-[0.5]">
         {/* Main Background Canvas (bg.jpeg) */}
-        <div 
-          className="absolute top-[-5%] left-0 w-full h-[110%] transition-transform duration-700 ease-out"
-          style={{ transform: `translateY(${scrollY * 0.04}px)` }}
-        >
+        <div className="absolute top-[-5%] left-0 w-full h-[110%]">
           <img 
             src="/bg.jpeg" 
             alt="Main Background" 
@@ -31,10 +20,7 @@ const Background = () => {
         </div>
 
         {/* Secondary Artistic Layer (bg1.jpeg) - Floating Accent */}
-        <div 
-          className="absolute top-[15%] right-[-5%] w-[60%] h-[70%] transition-transform duration-500 ease-out rotate-[-3deg]"
-          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
-        >
+        <div className="absolute top-[15%] right-[-5%] w-[60%] h-[70%] rotate-[-3deg]">
           <div className="w-full h-full rounded-[4rem] overflow-hidden border border-slate-200/50 shadow-2xl">
             <img 
               src="/bg1.jpeg" 
@@ -45,10 +31,7 @@ const Background = () => {
         </div>
 
         {/* Floating Mirror Layer for Depth (bg1.jpeg mirrored) */}
-        <div 
-          className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[60%] transition-transform duration-1000 ease-out rotate-[5deg] opacity-80"
-          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
-        >
+        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[60%] rotate-[5deg] opacity-80">
           <div className="w-full h-full rounded-[4rem] overflow-hidden border border-slate-200/50 shadow-2xl">
             <img 
               src="/bg1.jpeg" 
