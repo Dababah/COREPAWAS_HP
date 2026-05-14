@@ -27,6 +27,8 @@ import {
   RefreshCw,
   Upload,
   Loader2,
+  Info,
+  AlertTriangle,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useData } from '@/context/DataContext';
