@@ -24,13 +24,13 @@ export function BrandLogo({ className = "", showText = true, size = 'md' }: Bran
         <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-2xl">
           {/* Smartphone Outline (Tilted) */}
           <g transform="rotate(-15 60 60)">
-            <rect x="35" y="15" width="50" height="90" rx="10" stroke="#002140" strokeWidth="6" />
-            <rect x="55" y="100" width="10" height="2" rx="1" fill="#002140" />
+            <rect x="35" y="15" width="50" height="90" rx="10" stroke="#1a2b4b" strokeWidth="6" />
+            <rect x="55" y="100" width="10" height="2" rx="1" fill="#1a2b4b" />
             
             {/* Letter C (Navy Blue) */}
             <path 
               d="M45 40 C35 40, 30 45, 30 55 C30 65, 35 70, 45 70" 
-              stroke="#002140" 
+              stroke="#1a2b4b" 
               strokeWidth="12" 
               strokeLinecap="round" 
             />
@@ -38,7 +38,7 @@ export function BrandLogo({ className = "", showText = true, size = 'md' }: Bran
             {/* Letter P (Orange) */}
             <path 
               d="M60 40 V75 M60 40 H75 C82 40, 85 45, 85 52.5 C85 60, 82 65, 75 65 H60" 
-              stroke="#fa8c16" 
+              stroke="#ff8137" 
               strokeWidth="12" 
               strokeLinecap="round" 
               strokeLinejoin="round" 
@@ -54,13 +54,13 @@ export function BrandLogo({ className = "", showText = true, size = 'md' }: Bran
       {showText && (
         <div className="leading-tight">
           <div className={`flex items-center font-black tracking-tighter uppercase ${currentSize.text}`}>
-            <span className="text-white">CORE</span>
+            <span className="text-slate-900">CORE</span>
             <span className="text-brand-orange ml-1.5">PAWAS</span>
           </div>
-          <div className={`${currentSize.subtext} font-black uppercase tracking-[0.5em] text-brand-orange/80 mt-0.5 flex items-center gap-2`}>
-            <div className="flex-1 h-[1px] bg-white/10" />
+          <div className={`${currentSize.subtext} font-black uppercase tracking-[0.5em] text-brand-orange mt-0.5 flex items-center gap-2`}>
+            <div className="flex-1 h-[1px] bg-slate-200" />
             JUAL BELI HP
-            <div className="flex-1 h-[1px] bg-white/10" />
+            <div className="flex-1 h-[1px] bg-slate-200" />
           </div>
         </div>
       )}

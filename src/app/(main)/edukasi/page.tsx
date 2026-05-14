@@ -39,11 +39,11 @@ export default function Edukasi() {
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-8">
             Knowledge Center
           </div>
-          <h1 className="text-5xl sm:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+          <h1 className="text-5xl sm:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
             Belajar Biar <br />
             <span className="text-gradient">Nggak Tertipu.</span>
           </h1>
-          <p className="text-muted-foreground text-lg sm:text-xl font-medium max-w-2xl leading-relaxed">
+          <p className="text-slate-600 text-lg sm:text-xl font-medium max-w-2xl leading-relaxed">
             Tips, panduan, dan edukasi teknis seputar gadget second langsung dari teknisi berpengalaman COREPAWAS.
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function Edukasi() {
         {/* Featured Post */}
         {featured && (
           <Link href={`/edukasi/${featured.slug}`} className="group block mb-16 sm:mb-24">
-            <div className="grid lg:grid-cols-2 gap-0 rounded-[3.5rem] overflow-hidden border border-border bg-card hover:border-brand-orange/30 transition-all duration-500 shadow-2xl">
+            <div className="grid lg:grid-cols-2 gap-0 rounded-[3.5rem] overflow-hidden border border-slate-200 bg-white hover:border-brand-orange/30 transition-all duration-500 shadow-2xl">
               <div className="h-64 sm:h-96 lg:h-auto overflow-hidden relative">
                 <img
                   src={featured.image}
@@ -72,7 +72,7 @@ export default function Edukasi() {
                     {featured.category}
                   </span>
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-black text-white group-hover:text-brand-orange transition-colors mb-6 leading-tight tracking-tighter">
+                <h2 className="text-3xl sm:text-5xl font-black text-slate-900 group-hover:text-brand-orange transition-colors mb-6 leading-tight tracking-tighter">
                   {featured.title}
                 </h2>
                 <p className="text-muted-foreground text-lg mb-8 leading-relaxed font-medium line-clamp-3">{featured.excerpt}</p>
@@ -102,7 +102,7 @@ export default function Edukasi() {
               placeholder="Cari artikel edukasi..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-16 pr-6 py-5 rounded-2xl bg-card border border-border text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
+              className="w-full pl-16 pr-6 py-5 rounded-2xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
             />
           </div>
           
@@ -114,7 +114,7 @@ export default function Edukasi() {
                 className={`px-6 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap flex-shrink-0 border ${
                   category === cat
                     ? 'bg-brand-orange border-brand-orange text-white shadow-lg shadow-brand-orange/20'
-                    : 'bg-card border-border text-muted-foreground hover:border-white/10 hover:text-white'
+                    : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-900'
                 }`}
               >
                 {cat}
@@ -128,7 +128,7 @@ export default function Edukasi() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filtered.map((post) => (
               <Link key={post.id} href={`/edukasi/${post.slug}`} className="group h-full">
-                <div className="h-full rounded-[2.5rem] overflow-hidden border border-border bg-card hover:border-brand-orange/30 transition-all duration-500 hover:-translate-y-2 shadow-xl flex flex-col">
+                <div className="h-full rounded-[2.5rem] overflow-hidden border border-slate-200 bg-white hover:border-brand-orange/30 transition-all duration-500 hover:-translate-y-2 shadow-xl flex flex-col">
                   <div className="h-56 overflow-hidden flex-shrink-0 relative">
                     <img
                       src={post.image}
@@ -149,7 +149,7 @@ export default function Edukasi() {
                       </span>
                       <span>{formatDate(post.date)}</span>
                     </div>
-                    <h3 className="text-xl font-black text-white group-hover:text-brand-orange transition-colors leading-tight mb-4 flex-1 line-clamp-2 tracking-tight">
+                    <h3 className="text-xl font-black text-slate-900 group-hover:text-brand-orange transition-colors leading-tight mb-4 flex-1 line-clamp-2 tracking-tight">
                       {post.title}
                     </h3>
                     <p className="text-muted-foreground text-sm font-medium line-clamp-2 mb-8 leading-relaxed">{post.excerpt}</p>

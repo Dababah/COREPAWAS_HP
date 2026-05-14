@@ -35,15 +35,15 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-8">
               <BrandLogo size="lg" />
             </Link>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-10 max-w-sm font-medium">
-              Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong className="text-white font-black">Kejujuran & Transparansi</strong> 
+            <p className="text-slate-500 text-lg leading-relaxed mb-10 max-w-sm font-medium">
+              Tempat jual beli gadget second terpercaya di Jogja. Mengutamakan <strong className="text-slate-900 font-black">Kejujuran & Transparansi</strong> 
               agar Anda bisa beli dengan tenang dan amanah.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs mb-8">Navigasi Cepat</h4>
+            <h4 className="text-slate-900 font-black uppercase tracking-[0.2em] text-xs mb-8">Navigasi Cepat</h4>
             <ul className="space-y-4">
               {[
                 { label: 'Katalog HP', href: '/katalog' },
@@ -65,16 +65,16 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-black uppercase tracking-[0.2em] text-xs mb-8">Hubungi Kami</h4>
+            <h4 className="text-slate-900 font-black uppercase tracking-[0.2em] text-xs mb-8">Hubungi Kami</h4>
             <ul className="space-y-6">
               <li>
                 <a
                   href={`https://wa.me/${waNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-muted-foreground hover:text-white text-sm font-bold transition-colors group"
+                  className="flex items-center gap-4 text-slate-500 hover:text-slate-900 text-sm font-bold transition-colors group"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-green-500/20 transition-all border border-white/5">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-green-500/20 transition-all border border-slate-200">
                     <WhatsAppIcon className="w-5 h-5 text-green-500" />
                   </div>
                   +{waNumber}
@@ -85,9 +85,9 @@ export default function Footer() {
                   href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-muted-foreground hover:text-white text-sm font-bold transition-colors group"
+                  className="flex items-center gap-4 text-slate-500 hover:text-slate-900 text-sm font-bold transition-colors group"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-pink-500/20 transition-all border border-white/5">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-pink-500/20 transition-all border border-slate-200">
                     <Instagram className="w-5 h-5 text-pink-500" />
                   </div>
                   @corepawas.gadget
@@ -98,9 +98,9 @@ export default function Footer() {
                   href={googleMapsUrl || `https://maps.google.com/?q=${mapsQuery}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 text-muted-foreground hover:text-white text-sm font-bold transition-colors group"
+                  className="flex items-center gap-4 text-slate-500 hover:text-slate-900 text-sm font-bold transition-colors group"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-red-500/20 transition-all border border-white/5">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-red-500/20 transition-all border border-slate-200">
                     <MapPin className="w-5 h-5 text-red-500" />
                   </div>
                   <span className="line-clamp-1">{storeAddress}</span>
@@ -111,7 +111,7 @@ export default function Footer() {
         </div>
 
         {/* Google Maps Embed */}
-        <div className="rounded-[3rem] overflow-hidden border border-border mb-16 h-64 sm:h-80 shadow-2xl relative group">
+        <div className="rounded-[3rem] overflow-hidden border border-slate-200 mb-16 h-64 sm:h-80 shadow-2xl relative group">
           <iframe
             title="Lokasi COREPAWAS"
             width="100%"
@@ -120,14 +120,14 @@ export default function Footer() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src={mapSrc}
-            className="grayscale opacity-50 hover:opacity-100 hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+            className="opacity-90 hover:opacity-100 transition-all duration-700 scale-105 group-hover:scale-100"
           />
           <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-white/10 rounded-[3rem]" />
         </div>
 
         {/* Bottom */}
-        <div className="pt-12 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
-          <p className="text-muted-foreground text-xs font-black tracking-widest uppercase">
+        <div className="pt-12 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-8">
+          <p className="text-slate-400 text-xs font-black tracking-widest uppercase">
             © {new Date().getFullYear()} COREPAWAS. Handcrafted in Jogja.
           </p>
           <div className="flex items-center gap-6">
@@ -135,7 +135,7 @@ export default function Footer() {
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-pulse" />
                 Trusted Seller
              </span>
-             <span className="flex items-center gap-2 px-5 py-2 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-blue-400 text-[10px] font-black tracking-[0.2em] uppercase">
+             <span className="flex items-center gap-2 px-5 py-2 rounded-full bg-brand-navy/10 border border-brand-navy/20 text-brand-navy text-[10px] font-black tracking-[0.2em] uppercase">
                 Jogja Based
              </span>
           </div>

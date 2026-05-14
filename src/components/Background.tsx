@@ -2,39 +2,50 @@
 import React from 'react';
 
 const Background = () => {
+  // Collection of premium gadget/workspace images for the background collage
+  const images = [
+    'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?q=80&w=1200&auto=format&fit=crop', // iPhone black
+    'https://images.unsplash.com/photo-1556656793-062ff987b50d?q=80&w=1200&auto=format&fit=crop', // Gadgets
+    'https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1200&auto=format&fit=crop', // Minimalist desk
+    'https://images.unsplash.com/photo-1505156868547-9b49f4df4e04?q=80&w=1200&auto=format&fit=crop', // Tech setup
+    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200&auto=format&fit=crop', // Smartphone focus
+    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop', // MacBook
+  ];
+
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden bg-[#001224] pointer-events-none">
-      {/* Dynamic Animated Blobs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-brand-navy/40 blur-[120px] animate-blob opacity-60" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] rounded-full bg-brand-orange/10 blur-[150px] animate-blob animation-delay-2000 opacity-40" />
-      
-      {/* Central Watermark Logo (Subtle) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-[0.03] pointer-events-none animate-pulse">
-        <img src="/watermark-logo.png" alt="Corepawas Logo" className="w-full h-full object-contain grayscale brightness-200" />
+    <div className="fixed inset-0 -z-50 overflow-hidden bg-white pointer-events-none">
+      {/* Background Photo Collage/Grid Style */}
+      <div className="absolute inset-0 z-0 opacity-[0.07] grayscale saturate-0 grid grid-cols-2 lg:grid-cols-3 gap-0">
+        {images.map((src, idx) => (
+          <div key={idx} className="relative h-full w-full border-[0.5px] border-slate-900/10">
+            <img 
+              src={src} 
+              alt={`Premium Aesthetic ${idx}`} 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
       </div>
 
-      <div className="absolute top-[30%] right-[5%] w-[50vw] h-[50vw] rounded-full bg-brand-navy/20 blur-[100px] animate-blob animation-delay-4000 opacity-50" />
-      <div className="absolute bottom-[20%] left-[5%] w-[40vw] h-[40vw] rounded-full bg-brand-orange/5 blur-[80px] animate-blob animation-delay-3000 opacity-30" />
-      
-      {/* High Fidelity Texture Overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.07] mix-blend-screen"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2000&auto=format&fit=crop')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
+      {/* Modern Gradient Overlays to keep UI clean */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/80 to-white/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(250,140,22,0.05),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(15,23,42,0.05),transparent_60%)]" />
 
-      {/* Technical Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:80px_80px] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_70%,transparent_100%)]" />
+      {/* Dynamic Animated Blobs (Very Subtle) */}
+      <div className="absolute top-[-10%] left-[-5%] w-[60vw] h-[60vw] rounded-full bg-blue-100/20 blur-[150px] animate-blob opacity-40" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[70vw] h-[70vw] rounded-full bg-orange-100/20 blur-[180px] animate-blob animation-delay-2000 opacity-30" />
       
-      {/* Scanline Effect (Subtle) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[size:100%_4px,3px_100%] pointer-events-none opacity-20" />
+      {/* Subtle Technical Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a03_1px,transparent_1px),linear-gradient(to_bottom,#0f172a03_1px,transparent_1px)] bg-[size:120px_120px]" />
+      
+      {/* Central Brand Watermark (Logo from public) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.02] pointer-events-none flex items-center justify-center">
+        <img src="/watermark-logo.png" alt="Corepawas Logo" className="w-full h-full object-contain grayscale invert opacity-30" />
+      </div>
 
-      {/* Depth Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(0,8,16,0.5)_100%)]" />
+      {/* Noise Texture for that premium grainy feel */}
+      <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
     </div>
   );
 };

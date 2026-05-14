@@ -5,10 +5,10 @@
   Corepawas Premium Theme (Navy Blue + Orange)
 */
 @theme {
-  --color-brand-navy: #002140; 
-  --color-brand-orange: #fa8c16; 
-  --color-brand-navy-dark: #000d1a; 
-  --color-brand-orange-light: #ffd591; 
+  --color-brand-navy: #1a2b4b; 
+  --color-brand-orange: #ff8137; 
+  --color-brand-navy-dark: #0f1a2e; 
+  --color-brand-orange-light: #ffedd5; 
 
   --color-primary: var(--color-brand-navy);
   --color-primary-foreground: #ffffff;
@@ -17,23 +17,23 @@
   --color-accent: var(--color-brand-orange);
   --color-accent-foreground: #ffffff;
   
-  --color-background: #001224; 
-  --color-foreground: #ffffff; 
+  --color-background: #fffbf5; 
+  --color-foreground: #1a2b4b; 
   
-  --color-card: #001529;
-  --color-card-foreground: #ffffff;
-  --color-popover: #001529;
-  --color-popover-foreground: #ffffff;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a2b4b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1a2b4b;
   
-  --color-muted: #002d5b;
-  --color-muted-foreground: #8cb7d9;
+  --color-muted: #f8fafc;
+  --color-muted-foreground: #64748b;
   
   --color-destructive: #ff4d4f;
   --color-destructive-foreground: #ffffff;
   
-  --color-border: #002d5b;
-  --color-input: #001529;
-  --color-ring: #fa8c16;
+  --color-border: #e2e8f0;
+  --color-input: #ffffff;
+  --color-ring: #ff8137;
   
   --radius-lg: 1rem;
   --radius-md: calc(1rem - 2px);
@@ -44,19 +44,19 @@
 }
 
 :root {
-  --brand-navy: #002140;
-  --brand-orange: #fa8c16;
-  --brand-navy-dark: #000d1a;
-  --brand-orange-light: #ffd591;
+  --brand-navy: #0f172a;
+  --brand-orange: #f97316;
+  --brand-navy-dark: #020617;
+  --brand-orange-light: #ffedd5;
   
   --primary: var(--brand-navy);
   --secondary: var(--brand-orange);
   --accent: var(--brand-orange-light);
   
-  --background: #001224;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #0f172a;
   
-  --font-sans: "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", sans-serif;
+  --font-sans: "Outfit", sans-serif;
 }
 
 @layer base {
@@ -95,7 +95,7 @@
 
 @layer utilities {
   .glass-premium {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -106,14 +106,14 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+    background-image: linear-gradient(135deg, #0f172a 0%, #334155 100%);
   }
 
   .text-gradient-navy {
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(135deg, #a1a1aa 0%, #ffffff 100%);
+    background-image: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   }
 
   .bento-grid {
@@ -123,12 +123,12 @@
   }
 
   .bento-card {
-    @apply rounded-[2.5rem] bg-[#09090b] border border-white/10 overflow-hidden transition-all duration-700 shadow-2xl;
+    @apply rounded-[2.5rem] bg-white border border-slate-200 overflow-hidden transition-all duration-700 shadow-xl;
   }
 
   .bento-card:hover {
-    @apply border-white/40 -translate-y-2;
-    box-shadow: 0 20px 40px -12px rgba(255, 255, 255, 0.05), 0 0 20px rgba(255, 255, 255, 0.1);
+    @apply border-brand-orange/40 -translate-y-2;
+    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
   }
 
   .tilt-3d {
@@ -246,9 +246,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #e2e8f0;
   border-radius: 99px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #cbd5e1;
 }

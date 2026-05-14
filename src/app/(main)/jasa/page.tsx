@@ -138,11 +138,11 @@ export default function Jasa() {
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-8">
             Technical Support
           </div>
-          <h1 className="text-5xl sm:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+          <h1 className="text-5xl sm:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
             Value Added <br />
             <span className="text-gradient">Layanan Teknis.</span>
           </h1>
-          <p className="text-muted-foreground text-lg sm:text-xl font-medium max-w-2xl leading-relaxed">
+          <p className="text-slate-600 text-lg sm:text-xl font-medium max-w-2xl leading-relaxed">
             Bukan hanya jual beli, kami memastikan Anda mendapat pengalaman terbaik dari gadget pilihan Anda melalui layanan teknis profesional.
           </p>
         </div>
@@ -154,7 +154,7 @@ export default function Jasa() {
           {services.map((service, i) => (
             <div
               key={i}
-              className="p-10 rounded-[3rem] bg-card border border-border hover:border-brand-orange/30 transition-all group flex flex-col h-full"
+              className="p-10 rounded-[3rem] bg-white border border-slate-200 hover:border-brand-orange/30 transition-all group flex flex-col h-full shadow-lg"
             >
               <div className="flex items-start justify-between mb-8">
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform ${service.color === 'orange' ? 'bg-brand-orange/10 text-brand-orange' : 'bg-brand-navy-dark text-white border border-white/10'}`}>
@@ -165,13 +165,13 @@ export default function Jasa() {
                 </span>
               </div>
 
-              <h3 className="text-2xl font-black text-white mb-2 tracking-tight group-hover:text-brand-orange transition-colors">{service.title}</h3>
+              <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight group-hover:text-brand-orange transition-colors">{service.title}</h3>
               <p className="text-brand-orange font-black text-sm mb-6 uppercase tracking-widest italic">{service.price}</p>
-              <p className="text-muted-foreground text-base leading-relaxed mb-8 font-medium">{service.desc}</p>
+              <p className="text-slate-500 text-base leading-relaxed mb-8 font-medium">{service.desc}</p>
 
               <div className="space-y-3 mb-10 flex-1">
                 {service.features.map((feature, fi) => (
-                  <div key={fi} className="flex items-center gap-3 text-white/80 text-sm font-medium">
+                  <div key={fi} className="flex items-center gap-3 text-slate-700 text-sm font-medium">
                     <CheckCircle className="w-4 h-4 text-brand-orange flex-shrink-0" />
                     {feature}
                   </div>
@@ -206,14 +206,14 @@ export default function Jasa() {
 
         <div className="grid gap-4">
           {faqs.map((faq, i) => (
-            <div key={i} className="p-8 rounded-3xl bg-card border border-border">
+            <div key={i} className="p-8 rounded-3xl bg-white border border-slate-200 shadow-sm">
               <div className="flex gap-6">
                 <div className="w-10 h-10 rounded-xl bg-brand-orange/10 flex items-center justify-center flex-shrink-0">
                   <HelpCircle className="w-6 h-6 text-brand-orange" />
                 </div>
                 <div>
-                  <h4 className="text-white font-black text-lg mb-3 tracking-tight">{faq.q}</h4>
-                  <p className="text-muted-foreground leading-relaxed font-medium">{faq.a}</p>
+                  <h4 className="text-slate-900 font-black text-lg mb-3 tracking-tight">{faq.q}</h4>
+                  <p className="text-slate-500 leading-relaxed font-medium">{faq.a}</p>
                 </div>
               </div>
             </div>

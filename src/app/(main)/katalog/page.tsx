@@ -88,11 +88,11 @@ export default function Katalog() {
           <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-6 animate-fade-in">
             Explore Collection
           </div>
-          <h1 className="text-5xl sm:text-7xl font-black text-white mb-6 tracking-tighter leading-tight">
+          <h1 className="text-5xl sm:text-7xl font-black text-slate-900 mb-6 tracking-tighter leading-tight">
             Katalog <span className="text-gradient">Unit Pilihan.</span>
           </h1>
-          <p className="text-muted-foreground text-lg font-medium max-w-2xl leading-relaxed">
-            Daftar unit berkualitas yang sudah melalui inspeksi teknisi kami. <span className="text-white font-black italic">"{readyCount} unit tersedia untuk Anda."</span>
+          <p className="text-slate-600 text-lg font-medium max-w-2xl leading-relaxed">
+            Daftar unit berkualitas yang sudah melalui inspeksi teknisi kami. <span className="text-brand-orange font-black italic">"{readyCount} unit tersedia untuk Anda."</span>
           </p>
         </div>
       </div>
@@ -107,7 +107,7 @@ export default function Katalog() {
               placeholder="Cari iPhone, Samsung, atau tipe lainnya..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-16 pr-6 py-5 rounded-2xl bg-card border border-border text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
+              className="w-full pl-16 pr-6 py-5 rounded-2xl bg-white border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
             />
             {search && (
               <button
@@ -125,7 +125,7 @@ export default function Katalog() {
               className={`flex items-center gap-3 px-8 py-5 rounded-2xl border font-black uppercase tracking-widest text-xs transition-all flex-shrink-0 shadow-xl ${
                 showFilters || hasActiveFilters
                   ? 'bg-brand-orange text-white border-brand-orange'
-                  : 'bg-card border-border text-muted-foreground hover:border-white/20'
+                  : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
               }`}
             >
               <Filter className="w-4 h-4" />
@@ -137,7 +137,7 @@ export default function Katalog() {
                <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="pl-12 pr-10 py-5 rounded-2xl bg-card border border-border text-white font-black uppercase tracking-widest text-[10px] focus:outline-none focus:border-brand-orange/50 cursor-pointer shadow-xl appearance-none"
+                className="pl-12 pr-10 py-5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-black uppercase tracking-widest text-[10px] focus:outline-none focus:border-brand-orange/50 cursor-pointer shadow-xl appearance-none"
               >
                 <option value="newest">Terbaru</option>
                 <option value="price_asc">Harga Terendah</option>
@@ -150,7 +150,7 @@ export default function Katalog() {
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="mb-12 p-10 rounded-[3rem] bg-card border border-border shadow-2xl animate-fade-in-up">
+          <div className="mb-12 p-10 rounded-[3rem] bg-white border border-slate-200 shadow-2xl animate-fade-in-up">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
               {/* Brand Filter */}
               <div>
@@ -249,8 +249,8 @@ export default function Katalog() {
 
         {/* Results Count & Active Badge */}
         <div className="flex items-center justify-between mb-10">
-          <p className="text-muted-foreground text-xs font-black uppercase tracking-widest">
-            Showing <span className="text-white">{filtered.length}</span> Results
+          <p className="text-slate-500 text-xs font-black uppercase tracking-widest">
+            Showing <span className="text-slate-900">{filtered.length}</span> Results
           </p>
           {hasActiveFilters && (
              <span className="text-[10px] font-black text-brand-orange bg-brand-orange/10 px-4 py-1.5 rounded-full border border-brand-orange/20 uppercase tracking-widest animate-pulse">

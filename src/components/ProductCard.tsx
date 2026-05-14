@@ -38,12 +38,12 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
 
   return (
     <div 
-      className={`group relative flex flex-col bg-card border border-border rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-brand-orange/30 hover:shadow-2xl hover:shadow-brand-orange/10 ${
+      className={`group relative flex flex-col bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-brand-orange/30 hover:shadow-2xl hover:shadow-brand-orange/10 ${
         isSold ? 'opacity-60 grayscale' : ''
       }`}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-brand-navy-dark">
+      <div className="relative aspect-[4/5] overflow-hidden bg-slate-50">
         <Link href={`/katalog/${product.id}`} className="block w-full h-full">
           <img
             src={productImages[currentImageIndex]}
@@ -85,7 +85,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
         )}
         
         {/* Overlay Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark/90 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
 
         {/* Badges Overlay */}
         <div className="absolute top-5 left-5 flex flex-col gap-2 z-10">
@@ -143,7 +143,7 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
       <div className="p-8 flex flex-col flex-1">
         <Link href={`/katalog/${product.id}`} className="block flex-1">
           <div className="mb-4">
-            <h3 className="text-xl font-black text-white group-hover:text-brand-orange transition-colors line-clamp-1 tracking-tighter">
+            <h3 className="text-xl font-black text-slate-900 group-hover:text-brand-orange transition-colors line-clamp-1 tracking-tighter">
               {product.name}
             </h3>
             <div className="flex items-center gap-2 mt-2">
@@ -165,8 +165,8 @@ export default function ProductCard({ product, showFeaturedBadge }: ProductCardP
 
         <div className="mt-auto flex items-center justify-between gap-4 pt-6 border-t border-white/5">
           <div className="min-w-0">
-            <div className="text-muted-foreground text-[10px] uppercase font-black tracking-[0.2em] mb-1">Price</div>
-            <div className="text-2xl font-black text-white truncate tracking-tighter">{formatPrice(product.price)}</div>
+            <div className="text-slate-400 text-[10px] uppercase font-black tracking-[0.2em] mb-1">Price</div>
+            <div className="text-2xl font-black text-slate-900 truncate tracking-tighter">{formatPrice(product.price)}</div>
           </div>
           
           <a

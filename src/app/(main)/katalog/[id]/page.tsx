@@ -46,12 +46,12 @@ export default function ProductDetail() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <Smartphone className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-          <h2 className="text-white font-bold text-xl mb-2">Produk tidak ditemukan</h2>
-          <p className="text-slate-400 mb-6">Produk ini mungkin sudah terjual atau tidak tersedia.</p>
-          <Link href="/katalog" className="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors">
+          <Smartphone className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+          <h2 className="text-slate-900 font-bold text-xl mb-2">Produk tidak ditemukan</h2>
+          <p className="text-slate-500 mb-6">Produk ini mungkin sudah terjual atau tidak tersedia.</p>
+          <Link href="/katalog" className="px-6 py-3 rounded-xl bg-brand-navy text-white font-bold hover:bg-brand-orange transition-colors">
             Kembali ke Katalog
           </Link>
         </div>
@@ -78,21 +78,21 @@ export default function ProductDetail() {
 
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-14 sm:pt-16 pb-24 md:pb-16">
+    <div className="min-h-screen bg-transparent pt-14 sm:pt-16 pb-24 md:pb-16">
       <div className="max-w-6xl mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 mb-4 sm:mb-6 mt-3 sm:mt-4 overflow-hidden">
-          <Link href="/" className="hover:text-white transition-colors">Beranda</Link>
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-400 mb-4 sm:mb-6 mt-3 sm:mt-4 overflow-hidden font-bold">
+          <Link href="/" className="hover:text-brand-orange transition-colors">Beranda</Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href="/katalog" className="hover:text-white transition-colors">Katalog</Link>
+          <Link href="/katalog" className="hover:text-brand-orange transition-colors">Katalog</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-slate-300 truncate max-w-[150px] sm:max-w-none">{product.name}</span>
+          <span className="text-slate-900 truncate max-w-[150px] sm:max-w-none">{product.name}</span>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-10">
           {/* Left: Image */}
           <div className="space-y-4">
-            <div className="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 aspect-[4/5] sm:aspect-square">
+            <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 aspect-[4/5] sm:aspect-square shadow-xl">
               <img
                 src={productImages[currentImageIndex]}
                 alt={product.name}
@@ -120,7 +120,7 @@ export default function ProductDetail() {
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
                     className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
-                      idx === currentImageIndex ? 'border-brand-orange scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'
+                      idx === currentImageIndex ? 'border-brand-orange scale-105' : 'border-slate-100 opacity-60 hover:opacity-100'
                     }`}
                   >
                     <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" />
@@ -131,12 +131,12 @@ export default function ProductDetail() {
 
             {/* Antutu Score Card */}
             {product.antutuScore && (
-              <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5">
+              <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-sm">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-slate-300 font-semibold text-sm">AnTuTu Benchmark Score</h4>
-                  <span className="text-xs text-slate-500">Hasil pengujian riil</span>
+                  <h4 className="text-slate-900 font-black text-sm uppercase tracking-widest">AnTuTu Score</h4>
+                  <span className="text-xs text-slate-400 font-bold">Tested Live</span>
                 </div>
-                <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">
+                <div className="text-3xl font-black text-slate-900 mb-2">
                   {formatAntutu(product.antutuScore)}
                 </div>
                 <div className="w-full bg-slate-800 rounded-full h-2">
@@ -159,8 +159,8 @@ export default function ProductDetail() {
           {/* Right: Info */}
           <div>
             <div className="mb-6">
-              <p className="text-slate-500 text-sm mb-1">{product.brand}</p>
-              <h1 className="text-2xl sm:text-3xl font-black text-white mb-3">{product.name}</h1>
+              <p className="text-slate-400 text-xs font-black uppercase tracking-widest mb-2">{product.brand}</p>
+              <h1 className="text-2xl sm:text-4xl font-black text-slate-900 mb-4 tracking-tighter leading-tight">{product.name}</h1>
 
               {/* Status badges */}
               <div className="flex flex-wrap gap-2 mb-4">
@@ -178,9 +178,9 @@ export default function ProductDetail() {
 
               {/* Price */}
               <div className="flex items-end gap-3 mb-2">
-                <span className="text-3xl sm:text-4xl font-black text-white">{formatPrice(product.price)}</span>
+                <span className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">{formatPrice(product.price)}</span>
                 {product.originalPrice && (
-                  <span className="text-lg text-slate-500 line-through mb-1">{formatPrice(product.originalPrice)}</span>
+                  <span className="text-lg text-slate-300 line-through mb-1 font-bold">{formatPrice(product.originalPrice)}</span>
                 )}
               </div>
               {product.originalPrice && (
@@ -189,7 +189,7 @@ export default function ProductDetail() {
                 </p>
               )}
 
-              <p className="text-slate-400 leading-relaxed mb-6">{product.description}</p>
+              <p className="text-slate-500 leading-relaxed mb-8 font-medium text-lg">{product.description}</p>
 
               {/* CTA */}
               {!isSold ? (
@@ -217,19 +217,19 @@ export default function ProductDetail() {
             </div>
 
             {/* Specs Table */}
-            <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 mb-5">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-blue-400" />
+            <div className="rounded-3xl bg-white border border-slate-200 p-8 mb-6 shadow-sm">
+              <h3 className="text-slate-900 font-black text-sm uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
+                <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
                 Spesifikasi Teknis
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 {specs.map((spec, i) => (
-                  <div key={i} className="bg-slate-800/60 rounded-xl p-3">
-                    <div className="flex items-center gap-1.5 mb-1">
+                  <div key={i} className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                    <div className="flex items-center gap-1.5 mb-2">
                       {spec.icon}
-                      <span className="text-slate-500 text-xs">{spec.label}</span>
+                      <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest">{spec.label}</span>
                     </div>
-                    <span className="text-white text-sm font-semibold">{spec.value}</span>
+                    <span className="text-slate-900 text-sm font-black">{spec.value}</span>
                   </div>
                 ))}
               </div>
@@ -237,15 +237,15 @@ export default function ProductDetail() {
 
             {/* Accessories */}
             {product.accessories.length > 0 && (
-              <div className="rounded-2xl bg-slate-900 border border-slate-800 p-5 mb-5">
-                <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                  <Package className="w-4 h-4 text-yellow-400" />
+              <div className="rounded-3xl bg-white border border-slate-200 p-8 shadow-sm">
+                <h3 className="text-slate-900 font-black text-sm uppercase tracking-[0.2em] mb-6 flex items-center gap-3">
+                  <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
                   Kelengkapan
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {product.accessories.map((acc, i) => (
-                    <span key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-sm">
-                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                    <span key={i} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-50 border border-slate-100 text-slate-600 text-xs font-black uppercase tracking-widest">
+                      <CheckCircle className="w-4 h-4 text-emerald-500" />
                       {acc}
                     </span>
                   ))}
@@ -259,16 +259,16 @@ export default function ProductDetail() {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-12">
-            <h3 className="text-xl font-bold text-white mb-6">Unit {product.brand} Lainnya</h3>
+            <h3 className="text-xl font-black text-slate-900 mb-6 uppercase tracking-tighter">Unit {product.brand} Lainnya</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {relatedProducts.map((p) => (
                 <Link key={p.id} href={`/katalog/${p.id}`} className="block">
-                  <div className="rounded-xl overflow-hidden border border-slate-800 hover:border-slate-700 bg-slate-900 transition-all hover:-translate-y-1">
-                    <img src={p.image} alt={p.name} className="w-full h-36 object-cover" />
-                    <div className="p-3">
-                      <p className="text-white font-semibold text-sm truncate">{p.name}</p>
-                      <p className="text-blue-400 font-bold text-sm mt-1">
-                        {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(p.price)}
+                  <div className="rounded-2xl overflow-hidden border border-slate-200 hover:border-brand-orange/30 bg-white transition-all hover:-translate-y-1 shadow-sm">
+                    <img src={p.image} alt={p.name} className="w-full h-40 object-cover" />
+                    <div className="p-4">
+                      <p className="text-slate-900 font-black text-sm truncate uppercase tracking-tight">{p.name}</p>
+                      <p className="text-brand-orange font-black text-sm mt-1">
+                        {formatPrice(p.price)}
                       </p>
                     </div>
                   </div>

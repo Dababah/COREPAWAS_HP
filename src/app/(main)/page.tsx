@@ -21,7 +21,7 @@ import ProductCard from '@/components/ProductCard';
 import ProductSkeleton from '@/components/ProductSkeleton';
 import Testimonials from '@/components/Testimonials';
 
-const HERO_BG = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop';
+const HERO_BG = 'https://images.unsplash.com/photo-1556656793-062ff987b50d?q=80&w=2000&auto=format&fit=crop';
 
 const uspItems = [
   {
@@ -65,9 +65,9 @@ export default function Home() {
           <img
             src={HERO_BG}
             alt="Hero Background"
-            className="w-full h-full object-cover scale-105 opacity-15"
+            className="w-full h-full object-cover scale-105 opacity-[0.08] saturate-0"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
         </div>
 
         {/* Ambient Glows */}
@@ -89,7 +89,7 @@ export default function Home() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black text-white mb-10 leading-[0.95] tracking-tighter">
+              <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black text-slate-900 mb-10 leading-[0.95] tracking-tighter">
                 Teman Setia <br />
                 <span className="text-brand-orange drop-shadow-[0_0_30px_rgba(250,140,22,0.3)]">Cari Gadget.</span>
               </h1>
@@ -128,7 +128,7 @@ export default function Home() {
                      <Users className="w-6 h-6 text-brand-orange" />
                    </div>
                    <div>
-                     <div className="text-xl font-black text-white leading-none">1000+</div>
+                     <div className="text-xl font-black text-slate-900 leading-none">1000+</div>
                      <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Loyal Users</div>
                    </div>
                  </div>
@@ -137,7 +137,7 @@ export default function Home() {
                      <Star className="w-6 h-6 text-brand-orange" />
                    </div>
                    <div>
-                     <div className="text-xl font-black text-white leading-none">4.9/5.0</div>
+                     <div className="text-xl font-black text-slate-900 leading-none">4.9/5.0</div>
                      <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Reviews</div>
                    </div>
                  </div>
@@ -148,19 +148,19 @@ export default function Home() {
             <div className="lg:col-span-5 hidden lg:block">
               <div className="relative animate-float-premium">
                 <div className="absolute inset-0 bg-brand-orange/20 blur-[100px] rounded-full" />
-                <div className="relative glass-premium p-4 rounded-[3rem] border border-white/10 rotate-3 shadow-2xl">
+                <div className="relative glass-premium p-4 rounded-[3rem] border border-slate-200 rotate-3 shadow-2xl overflow-hidden">
                   <img 
-                    src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&q=80" 
+                    src="https://images.unsplash.com/photo-1592890670286-9c622c89968a?q=80&w=800&auto=format&fit=crop" 
                     alt="Premium Device" 
                     className="rounded-[2.5rem] w-full h-[500px] object-cover"
                   />
-                  <div className="absolute -bottom-6 -left-6 glass-premium p-6 rounded-3xl border border-white/10 -rotate-6 shadow-xl">
+                  <div className="absolute -bottom-6 -left-6 glass-premium p-6 rounded-3xl border border-slate-200 -rotate-6 shadow-xl">
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 rounded-full bg-brand-orange flex items-center justify-center">
                         <ShieldCheck className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <div className="text-white font-black text-sm">Full Warranty</div>
+                        <div className="text-slate-900 font-black text-sm">Full Warranty</div>
                         <div className="text-brand-orange text-[10px] font-bold uppercase tracking-widest">Technician Verified</div>
                       </div>
                     </div>
@@ -177,18 +177,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-brand-orange text-xs font-black uppercase tracking-[0.4em] mb-4 block">Our Commitment</span>
-            <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tighter">Bukan Sekadar Jual HP.</h2>
+            <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tighter">Bukan Sekadar Jual HP.</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {uspItems.map((item, i) => (
-              <div key={i} className="group p-8 rounded-[2.5rem] bg-card border border-border hover:border-brand-orange/30 transition-all duration-500 relative overflow-hidden">
+              <div key={i} className="group p-8 rounded-[2.5rem] bg-white border border-slate-200 hover:border-brand-orange/30 transition-all duration-500 relative overflow-hidden shadow-sm hover:shadow-xl">
                 <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-orange/5 blur-3xl rounded-full group-hover:bg-brand-orange/20 transition-all" />
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${item.color === 'orange' ? 'bg-brand-orange/10 text-brand-orange' : 'bg-brand-navy-dark text-white border border-white/10'} group-hover:scale-110 transition-transform`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 ${item.color === 'orange' ? 'bg-brand-orange/10 text-brand-orange' : 'bg-brand-navy text-white'} group-hover:scale-110 transition-transform`}>
                   {item.icon}
                 </div>
-                <h3 className="text-2xl font-black text-white mb-4 tracking-tight">{item.title}</h3>
-                <p className="text-muted-foreground leading-relaxed font-medium">{item.desc}</p>
+                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{item.title}</h3>
+                <p className="text-slate-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -204,9 +204,9 @@ export default function Home() {
                 <div className="w-2 h-2 rounded-full bg-brand-orange animate-ping" />
                 <span className="text-brand-orange text-xs font-black uppercase tracking-widest">Ready Stock</span>
               </div>
-              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tighter">Stok Terbaru Minggu Ini</h2>
+              <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tighter">Stok Terbaru Minggu Ini</h2>
             </div>
-            <Link href="/katalog" className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-black hover:bg-brand-orange transition-all">
+            <Link href="/katalog" className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-slate-100 border border-slate-200 text-slate-900 font-black hover:bg-brand-orange hover:text-white transition-all">
               Semua Katalog <ChevronRight className="w-5 h-5" />
             </Link>
           </div>
@@ -228,16 +228,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
            <div className="grid lg:grid-cols-12 gap-6 h-auto lg:h-[600px]">
               {/* Big Bento Card: Trade In */}
-              <div className="lg:col-span-8 group relative rounded-[3rem] bg-gradient-to-br from-brand-navy to-brand-navy-dark border border-white/10 overflow-hidden p-10 sm:p-16 flex flex-col justify-between">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-orange/5 blur-[120px]" />
+              <div className="lg:col-span-8 group relative rounded-[3rem] bg-brand-navy border border-slate-800 overflow-hidden p-10 sm:p-16 flex flex-col justify-between shadow-2xl">
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-orange/10 blur-[120px]" />
                 <div>
-                  <div className="w-16 h-16 rounded-2xl bg-brand-orange/20 flex items-center justify-center text-brand-orange mb-8">
+                  <div className="w-16 h-16 rounded-2xl bg-brand-orange flex items-center justify-center text-white mb-8">
                     <TrendingUp className="w-8 h-8" />
                   </div>
                   <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter leading-none">
                     Mau Tukar <br />Tambah HP?
                   </h2>
-                  <p className="text-muted-foreground text-lg max-w-md font-medium">
+                  <p className="text-slate-300 text-lg max-w-md font-medium">
                     Bawa HP lamamu, kami hargai dengan harga jujur (bakul) untuk dipotong ke HP impianmu selanjutnya.
                   </p>
                 </div>
@@ -246,13 +246,12 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Small Bento Card: Jasa */}
-              <div className="lg:col-span-4 group relative rounded-[3rem] bg-card border border-border p-10 flex flex-col justify-between hover:border-brand-orange/30 transition-all">
+              <div className="lg:col-span-4 group relative rounded-[3rem] bg-white border border-slate-200 p-10 flex flex-col justify-between hover:border-brand-orange/30 transition-all shadow-sm">
                 <div>
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-900 mb-6">
                     <Cpu className="w-7 h-7" />
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-4 tracking-tight">Teknisi & Jasa</h3>
+                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Teknisi & Jasa</h3>
                   <p className="text-muted-foreground font-medium">
                     Flash ROM, migrasi data, hingga inspeksi unit dari seller lain.
                   </p>
@@ -282,13 +281,13 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
                 <Link
                   href="/katalog"
-                  className="w-full sm:w-auto px-12 py-6 rounded-2xl bg-white text-brand-navy font-black text-xl hover:scale-105 transition-transform flex items-center justify-center gap-3"
+                  className="w-full sm:w-auto px-12 py-6 rounded-2xl bg-white text-slate-900 font-black text-xl hover:scale-105 transition-transform flex items-center justify-center gap-3"
                 >
                   Buka Katalog
                 </Link>
                 <a
                   href={`https://wa.me/${waNumber}`}
-                  className="w-full sm:w-auto px-12 py-6 rounded-2xl bg-brand-navy text-white font-black text-xl hover:bg-brand-navy-dark transition-colors flex items-center justify-center gap-3"
+                  className="w-full sm:w-auto px-12 py-6 rounded-2xl bg-slate-900 text-white font-black text-xl hover:bg-slate-800 transition-colors flex items-center justify-center gap-3"
                 >
                   Chat Admin Sekarang
                 </a>
@@ -306,13 +305,13 @@ export default function Home() {
                 <MessageSquare className="w-10 h-10 text-brand-orange" />
              </div>
            </div>
-           <h2 className="text-4xl font-black text-white mb-6">Masih Bingung?</h2>
-           <p className="text-muted-foreground text-xl mb-12 italic font-medium">
+           <h2 className="text-4xl font-black text-slate-900 mb-6">Masih Bingung?</h2>
+           <p className="text-slate-500 text-xl mb-12 italic font-medium">
              "Mau tanya spek atau konsultasi budget? Chat aja dulu yuk Kak, gratis kok!"
            </p>
            <a
              href={`https://wa.me/${waNumber}`}
-             className="inline-flex items-center gap-4 px-12 py-6 rounded-3xl bg-white text-brand-navy font-black text-2xl hover:bg-brand-orange hover:text-white transition-all shadow-2xl"
+             className="inline-flex items-center gap-4 px-12 py-6 rounded-3xl bg-slate-900 text-white font-black text-2xl hover:bg-brand-orange transition-all shadow-2xl"
            >
              <WhatsAppIcon className="w-8 h-8" /> Chat WA Sekarang
            </a>

@@ -143,11 +143,11 @@ export default function TradeInPage() {
             <TrendingDown className="w-4 h-4" />
             Penampungan Unit Terpercaya
           </div>
-          <h1 className="text-5xl sm:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+          <h1 className="text-5xl sm:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
             Kalkulator <br />
             <span className="text-gradient">Penampungan HP</span>
           </h1>
-          <p className="text-muted-foreground max-w-3xl mx-auto text-lg font-medium leading-relaxed">
+          <p className="text-slate-600 max-w-3xl mx-auto text-lg font-medium leading-relaxed">
             Mau jual HP lamamu dengan cepat? Kami berikan penawaran harga beli langsung (Bakul) untuk stok operasional kami. Proses instan, harga transparan!
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function TradeInPage() {
         <div className="grid lg:grid-cols-12 gap-12 items-start">
           {/* Form Side */}
           <div className="lg:col-span-7 space-y-8">
-            <div className="bg-card border border-border rounded-[3.5rem] p-8 sm:p-14 space-y-12 shadow-2xl relative overflow-hidden">
+            <div className="bg-white border border-slate-200 rounded-[3.5rem] p-8 sm:p-14 space-y-12 shadow-2xl relative overflow-hidden">
                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-orange/5 blur-[120px] rounded-full" />
                
                {/* Brand Selection */}
@@ -178,7 +178,7 @@ export default function TradeInPage() {
                       className={`py-5 rounded-2xl text-[11px] font-black border transition-all cursor-pointer relative z-10 ${
                         brand === b 
                           ? 'bg-brand-orange border-brand-orange text-white shadow-xl scale-[1.03]' 
-                          : 'bg-white/5 border-white/5 text-muted-foreground hover:border-white/10 hover:text-white'
+                          : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-900'
                       }`}
                     >
                       {b}
@@ -201,14 +201,14 @@ export default function TradeInPage() {
                         placeholder="Ketik Seri HP Anda..."
                         value={manualModel}
                         onChange={(e) => { setManualModel(e.target.value); setIsCalculated(false); }}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white text-sm font-bold focus:border-brand-orange/50 outline-none"
+                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm"
                       />
                     ) : (
                       <div className="relative">
                         <select 
                           value={model}
                           onChange={(e) => { setModel(e.target.value); setIsCalculated(false); }}
-                          className="w-full bg-[#0f172a] border border-white/10 rounded-2xl px-6 py-5 text-white text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer"
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer shadow-sm"
                         >
                           <option value="" className="bg-[#0f172a]">-- Pilih Seri --</option>
                           {(MODELS_DATA[brand] || []).map(m => (
@@ -232,7 +232,7 @@ export default function TradeInPage() {
                         placeholder="cth: 256GB"
                         value={manualStorage}
                         onChange={(e) => { setManualStorage(e.target.value); setIsCalculated(false); }}
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white text-sm font-bold focus:border-brand-orange/50 outline-none"
+                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm"
                       />
                     ) : (
                       ['128GB', '256GB', '512GB'].map(s => (
@@ -264,14 +264,14 @@ export default function TradeInPage() {
                       key={i}
                       onClick={() => { setConditionIndex(i); setIsCalculated(false); }}
                       className={`w-full text-left p-6 rounded-3xl border transition-all ${
-                        conditionIndex === i ? 'bg-brand-orange/10 border-brand-orange/40' : 'bg-white/5 border-white/5 hover:border-white/10'
+                        conditionIndex === i ? 'bg-brand-orange/10 border-brand-orange/40' : 'bg-white border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <div className="flex justify-between items-center mb-2">
-                        <span className={`text-[13px] font-black uppercase tracking-[0.2em] ${conditionIndex === i ? 'text-brand-orange' : 'text-white'}`}>{c.label}</span>
+                        <span className={`text-[13px] font-black uppercase tracking-[0.2em] ${conditionIndex === i ? 'text-brand-orange' : 'text-slate-900'}`}>{c.label}</span>
                         {conditionIndex === i && <CheckCircle2 className="w-5 h-5 text-brand-orange" />}
                       </div>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed pr-10 font-medium">{c.desc}</p>
+                      <p className="text-[11px] text-slate-500 leading-relaxed pr-10 font-medium">{c.desc}</p>
                     </button>
                   ))}
                 </div>
@@ -332,12 +332,12 @@ export default function TradeInPage() {
                 </div>
               </div>
             ) : (
-              <div className="bg-card border-2 border-dashed border-border rounded-[3.5rem] p-20 flex flex-col items-center justify-center text-center">
-                <div className="w-24 h-24 rounded-[2.5rem] bg-white/5 flex items-center justify-center mb-10">
-                  <Smartphone className="w-12 h-12 text-slate-800" />
+              <div className="bg-white border-2 border-dashed border-slate-200 rounded-[3.5rem] p-20 flex flex-col items-center justify-center text-center shadow-sm">
+                <div className="w-24 h-24 rounded-[2.5rem] bg-slate-50 flex items-center justify-center mb-10">
+                  <Smartphone className="w-12 h-12 text-slate-400" />
                 </div>
-                <h3 className="text-white text-3xl font-black mb-6 tracking-tight">Menunggu Input</h3>
-                <p className="text-muted-foreground text-lg max-w-xs leading-relaxed font-medium">
+                <h3 className="text-slate-900 text-3xl font-black mb-6 tracking-tight">Menunggu Input</h3>
+                <p className="text-slate-500 text-lg max-w-xs leading-relaxed font-medium">
                   Lengkapi data unit di samping untuk mendapatkan estimasi penawaran beli dari tim kami.
                 </p>
               </div>
