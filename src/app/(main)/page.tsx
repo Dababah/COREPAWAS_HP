@@ -57,17 +57,12 @@ export default function Home() {
   const soldCount = products.filter((p) => p.status === 'Sold').length;
 
   return (
-    <div className="overflow-x-hidden bg-background">
+    <div className="overflow-x-hidden bg-transparent">
       {/* ─── HERO SECTION ─── */}
       <section className="relative min-h-[90vh] flex items-center justify-center pt-48 pb-20 px-6 overflow-hidden">
-        {/* Abstract Background Elements */}
+        {/* Abstract Background Elements - Removed local image to reveal global background */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={HERO_BG}
-            alt="Hero Background"
-            className="w-full h-full object-cover scale-105 opacity-[0.25]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-white/10" />
         </div>
 
         {/* Ambient Glows */}
@@ -152,7 +147,7 @@ export default function Home() {
                   <img 
                     src="https://images.unsplash.com/photo-1592890670286-9c622c89968a?q=80&w=800&auto=format&fit=crop" 
                     alt="Premium Device" 
-                    className="rounded-[2.5rem] w-full h-[500px] object-cover"
+                    className="rounded-[2.5rem] w-full h-[500px] object-cover opacity-100"
                   />
                   <div className="absolute -bottom-6 -left-6 glass-premium p-6 rounded-3xl border border-slate-200 -rotate-6 shadow-xl">
                     <div className="flex items-center gap-4">
@@ -196,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* ─── FEATURED PRODUCTS ─── */}
-      <section className="py-24 px-6 bg-white/5 border-y border-white/5 relative">
+      <section className="py-24 px-6 bg-slate-50/10 border-y border-slate-200/50 relative">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6">
             <div>

@@ -1,51 +1,86 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Background = () => {
-  // Collection of premium gadget/workspace images for the background collage
-  const images = [
-    'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?q=80&w=1200&auto=format&fit=crop', // iPhone black
-    'https://images.unsplash.com/photo-1556656793-062ff987b50d?q=80&w=1200&auto=format&fit=crop', // Gadgets
-    'https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1200&auto=format&fit=crop', // Minimalist desk
-    'https://images.unsplash.com/photo-1505156868547-9b49f4df4e04?q=80&w=1200&auto=format&fit=crop', // Tech setup
-    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200&auto=format&fit=crop', // Smartphone focus
-    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop', // MacBook
-  ];
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="fixed inset-0 -z-50 overflow-hidden bg-white pointer-events-none">
-      {/* Background Photo Collage/Grid Style */}
-      <div className="absolute inset-0 z-0 opacity-[0.3] grayscale saturate-0 grid grid-cols-2 lg:grid-cols-3 gap-0">
-        {images.map((src, idx) => (
-          <div key={idx} className="relative h-full w-full border-[0.5px] border-slate-900/5">
+      {/* 
+          High-End Graphic Design Collage using local assets (bg.jpeg & bg1.jpeg)
+          - Arranged for maximum visual impact and professional balance.
+          - High opacity (0.5) for clear visibility.
+      */}
+      <div className="absolute inset-0 z-0 opacity-[0.5]">
+        {/* Main Background Canvas (bg.jpeg) */}
+        <div 
+          className="absolute top-[-5%] left-0 w-full h-[110%] transition-transform duration-700 ease-out"
+          style={{ transform: `translateY(${scrollY * 0.04}px)` }}
+        >
+          <img 
+            src="/bg.jpeg" 
+            alt="Main Background" 
+            className="w-full h-full object-cover grayscale saturate-[0.5] opacity-60"
+          />
+        </div>
+
+        {/* Secondary Artistic Layer (bg1.jpeg) - Floating Accent */}
+        <div 
+          className="absolute top-[15%] right-[-5%] w-[60%] h-[70%] transition-transform duration-500 ease-out rotate-[-3deg]"
+          style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+        >
+          <div className="w-full h-full rounded-[4rem] overflow-hidden border border-slate-200/50 shadow-2xl">
             <img 
-              src={src} 
-              alt={`Premium Aesthetic ${idx}`} 
-              className="w-full h-full object-cover"
+              src="/bg1.jpeg" 
+              alt="Secondary Background" 
+              className="w-full h-full object-cover saturate-[1.2]"
             />
           </div>
-        ))}
+        </div>
+
+        {/* Floating Mirror Layer for Depth (bg1.jpeg mirrored) */}
+        <div 
+          className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[60%] transition-transform duration-1000 ease-out rotate-[5deg] opacity-80"
+          style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+        >
+          <div className="w-full h-full rounded-[4rem] overflow-hidden border border-slate-200/50 shadow-2xl">
+            <img 
+              src="/bg1.jpeg" 
+              alt="Mirror Background" 
+              className="w-full h-full object-cover grayscale brightness-110"
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Modern Gradient Overlays to keep UI clean - Softened for better visibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/40" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(250,140,22,0.08),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(15,23,42,0.08),transparent_70%)]" />
-
-      {/* Dynamic Animated Blobs (Very Subtle) */}
-      <div className="absolute top-[-10%] left-[-5%] w-[60vw] h-[60vw] rounded-full bg-blue-100/20 blur-[150px] animate-blob opacity-40" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[70vw] h-[70vw] rounded-full bg-orange-100/20 blur-[180px] animate-blob animation-delay-2000 opacity-30" />
+      {/* 
+          Strategic UI Overlays 
+          - Very light to ensure local assets shine through
+          - Studio lighting effects
+      */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/30" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.6),transparent_70%)]" />
       
-      {/* Subtle Technical Grid Overlay */}
+      {/* Structural Minimalist Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a03_1px,transparent_1px),linear-gradient(to_bottom,#0f172a03_1px,transparent_1px)] bg-[size:120px_120px]" />
       
-      {/* Central Brand Watermark (Logo from public) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.02] pointer-events-none flex items-center justify-center">
-        <img src="/watermark-logo.png" alt="Corepawas Logo" className="w-full h-full object-contain grayscale invert opacity-30" />
+      {/* Vibrant Brand Glows (Orange & Navy) */}
+      <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-brand-orange/10 blur-[150px] rounded-full animate-blob" />
+      <div className="absolute bottom-0 left-0 w-[60vw] h-[60vw] bg-brand-navy/5 blur-[150px] rounded-full animate-blob animation-delay-2000" />
+      
+      {/* Central Watermark (subtle) */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.02] flex items-center justify-center">
+        <img src="/watermark-logo.png" alt="Corepawas Logo" className="w-full h-full object-contain grayscale invert" />
       </div>
 
-      {/* Noise Texture for that premium grainy feel */}
-      <div className="absolute inset-0 opacity-[0.03] mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
+      {/* Premium Texture Grain */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/p6.png')]" />
     </div>
   );
 };
