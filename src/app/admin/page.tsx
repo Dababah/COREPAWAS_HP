@@ -770,26 +770,26 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="min-h-screen bg-transparent flex flex-col">
       {/* Top Nav */}
-      <header className="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
-            <Cpu className="w-4 h-4 text-white" />
+      <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-40 shadow-lg">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <Cpu className="w-6 h-6 text-white" />
           </div>
           <div>
-            <span className="text-white font-black text-sm">COREPAWAS</span>
-            <span className="ml-2 px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-medium uppercase">Admin</span>
+            <span className="text-white font-black text-lg tracking-tight">COREPAWAS</span>
+            <span className="ml-3 px-2 py-0.5 rounded-md bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest">Admin Panel</span>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Link href="/" target="_blank" className="text-slate-400 hover:text-white text-sm transition-colors flex items-center gap-1.5">
-            <Eye className="w-4 h-4" />
+        <div className="flex items-center gap-5">
+          <Link href="/" target="_blank" className="text-slate-300 hover:text-white text-sm font-bold transition-all flex items-center gap-2 group">
+            <Eye className="w-4 h-4 group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline">Lihat Web</span>
           </Link>
           <button
             onClick={onLogout}
-            className="flex items-center gap-1.5 text-slate-400 hover:text-red-400 text-sm transition-colors"
+            className="flex items-center gap-2 text-slate-300 hover:text-red-400 text-sm font-bold transition-all group"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             <span className="hidden sm:inline">Keluar</span>
           </button>
         </div>
@@ -797,18 +797,20 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="hidden sm:flex flex-col w-52 bg-slate-900/80 backdrop-blur-md border-r border-slate-800 p-3 gap-1">
+        <aside className="hidden sm:flex flex-col w-64 bg-slate-900 border-r border-slate-800 p-4 gap-2">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left ${
+              className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-black uppercase tracking-widest transition-all text-left border ${
                 activeTab === tab.id
-                  ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20 scale-[1.02]'
+                  : 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800 hover:border-slate-700'
               }`}
             >
-              {tab.icon}
+              <div className={`${activeTab === tab.id ? 'text-white' : 'text-slate-500'}`}>
+                {tab.icon}
+              </div>
               {tab.label}
             </button>
           ))}
@@ -841,37 +843,44 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               {/* Stats */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {[
-                  { label: 'Total Produk', value: products.length, icon: <Package className="w-5 h-5 text-blue-400" />, color: 'blue' },
-                  { label: 'Ready Stock', value: readyCount, icon: <CheckCircle className="w-5 h-5 text-emerald-400" />, color: 'emerald' },
-                  { label: 'Terjual', value: soldCount, icon: <TrendingUp className="w-5 h-5 text-purple-400" />, color: 'purple' },
-                  { label: 'Total Artikel', value: blogPosts.length, icon: <BookOpen className="w-5 h-5 text-cyan-400" />, color: 'cyan' },
+                  { label: 'Total Produk', value: products.length, icon: <Package className="w-6 h-6 text-blue-400" />, color: 'blue' },
+                  { label: 'Ready Stock', value: readyCount, icon: <CheckCircle className="w-6 h-6 text-emerald-400" />, color: 'emerald' },
+                  { label: 'Terjual', value: soldCount, icon: <TrendingUp className="w-6 h-6 text-purple-400" />, color: 'purple' },
+                  { label: 'Total Artikel', value: blogPosts.length, icon: <BookOpen className="w-6 h-6 text-cyan-400" />, color: 'cyan' },
                 ].map((stat, i) => (
-                  <div key={i} className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-slate-400 text-xs font-medium">{stat.label}</span>
-                      {stat.icon}
+                  <div key={i} className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl group hover:border-blue-500/30 transition-all">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-slate-500 text-[10px] font-black uppercase tracking-widest">{stat.label}</span>
+                      <div className="p-2 rounded-xl bg-slate-800 group-hover:scale-110 transition-transform">
+                        {stat.icon}
+                      </div>
                     </div>
-                    <div className="text-3xl font-black text-white">{stat.value}</div>
+                    <div className="text-4xl font-black text-white tracking-tight">{stat.value}</div>
                   </div>
                 ))}
               </div>
 
               {/* Value card */}
-              <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-600/10 border border-blue-500/30 mb-8">
-                <div className="flex items-center gap-3 mb-2">
-                  <BarChart3 className="w-5 h-5 text-blue-400" />
-                  <span className="text-slate-300 text-sm font-medium">Total Nilai Stok Ready</span>
-                </div>
-                <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  {formatPrice(totalValue)}
+               <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-400/30 mb-10 shadow-2xl shadow-blue-900/20 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[100px] rounded-full -mr-20 -mt-20" />
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+                      <BarChart3 className="w-6 h-6 text-white" />
+                    </div>
+                    <span className="text-blue-100 text-xs font-black uppercase tracking-[0.2em]">Total Nilai Stok Ready</span>
+                  </div>
+                  <div className="text-5xl font-black text-white tracking-tighter drop-shadow-sm">
+                    {formatPrice(totalValue)}
+                  </div>
                 </div>
               </div>
 
               {/* Recent Products */}
-              <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
-                <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
-                  <h3 className="text-white font-bold">Produk Terbaru</h3>
-                  <button onClick={() => setActiveTab('produk')} className="text-blue-400 text-sm hover:text-blue-300">Lihat Semua</button>
+               <div className="rounded-[2.5rem] bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl">
+                <div className="flex items-center justify-between px-8 py-6 border-b border-slate-800">
+                  <h3 className="text-white font-black uppercase tracking-widest text-sm">Produk Terbaru</h3>
+                  <button onClick={() => setActiveTab('produk')} className="text-blue-400 text-xs font-black uppercase tracking-widest hover:text-blue-300 transition-colors">Lihat Semua</button>
                 </div>
                 <div className="divide-y divide-slate-800">
                   {products.slice(0, 4).map((p) => (
@@ -907,59 +916,61 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {/* ─── Produk ─── */}
           {activeTab === 'produk' && (
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-xl font-black text-white">Kelola Produk</h1>
+              <div className="flex items-center justify-between mb-8">
+                <h1 className="text-2xl font-black text-white tracking-tight uppercase">Kelola Produk</h1>
                 <button
                   onClick={() => setEditingProduct(null)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                  className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-blue-600 text-white font-black text-sm hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 active:scale-95"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-5 h-5" />
                   Tambah Produk
                 </button>
               </div>
 
               {/* Search */}
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <div className="relative mb-6">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Cari produk..."
+                  placeholder="Cari nama produk atau brand..."
                   value={productSearch}
                   onChange={(e) => setProductSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                  className="w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner font-medium"
                 />
               </div>
 
               {/* Table */}
-              <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden">
+              <div className="rounded-[2.5rem] bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-slate-800">
-                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Produk</th>
-                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider hidden sm:table-cell">Harga</th>
-                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider hidden md:table-cell">Kondisi</th>
-                        <th className="text-left px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Status</th>
-                        <th className="text-right px-4 py-3 text-slate-400 text-xs font-medium uppercase tracking-wider">Aksi</th>
+                      <tr className="bg-slate-800/50 border-b border-slate-700">
+                        <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Info Produk</th>
+                        <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] hidden sm:table-cell">Harga Jual</th>
+                        <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] hidden md:table-cell">Kondisi Fisik</th>
+                        <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Status Stok</th>
+                        <th className="text-right px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Aksi Cepat</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800">
                       {filteredProducts.map((p) => (
-                        <tr key={p.id} className="hover:bg-slate-800/30 transition-colors">
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                        <tr key={p.id} className="hover:bg-slate-800/40 transition-colors border-b border-slate-800/50 last:border-0">
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-4">
+                              <div className="relative group">
+                                <img src={p.image} alt={p.name} className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-slate-700 shadow-lg group-hover:scale-105 transition-transform" />
+                              </div>
                               <div className="min-w-0">
-                                <p className="text-white text-sm font-medium truncate">{p.name}</p>
-                                <p className="text-slate-500 text-xs">{p.brand}</p>
+                                <p className="text-white text-sm font-black truncate tracking-tight">{p.name}</p>
+                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-0.5">{p.brand}</p>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 py-3 hidden sm:table-cell">
-                            <span className="text-white text-sm font-semibold">{formatPrice(p.price)}</span>
+                          <td className="px-6 py-5 hidden sm:table-cell">
+                            <span className="text-white text-base font-black tracking-tighter">{formatPrice(p.price)}</span>
                           </td>
-                          <td className="px-4 py-3 hidden md:table-cell">
-                            <span className="text-slate-300 text-sm">{p.condition}</span>
+                          <td className="px-6 py-5 hidden md:table-cell">
+                            <span className="text-slate-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-lg bg-slate-800 border border-slate-700">{p.condition}</span>
                           </td>
                           <td className="px-4 py-3">
                             <button
@@ -1011,52 +1022,52 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {/* ─── Blog ─── */}
           {activeTab === 'blog' && (
             <div>
-              <div className="flex items-center justify-between mb-6">
-                <h1 className="text-xl font-black text-white">Kelola Blog</h1>
+              <div className="flex items-center justify-between mb-8">
+                <h1 className="text-2xl font-black text-white tracking-tight uppercase">Kelola Blog</h1>
                 <button
                   onClick={() => setEditingBlog(null)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-sm hover:opacity-90 transition-opacity"
+                  className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-blue-600 text-white font-black text-sm hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 active:scale-95"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-5 h-5" />
                   Tambah Artikel
                 </button>
               </div>
 
-              <div className="relative mb-4">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <div className="relative mb-6">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                 <input
                   type="text"
-                  placeholder="Cari artikel..."
+                  placeholder="Cari judul artikel..."
                   value={blogSearch}
                   onChange={(e) => setBlogSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 text-sm"
+                  className="w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner font-medium"
                 />
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {filteredBlog.map((post) => (
-                  <div key={post.id} className="flex items-center gap-4 p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-colors">
-                    <img src={post.image} alt={post.title} className="w-16 h-16 rounded-xl object-cover flex-shrink-0" />
+                  <div key={post.id} className="flex items-center gap-6 p-5 rounded-[2rem] bg-slate-900 border border-slate-800 hover:border-blue-500/30 transition-all group shadow-xl">
+                    <img src={post.image} alt={post.title} className="w-20 h-20 rounded-2xl object-cover flex-shrink-0 border border-slate-800 shadow-lg group-hover:scale-105 transition-transform" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-semibold text-sm truncate">{post.title}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-purple-400 text-xs">{post.category}</span>
-                        <span className="text-slate-500 text-xs">·</span>
-                        <span className="text-slate-500 text-xs">{post.date}</span>
+                      <p className="text-white font-black text-base truncate tracking-tight mb-2 uppercase">{post.title}</p>
+                      <div className="flex items-center gap-3">
+                        <span className="px-3 py-1 rounded-lg bg-purple-500/10 text-purple-400 text-[10px] font-black uppercase tracking-widest border border-purple-500/20">{post.category}</span>
+                        <span className="text-slate-600 text-xs font-bold">·</span>
+                        <span className="text-slate-500 text-xs font-bold">{post.date}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <button onClick={() => setEditingBlog(post)} className="p-1.5 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
-                        <Pencil className="w-4 h-4" />
+                    <div className="flex items-center gap-3 flex-shrink-0">
+                      <button onClick={() => setEditingBlog(post)} className="p-2.5 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors border border-transparent hover:border-blue-500/20">
+                        <Pencil className="w-5 h-5" />
                       </button>
-                      <button onClick={() => handleDeleteBlog(post.id)} className="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors">
-                        <Trash2 className="w-4 h-4" />
+                      <button onClick={() => handleDeleteBlog(post.id)} className="p-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors border border-transparent hover:border-red-500/20">
+                        <Trash2 className="w-5 h-5" />
                       </button>
                     </div>
                   </div>
                 ))}
                 {filteredBlog.length === 0 && (
-                  <div className="text-center py-12 text-slate-500">Tidak ada artikel ditemukan.</div>
+                  <div className="text-center py-20 bg-slate-900/50 rounded-3xl border border-dashed border-slate-800 text-slate-500 font-bold">Tidak ada artikel ditemukan.</div>
                 )}
               </div>
             </div>
@@ -1065,95 +1076,94 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {/* ─── Pengaturan ─── */}
           {activeTab === 'pengaturan' && (
             <div>
-              <h1 className="text-xl font-black text-white mb-6">Pengaturan</h1>
+              <h1 className="text-2xl font-black text-white mb-8 tracking-tight uppercase">Pengaturan Toko</h1>
 
-              <div className="space-y-5 max-w-lg">
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
-                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                    <MessageSquare className="w-4 h-4 text-green-400" />
-                    WhatsApp
+              <div className="space-y-6 max-w-2xl">
+                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
+                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
+                    <div className="w-1.5 h-6 bg-green-500 rounded-full" />
+                    Integrasi WhatsApp
                   </h3>
-                  <div>
-                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Nomor WhatsApp (tanpa +)</label>
+                  <div className="space-y-4">
+                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest">Nomor Tujuan Konsultasi</label>
                     <input
                       type="text"
                       value={settingsWa}
                       onChange={(e) => setSettingsWa(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+                      className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
                       placeholder="6281234567890"
                     />
-                    <p className="text-slate-500 text-xs mt-1">Format: 628xxxxxxxxxx (tanpa spasi atau tanda +)</p>
+                    <div className="flex gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700">
+                      <Info className="w-4 h-4 text-slate-500 flex-shrink-0" />
+                      <p className="text-slate-500 text-[10px] leading-relaxed font-bold">Format harus menggunakan kode negara tanpa tanda + (cth: 628...). Nomor ini akan digunakan untuk semua tombol "Tanya via WA".</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
-                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                    <Settings className="w-4 h-4 text-blue-400" />
-                    Informasi Toko
+                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
+                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
+                    <div className="w-1.5 h-6 bg-blue-500 rounded-full" />
+                    Identitas Toko
                   </h3>
-                  <div>
-                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Alamat Toko</label>
+                  <div className="space-y-4">
+                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest">Alamat Lengkap Operasional</label>
                     <textarea
                       value={settingsAddr}
                       onChange={(e) => setSettingsAddr(e.target.value)}
                       rows={3}
-                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none"
+                      className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:outline-none focus:border-blue-500 resize-none transition-all"
                     />
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800">
-                  <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-red-400" />
-                    Google Maps
+                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
+                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
+                    <div className="w-1.5 h-6 bg-red-500 rounded-full" />
+                    Konfigurasi Google Maps
                   </h3>
-                  <div>
-                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Google Maps API Key</label>
-                    <input
-                      type="password"
-                      value={settingsMapKey}
-                      onChange={(e) => setSettingsMapKey(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
-                      placeholder="AIza..."
-                    />
-                    <p className="text-slate-500 text-xs mt-2">
-                      Dibutuhkan untuk performa map yang stabil. Jika dikosongkan, akan menggunakan mode gratis (mungkin tidak stabil).
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Direct Google Maps Link (Share Link)</label>
-                    <input
-                      type="text"
-                      value={settingsMapUrl}
-                      onChange={(e) => setSettingsMapUrl(e.target.value)}
-                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
-                      placeholder="https://maps.app.goo.gl/..."
-                    />
-                    <p className="text-slate-500 text-xs mt-2">
-                      Gunakan link share dari Google Maps (seperti short link) untuk tombol navigasi lokasi.
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Manual Embed URL (Standard Iframe Src)</label>
-                    <textarea
-                      value={settingsMapEmbed}
-                      onChange={(e) => setSettingsMapEmbed(e.target.value)}
-                      rows={3}
-                      className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500 resize-none font-mono"
-                      placeholder="https://www.google.com/maps/embed?pb=..."
-                    />
-                    <p className="text-slate-500 text-xs mt-2">
-                      Masukkan URL `src` dari kode iframe Google Maps. Metode ini paling stabil dan tidak memerlukan API key.
-                    </p>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Google Maps API Key</label>
+                      <input
+                        type="password"
+                        value={settingsMapKey}
+                        onChange={(e) => setSettingsMapKey(e.target.value)}
+                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-mono focus:border-blue-500 outline-none"
+                        placeholder="AIza..."
+                      />
+                      <p className="text-slate-500 text-[10px] mt-2 font-bold italic">
+                        *Dibutuhkan untuk performa map yang stabil.
+                      </p>
+                    </div>
+                    <div>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Direct Google Maps Link</label>
+                      <input
+                        type="text"
+                        value={settingsMapUrl}
+                        onChange={(e) => setSettingsMapUrl(e.target.value)}
+                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:border-blue-500 outline-none"
+                        placeholder="https://maps.app.goo.gl/..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Manual Embed URL (Iframe Src)</label>
+                      <textarea
+                        value={settingsMapEmbed}
+                        onChange={(e) => setSettingsMapEmbed(e.target.value)}
+                        rows={3}
+                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-[11px] font-mono focus:border-blue-500 resize-none outline-none"
+                        placeholder="https://www.google.com/maps/embed?..."
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <button
                   onClick={handleSaveSettings}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity"
+                  className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 rounded-[2rem] bg-blue-600 text-white font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-500 transition-all active:scale-95"
                 >
-                  <Save className="w-4 h-4" />
-                  {saved ? '✓ Tersimpan!' : 'Simpan Pengaturan'}
+                  <Save className="w-5 h-5" />
+                  {saved ? 'DATA BERHASIL DISIMPAN!' : 'SIMPAN SEMUA PERUBAHAN'}
                 </button>
 
                 <div className="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
@@ -1180,11 +1190,14 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </button>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-red-500/5 border border-red-500/20">
-                  <h3 className="text-red-400 font-bold mb-2">Danger Zone</h3>
-                  <p className="text-slate-400 text-sm mb-4">Reset semua data produk dan blog ke kondisi awal (demo data).</p>
-                  <button onClick={handleResetData} className="px-4 py-2 rounded-lg border border-red-500/40 text-red-400 text-sm font-medium hover:bg-red-500/10 transition-colors">
-                    Reset ke Data Default
+                <div className="p-8 rounded-3xl bg-red-950/20 border border-red-500/20">
+                  <h3 className="text-red-500 font-black uppercase tracking-widest text-sm mb-2 flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5" />
+                    Zona Bahaya
+                  </h3>
+                  <p className="text-slate-500 text-[11px] mb-6 font-bold leading-relaxed">Menghapus semua data kustom Anda dan mengembalikan sistem ke kondisi awal (demo data). Tindakan ini tidak dapat dibatalkan.</p>
+                  <button onClick={handleResetData} className="px-6 py-3 rounded-xl border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">
+                    Reset Database ke Default
                   </button>
                 </div>
               </div>
