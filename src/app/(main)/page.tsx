@@ -1,11 +1,11 @@
 "use client";
 import Link from 'next/link';
-import { 
-  Smartphone, 
-  ShieldCheck, 
-  Zap, 
-  ArrowRight, 
-  Star, 
+import {
+  Smartphone,
+  ShieldCheck,
+  Zap,
+  ArrowRight,
+  Star,
   MessageSquare,
   Lock,
   Database,
@@ -90,7 +90,7 @@ export default function Home() {
               </h1>
 
               <p className="text-muted-foreground text-xl sm:text-2xl mb-14 max-w-2xl leading-relaxed font-medium">
-                Takut kena prank beli HP bekas? Di <b className="text-brand-orange">COREPAWAS</b> nggak ada drama. 
+                Takut kena prank beli HP bekas? Di <b className="text-brand-orange">COREPAWAS</b> nggak ada drama.
                 Unit pilihan, inspeksi teknisi, dan transparansi 100%.
               </p>
 
@@ -115,27 +115,27 @@ export default function Home() {
                   Konsultasi Unit
                 </a>
               </div>
-              
+
               {/* Trust Stats */}
               <div className="mt-16 flex flex-wrap gap-8">
-                 <div className="flex items-center gap-3">
-                   <div className="w-12 h-12 rounded-xl bg-brand-navy border border-brand-orange/20 flex items-center justify-center">
-                     <Users className="w-6 h-6 text-brand-orange" />
-                   </div>
-                   <div>
-                     <div className="text-xl font-black text-slate-900 leading-none">1000+</div>
-                     <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Loyal Users</div>
-                   </div>
-                 </div>
-                 <div className="flex items-center gap-3">
-                   <div className="w-12 h-12 rounded-xl bg-brand-navy border border-brand-orange/20 flex items-center justify-center">
-                     <Star className="w-6 h-6 text-brand-orange" />
-                   </div>
-                   <div>
-                     <div className="text-xl font-black text-slate-900 leading-none">4.9/5.0</div>
-                     <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Reviews</div>
-                   </div>
-                 </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-brand-navy border border-brand-orange/20 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-brand-orange" />
+                  </div>
+                  <div>
+                    <div className="text-xl font-black text-slate-900 leading-none">1000+</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Loyal Users</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-brand-navy border border-brand-orange/20 flex items-center justify-center">
+                    <Star className="w-6 h-6 text-brand-orange" />
+                  </div>
+                  <div>
+                    <div className="text-xl font-black text-slate-900 leading-none">4.9/5.0</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Reviews</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -144,9 +144,9 @@ export default function Home() {
               <div className="relative animate-float-premium">
                 <div className="absolute inset-0 bg-brand-orange/20 blur-[100px] rounded-full" />
                 <div className="relative glass-premium p-4 rounded-[3rem] border border-slate-200 rotate-3 shadow-2xl overflow-hidden">
-                  <img 
-                    src="https://images.unsplash.com/photo-1592890670286-9c622c89968a?q=80&w=800&auto=format&fit=crop" 
-                    alt="Premium Device" 
+                  <img
+                    src="/float.jpeg"
+                    alt="Premium Device"
                     className="rounded-[2.5rem] w-full h-[500px] object-cover opacity-100"
                   />
                   <div className="absolute -bottom-6 -left-6 glass-premium p-6 rounded-3xl border border-slate-200 -rotate-6 shadow-xl">
@@ -221,41 +221,41 @@ export default function Home() {
       {/* ─── SERVICES BENTO ─── */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-           <div className="grid lg:grid-cols-12 gap-6 h-auto lg:h-[600px]">
-              {/* Big Bento Card: Trade In */}
-              <div className="lg:col-span-8 group relative rounded-[3rem] bg-brand-navy border border-slate-800 overflow-hidden p-10 sm:p-16 flex flex-col justify-between shadow-2xl">
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-orange/10 blur-[120px]" />
-                <div>
-                  <div className="w-16 h-16 rounded-2xl bg-brand-orange flex items-center justify-center text-white mb-8">
-                    <TrendingUp className="w-8 h-8" />
-                  </div>
-                  <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter leading-none">
-                    Mau Tukar <br />Tambah HP?
-                  </h2>
-                  <p className="text-slate-300 text-lg max-w-md font-medium">
-                    Bawa HP lamamu, kami hargai dengan harga jujur (bakul) untuk dipotong ke HP impianmu selanjutnya.
-                  </p>
+          <div className="grid lg:grid-cols-12 gap-6 h-auto lg:h-[600px]">
+            {/* Big Bento Card: Trade In */}
+            <div className="lg:col-span-8 group relative rounded-[3rem] bg-brand-navy border border-slate-800 overflow-hidden p-10 sm:p-16 flex flex-col justify-between shadow-2xl">
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-orange/10 blur-[120px]" />
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-brand-orange flex items-center justify-center text-white mb-8">
+                  <TrendingUp className="w-8 h-8" />
                 </div>
-                <Link href="/tukar-tambah" className="mt-12 inline-flex items-center gap-4 text-xl font-black text-white group-hover:text-brand-orange transition-colors">
-                  Cek Estimasi Harga <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                </Link>
+                <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter leading-none">
+                  Mau Tukar <br />Tambah HP?
+                </h2>
+                <p className="text-slate-300 text-lg max-w-md font-medium">
+                  Bawa HP lamamu, kami hargai dengan harga jujur (bakul) untuk dipotong ke HP impianmu selanjutnya.
+                </p>
               </div>
+              <Link href="/tukar-tambah" className="mt-12 inline-flex items-center gap-4 text-xl font-black text-white group-hover:text-brand-orange transition-colors">
+                Cek Estimasi Harga <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+              </Link>
+            </div>
 
-              <div className="lg:col-span-4 group relative rounded-[3rem] bg-white border border-slate-200 p-10 flex flex-col justify-between hover:border-brand-orange/30 transition-all shadow-sm">
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-900 mb-6">
-                    <Cpu className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Teknisi & Jasa</h3>
-                  <p className="text-muted-foreground font-medium">
-                    Flash ROM, migrasi data, hingga inspeksi unit dari seller lain.
-                  </p>
+            <div className="lg:col-span-4 group relative rounded-[3rem] bg-white border border-slate-200 p-10 flex flex-col justify-between hover:border-brand-orange/30 transition-all shadow-sm">
+              <div>
+                <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-900 mb-6">
+                  <Cpu className="w-7 h-7" />
                 </div>
-                <Link href="/jasa" className="mt-8 flex items-center gap-2 font-black text-brand-orange group-hover:gap-4 transition-all">
-                  Lihat Layanan <ChevronRight className="w-5 h-5" />
-                </Link>
+                <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tight">Teknisi & Jasa</h3>
+                <p className="text-muted-foreground font-medium">
+                  Flash ROM, migrasi data, hingga inspeksi unit dari seller lain.
+                </p>
               </div>
-           </div>
+              <Link href="/jasa" className="mt-8 flex items-center gap-2 font-black text-brand-orange group-hover:gap-4 transition-all">
+                Lihat Layanan <ChevronRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -295,21 +295,21 @@ export default function Home() {
       {/* ─── FINAL FOOTER CTA ─── */}
       <section className="py-24 px-6 text-center border-t border-white/5">
         <div className="max-w-4xl mx-auto">
-           <div className="mb-10 flex justify-center">
-             <div className="w-20 h-20 rounded-3xl bg-brand-orange/10 flex items-center justify-center animate-bounce">
-                <MessageSquare className="w-10 h-10 text-brand-orange" />
-             </div>
-           </div>
-           <h2 className="text-4xl font-black text-slate-900 mb-6">Masih Bingung?</h2>
-           <p className="text-slate-500 text-xl mb-12 italic font-medium">
-             "Mau tanya spek atau konsultasi budget? Chat aja dulu yuk Kak, gratis kok!"
-           </p>
-           <a
-             href={`https://wa.me/${waNumber}`}
-             className="inline-flex items-center gap-4 px-12 py-6 rounded-3xl bg-slate-900 text-white font-black text-2xl hover:bg-brand-orange transition-all shadow-2xl"
-           >
-             <WhatsAppIcon className="w-8 h-8" /> Chat WA Sekarang
-           </a>
+          <div className="mb-10 flex justify-center">
+            <div className="w-20 h-20 rounded-3xl bg-brand-orange/10 flex items-center justify-center animate-bounce">
+              <MessageSquare className="w-10 h-10 text-brand-orange" />
+            </div>
+          </div>
+          <h2 className="text-4xl font-black text-slate-900 mb-6">Masih Bingung?</h2>
+          <p className="text-slate-500 text-xl mb-12 italic font-medium">
+            "Mau tanya spek atau konsultasi budget? Chat aja dulu yuk Kak, gratis kok!"
+          </p>
+          <a
+            href={`https://wa.me/${waNumber}`}
+            className="inline-flex items-center gap-4 px-12 py-6 rounded-3xl bg-slate-900 text-white font-black text-2xl hover:bg-brand-orange transition-all shadow-2xl"
+          >
+            <WhatsAppIcon className="w-8 h-8" /> Chat WA Sekarang
+          </a>
         </div>
       </section>
     </div>
