@@ -209,5 +209,6 @@ export default function AiAssistant({ onFillProduct, onFillBlog }: AiAssistantPr
           <p className="text-slate-600 text-[9px] font-medium uppercase tracking-[0.1em]">Tekan Ignite untuk memproses data.</p>
         </div>
       </div>
+    </div>
   );
 }
