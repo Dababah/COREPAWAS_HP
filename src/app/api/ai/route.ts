@@ -15,13 +15,6 @@ export async function POST(req: Request) {
       }, { status: 500 });
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    // Explicitly using v1 endpoint
-    const model = genAI.getGenerativeModel(
-      { model: "gemini-1.5-flash" },
-      { apiVersion: "v1" }
-    );
-
     let systemInstruction = "";
     if (type === 'product') {
       systemInstruction = `
@@ -60,7 +53,13 @@ export async function POST(req: Request) {
       `;
     }
 
-    const result = await model.generateContent([systemInstruction, prompt]);
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-3.1-flash-lite",
+      systemInstruction: systemInstruction,
+    });
+
+    const result = await model.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
     
