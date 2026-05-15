@@ -111,102 +111,178 @@ export default function AiAssistant({ onFillProduct, onFillBlog }: AiAssistantPr
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/60 backdrop-blur-md">
-      <div className="w-full max-w-md bg-brand-navy-dark border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col animate-fade-in-up">
-        {/* Header - More Compact */}
-        <div className="p-5 bg-gradient-to-r from-brand-navy/20 to-brand-orange/20 border-b border-white/5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-orange flex items-center justify-center shadow-lg shadow-brand-orange/20">
-              <Sparkles className="w-5 h-5 text-white" />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/40 backdrop-blur-sm">
+      <div className="w-full max-w-[380px] bg-brand-navy-dark border border-white/10 rounded-[1.5rem] shadow-[0_25px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col animate-fade-in-up">
+        {/* Header - Compact & Sharp */}
+        <div className="p-4 bg-gradient-to-r from-brand-navy/10 to-brand-orange/10 border-b border-white/5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center shadow-lg shadow-brand-orange/20">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h3 className="text-white font-bold text-sm tracking-wide uppercase">AI Neural Core</h3>
-              <p className="text-orange-400 text-[8px] uppercase font-black tracking-[0.2em]">Smart Admin Engine</p>
+              <h3 className="text-white font-bold text-[11px] tracking-wider uppercase">Neural Editor</h3>
+              <p className="text-orange-400 text-[7px] uppercase font-black tracking-[0.2em]">Ready to Sync</p>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-lg bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-all">
-            <X className="w-4 h-4" />
+          <button onClick={() => setIsOpen(false)} className="w-7 h-7 rounded-lg bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-all">
+            <X className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <div className="p-6 space-y-5">
-          {/* Type Selector - Sleeker */}
-          <div className="flex p-1 bg-brand-navy rounded-xl border border-white/5">
-            <button
-              onClick={() => { setType('product'); setResult(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                type === 'product' ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
-              }`}
-            >
-              <Package className="w-3 h-3" />
-              Stok
-            </button>
-            <button
-              onClick={() => { setType('blog'); setResult(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                type === 'blog' ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
-              }`}
-            >
-              <BookOpen className="w-3 h-3" />
-              Blog
-            </button>
-          </div>
+        <div className="p-5 space-y-4 max-h-[85vh] overflow-y-auto scrollbar-hide">
+          {!result ? (
+            <div className="space-y-4">
+              {/* Type Selector */}
+              <div className="flex p-1 bg-brand-navy rounded-xl border border-white/5">
+                <button
+                  onClick={() => setType('product')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
+                    type === 'product' ? 'bg-brand-orange text-white' : 'text-slate-500 hover:text-white'
+                  }`}
+                >
+                  <Package className="w-3 h-3" /> Stok
+                </button>
+                <button
+                  onClick={() => setType('blog')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
+                    type === 'blog' ? 'bg-brand-orange text-white' : 'text-slate-500 hover:text-white'
+                  }`}
+                >
+                  <BookOpen className="w-3 h-3" /> Blog
+                </button>
+              </div>
 
-          {/* Prompt Input - More focused */}
-          <div className="relative">
-            <textarea
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder={
-                type === 'product' 
-                ? "Sebutkan detail HP..." 
-                : "Ide artikel blog..."
-              }
-              className="w-full bg-brand-navy/50 border border-white/5 rounded-2xl p-5 pr-14 text-white text-xs focus:border-brand-orange/40 focus:outline-none transition-all resize-none min-h-[120px] font-medium leading-relaxed"
-            />
-            <button
-              onClick={toggleRecording}
-              className={`absolute right-4 bottom-4 w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-brand-navy-dark border border-white/10 text-slate-400 hover:text-white'
-              }`}
-            >
-              <Mic className="w-4 h-4" />
-            </button>
-          </div>
-
-          <button
-            onClick={handleGenerate}
-            disabled={loading || !prompt.trim()}
-            className="w-full py-4 rounded-2xl bg-brand-orange text-white font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-brand-orange/20 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-widest"
-          >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Sparkles className="w-4 h-4" /> Ignite AI</>}
-          </button>
-
-          {/* Result Preview - Optimized height */}
-          {result && (
-            <div className="space-y-4 animate-fade-in">
-              <div className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
-                <div className="flex items-center gap-2 text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-3">
-                  <Check className="w-3 h-3" />
-                  Neural Analysis Complete
-                </div>
-                <div className="bg-black/30 rounded-xl p-3 text-[9px] font-mono text-slate-400 overflow-auto max-h-32 border border-white/5 scrollbar-hide">
-                  <pre>{JSON.stringify(result, null, 2)}</pre>
-                </div>
+              {/* Prompt Input */}
+              <div className="relative">
+                <textarea
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder={type === 'product' ? "Sebutkan detail HP..." : "Ide artikel..."}
+                  className="w-full bg-brand-navy/30 border border-white/5 rounded-2xl p-4 pr-12 text-white text-[11px] focus:border-brand-orange/40 focus:outline-none transition-all resize-none min-h-[100px] font-medium"
+                />
+                <button
+                  onClick={toggleRecording}
+                  className={`absolute right-3 bottom-3 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
+                    isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-brand-navy text-slate-400'
+                  }`}
+                >
+                  <Mic className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               <button
-                onClick={handleApply}
-                className="w-full py-3.5 rounded-xl bg-white text-brand-navy-dark font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-100 transition-all shadow-lg"
+                onClick={handleGenerate}
+                disabled={loading || !prompt.trim()}
+                className="w-full py-3.5 rounded-xl bg-brand-orange text-white font-black text-[11px] flex items-center justify-center gap-2 shadow-lg shadow-brand-orange/20 hover:brightness-110 transition-all disabled:opacity-50 uppercase tracking-widest"
               >
-                Terapkan Data <ArrowRight className="w-4 h-4" />
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Sparkles className="w-3.5 h-3.5" /> Ignite AI</>}
               </button>
+            </div>
+          ) : (
+            <div className="space-y-4 animate-fade-in">
+              {/* Editable Fields for Product */}
+              {type === 'product' && (
+                <div className="space-y-3">
+                  <div className="p-3 bg-brand-navy/30 rounded-xl border border-white/5 space-y-3">
+                    <div className="space-y-1">
+                      <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Nama Produk</label>
+                      <input 
+                        className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] focus:border-brand-orange/40 outline-none"
+                        value={result.name}
+                        onChange={(e) => setResult({...result, name: e.target.value})}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Harga</label>
+                        <input 
+                          type="number"
+                          className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                          value={result.price}
+                          onChange={(e) => setResult({...result, price: Number(e.target.value)})}
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Storage</label>
+                        <input 
+                          className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                          value={result.storage}
+                          onChange={(e) => setResult({...result, storage: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Brand</label>
+                        <select 
+                          className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                          value={result.brand}
+                          onChange={(e) => setResult({...result, brand: e.target.value})}
+                        >
+                          {["iPhone", "Samsung", "Xiaomi", "Oppo", "Vivo", "Realme", "Other"].map(b => <option key={b} value={b}>{b}</option>)}
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Kondisi</label>
+                        <select 
+                          className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                          value={result.condition}
+                          onChange={(e) => setResult({...result, condition: e.target.value})}
+                        >
+                          {["Like New", "Very Good", "Good"].map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Editable Fields for Blog */}
+              {type === 'blog' && (
+                <div className="space-y-3">
+                  <div className="p-3 bg-brand-navy/30 rounded-xl border border-white/5 space-y-3">
+                    <div className="space-y-1">
+                      <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Judul Artikel</label>
+                      <input 
+                        className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                        value={result.title}
+                        onChange={(e) => setResult({...result, title: e.target.value})}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[8px] text-slate-500 uppercase font-black tracking-widest ml-1">Kategori</label>
+                      <select 
+                        className="w-full bg-black/20 border border-white/5 rounded-lg p-2 text-white text-[10px] outline-none"
+                        value={result.category}
+                        onChange={(e) => setResult({...result, category: e.target.value})}
+                      >
+                        {["Tips & Tricks", "Edukasi Teknis", "Panduan", "Berita"].map(c => <option key={c} value={c}>{c}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setResult(null)}
+                  className="flex-1 py-3 rounded-xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white transition-all"
+                >
+                  Ulangi
+                </button>
+                <button
+                  onClick={handleApply}
+                  className="flex-[2] py-3 rounded-xl bg-emerald-500 text-white font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:brightness-110"
+                >
+                  Terapkan Data <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           )}
         </div>
         
-        <div className="p-4 bg-black/10 text-center border-t border-white/5">
-          <p className="text-slate-600 text-[9px] font-medium uppercase tracking-[0.1em]">Tekan Ignite untuk memproses data.</p>
+        <div className="p-3 bg-black/10 text-center border-t border-white/5">
+          <p className="text-slate-600 text-[8px] font-bold uppercase tracking-[0.1em]">Neural Sync Active</p>
         </div>
       </div>
     </div>
