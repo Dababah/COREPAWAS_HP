@@ -169,19 +169,6 @@ export default function CustomerChat() {
         )}
       </AnimatePresence>
 
-      {/* Floating Toggle Button */}
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 pointer-events-auto ${
-          isOpen 
-            ? 'bg-slate-800 text-slate-400 rotate-90' 
-            : 'bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-blue-500/20'
-        }`}
-      >
-        {isOpen ? <X className="w-8 h-8" /> : <MessageSquare className="w-8 h-8" />}
-      </motion.button>
     </div>
   );
 }

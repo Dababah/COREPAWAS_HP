@@ -2,6 +2,7 @@
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Bot } from 'lucide-react';
 
 const TiktokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -16,7 +17,7 @@ const InstagramIcon = () => (
 );
 
 export default function FloatingButtons() {
-  const { waNumber, isChatOpen } = useData();
+  const { waNumber, isChatOpen, setIsChatOpen } = useData();
 
   return (
     <AnimatePresence>
@@ -61,14 +62,27 @@ export default function FloatingButtons() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp COREPAWAS"
-            className="group relative w-14 h-14 rounded-[1.25rem] bg-brand-orange flex items-center justify-center text-white hover:bg-orange-500 hover:scale-110 transition-all duration-500 shadow-2xl shadow-brand-orange/40"
+            className="group relative w-12 h-12 rounded-2xl bg-[#25D366] flex items-center justify-center text-white hover:scale-110 transition-all duration-500 shadow-2xl shadow-green-500/20"
           >
-            <WhatsAppIcon className="w-8 h-8" />
-            <div className="absolute inset-0 rounded-[1.25rem] bg-brand-orange animate-ping opacity-20" />
-            <span className="absolute right-full mr-4 px-4 py-2 rounded-2xl bg-brand-orange text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap shadow-2xl shadow-brand-orange/40 pointer-events-none">
-              Chat Sekarang
+            <WhatsAppIcon className="w-6 h-6" />
+            <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
+              WhatsApp
             </span>
           </a>
+
+          {/* AI Chatbot Toggle */}
+          <button
+            onClick={() => setIsChatOpen(!isChatOpen)}
+            className="group relative w-14 h-14 rounded-[1.25rem] bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white hover:scale-110 transition-all duration-500 shadow-2xl shadow-blue-500/40 overflow-visible"
+          >
+            <Bot className="w-8 h-8" />
+            <div className="absolute inset-0 rounded-[1.25rem] bg-cyan-400 animate-ping opacity-10 pointer-events-none" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-slate-950 rounded-full animate-pulse" />
+            
+            <span className="absolute right-full mr-4 px-4 py-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap shadow-2xl shadow-blue-500/40 pointer-events-none">
+              Tanya AI Pawas
+            </span>
+          </button>
         </motion.div>
       )}
     </AnimatePresence>
