@@ -1,6 +1,7 @@
 "use client";
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const TiktokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -15,52 +16,61 @@ const InstagramIcon = () => (
 );
 
 export default function FloatingButtons() {
-  const { waNumber } = useData();
+  const { waNumber, isChatOpen } = useData();
 
   return (
-    <div className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom,1.5rem)+5.5rem)] lg:bottom-10 z-[100] flex flex-col gap-5 animate-fade-in-up">
-      {/* TikTok */}
-      <a
-        href="https://www.tiktok.com/@corepawas.gadget?_r=1&_t=ZS-96OEN3RK6R0"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="TikTok COREPAWAS"
-        className="group relative w-12 h-12 rounded-2xl bg-slate-900 border border-white/10 flex items-center justify-center text-white hover:bg-slate-800 hover:scale-110 transition-all duration-500 shadow-2xl"
-      >
-        <TiktokIcon />
-        <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
-          TikTok
-        </span>
-      </a>
+    <AnimatePresence>
+      {!isChatOpen && (
+        <motion.div 
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom,1.5rem)+7rem)] lg:bottom-32 z-[100] flex flex-col gap-5"
+        >
+          {/* TikTok */}
+          <a
+            href="https://www.tiktok.com/@corepawas.gadget?_r=1&_t=ZS-96OEN3RK6R0"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok COREPAWAS"
+            className="group relative w-12 h-12 rounded-2xl bg-slate-900 border border-white/10 flex items-center justify-center text-white hover:bg-slate-800 hover:scale-110 transition-all duration-500 shadow-2xl"
+          >
+            <TiktokIcon />
+            <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
+              TikTok
+            </span>
+          </a>
 
-      {/* Instagram */}
-      <a
-        href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Instagram COREPAWAS"
-        className="group relative w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-500 shadow-2xl shadow-purple-500/20"
-      >
-        <InstagramIcon />
-        <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
-          Instagram
-        </span>
-      </a>
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/corepawas.gadget/?utm_source=ig_web_button_share_sheet"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram COREPAWAS"
+            className="group relative w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 flex items-center justify-center text-white hover:scale-110 transition-all duration-500 shadow-2xl shadow-purple-500/20"
+          >
+            <InstagramIcon />
+            <span className="absolute right-full mr-4 px-3 py-1.5 rounded-xl bg-slate-900 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl">
+              Instagram
+            </span>
+          </a>
 
-      {/* WhatsApp */}
-      <a
-        href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20ingin%20tanya%20tentang%20stok%20HP%20second.`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="WhatsApp COREPAWAS"
-        className="group relative w-14 h-14 rounded-[1.25rem] bg-brand-orange flex items-center justify-center text-white hover:bg-orange-500 hover:scale-110 transition-all duration-500 shadow-2xl shadow-brand-orange/40"
-      >
-        <WhatsAppIcon className="w-8 h-8" />
-        <div className="absolute inset-0 rounded-[1.25rem] bg-brand-orange animate-ping opacity-20" />
-        <span className="absolute right-full mr-4 px-4 py-2 rounded-2xl bg-brand-orange text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap shadow-2xl shadow-brand-orange/40 pointer-events-none">
-          Chat Sekarang
-        </span>
-      </a>
-    </div>
+          {/* WhatsApp */}
+          <a
+            href={`https://wa.me/${waNumber}?text=Halo%20COREPAWAS!%20Saya%20ingin%20tanya%20tentang%20stok%20HP%20second.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp COREPAWAS"
+            className="group relative w-14 h-14 rounded-[1.25rem] bg-brand-orange flex items-center justify-center text-white hover:bg-orange-500 hover:scale-110 transition-all duration-500 shadow-2xl shadow-brand-orange/40"
+          >
+            <WhatsAppIcon className="w-8 h-8" />
+            <div className="absolute inset-0 rounded-[1.25rem] bg-brand-orange animate-ping opacity-20" />
+            <span className="absolute right-full mr-4 px-4 py-2 rounded-2xl bg-brand-orange text-white text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap shadow-2xl shadow-brand-orange/40 pointer-events-none">
+              Chat Sekarang
+            </span>
+          </a>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

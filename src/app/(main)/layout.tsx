@@ -5,6 +5,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
 import CompareBar from '@/components/CompareBar';
+import CustomerChat from '@/components/CustomerChat';
 
 export default function MainLayout({
   children,
@@ -21,6 +22,7 @@ export default function MainLayout({
       <Footer />
       <CompareBar />
       <FloatingButtons />
+      <CustomerChat />
     </>
   );
 }
