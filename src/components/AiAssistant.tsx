@@ -111,7 +111,6 @@ export default function AiAssistant({ onFillProduct, onFillBlog }: AiAssistantPr
   }
 
   return (
-  return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/60 backdrop-blur-md">
       <div className="w-full max-w-md bg-brand-navy-dark border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col animate-fade-in-up">
         {/* Header - More Compact */}
