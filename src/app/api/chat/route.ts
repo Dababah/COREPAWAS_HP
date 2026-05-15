@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-3.1-flash-lite", 
       systemInstruction: systemInstruction,
     });
 
@@ -54,9 +54,11 @@ export async function POST(req: Request) {
       parts: [{ text: h.text }],
     }));
 
-    // Gemini requires the first message in history to be from the 'user'
+    // Gemini memerlukan pesan pertama dari 'user'
     const firstUserIndex = formattedHistory.findIndex((h: any) => h.role === 'user');
     const validHistory = firstUserIndex !== -1 ? formattedHistory.slice(firstUserIndex) : [];
+
+    console.log(`[Chat API] Memulai chat menggunakan model terbaru: Gemini 3.1 Flash-Lite.`);
 
     const chat = model.startChat({
       history: validHistory,
@@ -69,7 +71,15 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ text });
   } catch (error: any) {
-    console.error("Chat Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Log detail error ke terminal untuk debugging
+    console.error("=== CHAT API ERROR ===");
+    console.error("Message:", error.message);
+    if (error.status) console.error("Status:", error.status);
+    console.error("=======================");
+    
+    return NextResponse.json({ 
+      error: error.message,
+      details: "Cek terminal server untuk detail lengkap."
+    }, { status: 500 });
   }
 }
