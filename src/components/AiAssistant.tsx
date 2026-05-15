@@ -111,112 +111,104 @@ export default function AiAssistant({ onFillProduct, onFillBlog }: AiAssistantPr
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/80 backdrop-blur-xl">
-      <div className="w-full max-w-lg bg-brand-navy-dark border border-white/5 rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col animate-fade-in-up tilt-3d">
-        {/* Header */}
-        <div className="p-8 bg-gradient-to-r from-brand-navy/30 to-brand-orange/30 border-b border-white/5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-brand-orange flex items-center justify-center shadow-xl shadow-brand-orange/20">
-              <Sparkles className="w-6 h-6 text-white" />
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020617]/60 backdrop-blur-md">
+      <div className="w-full max-w-md bg-brand-navy-dark border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col animate-fade-in-up">
+        {/* Header - More Compact */}
+        <div className="p-5 bg-gradient-to-r from-brand-navy/20 to-brand-orange/20 border-b border-white/5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-brand-orange flex items-center justify-center shadow-lg shadow-brand-orange/20">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="text-white font-black text-lg tracking-tight uppercase">AI Neural Core</h3>
-              <p className="text-orange-400 text-[10px] uppercase font-black tracking-[0.2em]">Smart Admin Engine</p>
+              <h3 className="text-white font-bold text-sm tracking-wide uppercase">AI Neural Core</h3>
+              <p className="text-orange-400 text-[8px] uppercase font-black tracking-[0.2em]">Smart Admin Engine</p>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="w-10 h-10 rounded-xl bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-all">
-            <X className="w-5 h-5" />
+          <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-lg bg-white/5 text-slate-400 hover:text-white flex items-center justify-center transition-all">
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-8 space-y-8">
-          {/* Type Selector (Bento Style) */}
-          <div className="flex p-1.5 bg-brand-navy rounded-2xl border border-white/5">
+        <div className="p-6 space-y-5">
+          {/* Type Selector - Sleeker */}
+          <div className="flex p-1 bg-brand-navy rounded-xl border border-white/5">
             <button
               onClick={() => { setType('product'); setResult(null); }}
-              className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                type === 'product' ? 'bg-brand-orange text-white shadow-xl shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                type === 'product' ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
               }`}
             >
-              <Package className="w-4 h-4" />
+              <Package className="w-3 h-3" />
               Stok
             </button>
             <button
               onClick={() => { setType('blog'); setResult(null); }}
-              className={`flex-1 flex items-center justify-center gap-3 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                type === 'blog' ? 'bg-brand-orange text-white shadow-xl shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                type === 'blog' ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' : 'text-slate-500 hover:text-white'
               }`}
             >
-              <BookOpen className="w-4 h-4" />
+              <BookOpen className="w-3 h-3" />
               Blog
             </button>
           </div>
 
-          {/* Prompt Input */}
+          {/* Prompt Input - More focused */}
           <div className="relative">
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={
                 type === 'product' 
-                ? "Sebutkan detail HP: 'iPhone 13 Midnight 128GB mulus 5 juta BH 90% fullset box original...'" 
-                : "Ide artikel: 'Tips merawat baterai iPhone agar tidak cepat drop...'"
+                ? "Sebutkan detail HP..." 
+                : "Ide artikel blog..."
               }
-              className="w-full bg-brand-navy border border-white/5 rounded-3xl p-6 pr-16 text-white text-sm focus:border-brand-orange/50 focus:outline-none transition-all resize-none min-h-[160px] shadow-inner font-medium"
+              className="w-full bg-brand-navy/50 border border-white/5 rounded-2xl p-5 pr-14 text-white text-xs focus:border-brand-orange/40 focus:outline-none transition-all resize-none min-h-[120px] font-medium leading-relaxed"
             />
             <button
               onClick={toggleRecording}
-              className={`absolute right-5 bottom-5 w-12 h-12 rounded-2xl flex items-center justify-center transition-all shadow-xl ${
-                isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-brand-navy-dark border border-white/10 text-slate-400 hover:text-white hover:border-white/20'
+              className={`absolute right-4 bottom-4 w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                isRecording ? 'bg-red-500 animate-pulse text-white' : 'bg-brand-navy-dark border border-white/10 text-slate-400 hover:text-white'
               }`}
             >
-              <Mic className="w-5 h-5" />
+              <Mic className="w-4 h-4" />
             </button>
           </div>
 
           <button
             onClick={handleGenerate}
             disabled={loading || !prompt.trim()}
-            className="w-full py-5 rounded-3xl bg-brand-orange text-white font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-brand-orange/30 hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 uppercase tracking-widest"
+            className="w-full py-4 rounded-2xl bg-brand-orange text-white font-black text-sm flex items-center justify-center gap-2 shadow-xl shadow-brand-orange/20 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 uppercase tracking-widest"
           >
-            {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <><Sparkles className="w-6 h-6" /> Ignite AI</>}
+            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Sparkles className="w-4 h-4" /> Ignite AI</>}
           </button>
 
-          {/* Error Message */}
-          {error && (
-            <div className="p-5 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center gap-4 text-red-400 text-sm font-bold animate-shake">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              {error}
-            </div>
-          )}
-
-          {/* Result Preview (Neural Glass) */}
+          {/* Result Preview - Optimized height */}
           {result && (
-            <div className="space-y-5 animate-fade-in">
-              <div className="p-6 rounded-3xl bg-emerald-500/10 border border-emerald-500/20">
-                <div className="flex items-center gap-3 text-emerald-400 font-black text-xs uppercase tracking-widest mb-4">
-                  <Check className="w-4 h-4" />
+            <div className="space-y-4 animate-fade-in">
+              <div className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-3">
+                  <Check className="w-3 h-3" />
                   Neural Analysis Complete
                 </div>
-                <div className="bg-black/40 rounded-2xl p-4 text-[10px] font-mono text-slate-400 overflow-auto max-h-40 border border-white/5 scrollbar-hide">
+                <div className="bg-black/30 rounded-xl p-3 text-[9px] font-mono text-slate-400 overflow-auto max-h-32 border border-white/5 scrollbar-hide">
                   <pre>{JSON.stringify(result, null, 2)}</pre>
                 </div>
               </div>
 
               <button
                 onClick={handleApply}
-                className="w-full py-4 rounded-2xl bg-white text-brand-navy-dark font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-slate-100 transition-all shadow-2xl"
+                className="w-full py-3.5 rounded-xl bg-white text-brand-navy-dark font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-slate-100 transition-all shadow-lg"
               >
-                Terapkan Data <ArrowRight className="w-5 h-5" />
+                Terapkan Data <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           )}
         </div>
         
-        <div className="p-6 bg-black/20 text-center border-t border-white/5">
-          <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">Tips: AI lebih akurat dengan detail spesifik.</p>
+        <div className="p-4 bg-black/10 text-center border-t border-white/5">
+          <p className="text-slate-600 text-[9px] font-medium uppercase tracking-[0.1em]">Tekan Ignite untuk memproses data.</p>
         </div>
       </div>
-    </div>
   );
 }
