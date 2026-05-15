@@ -659,24 +659,37 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [syncSuccess, setSyncSuccess] = useState(false);
 
   const handleAiFillProduct = (data: any) => {
-    setEditingProduct({
+    const newProduct = {
       ...emptyProduct,
       ...data,
       id: Date.now().toString(),
       createdAt: new Date().toISOString().split('T')[0],
-    });
+      image: data.image || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800', // Default premium image
+      status: data.status || 'Ready'
+    };
+    
+    // Simpan langsung ke database via Context
+    setProducts([...products, newProduct]);
+    
+    // Berikan feedback visual atau pindah tab
     setActiveTab('produk');
+    alert('✅ Produk berhasil disimpan langsung ke Katalog & Supabase!');
   };
 
   const handleAiFillBlog = (data: any) => {
-    setEditingBlog({
+    const newPost = {
       id: Date.now().toString(),
       slug: data.title?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-'),
       date: new Date().toISOString().split('T')[0],
       author: 'Tim COREPAWAS',
       ...data,
-    });
+    };
+
+    // Simpan langsung ke database via Context
+    setBlogPosts([...blogPosts, newPost]);
+    
     setActiveTab('blog');
+    alert('✅ Artikel blog berhasil diterbitkan ke Supabase!');
   };
 
   const readyCount = products.filter((p) => p.status === 'Ready').length;

@@ -274,7 +274,7 @@ export default function AiAssistant({ onFillProduct, onFillBlog }: AiAssistantPr
                   onClick={handleApply}
                   className="flex-[2] py-3 rounded-xl bg-emerald-500 text-white font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:brightness-110"
                 >
-                  Terapkan Data <ArrowRight className="w-3.5 h-3.5" />
+                  Simpan ke Katalog & Sync <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
