@@ -32,6 +32,7 @@
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@supabase/supabase-js": "^2.103.3",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "*",
     "cmdk": "^1.1.1",
@@ -52,12 +53,13 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.10.0",
     "@types/react": "19.2.14",
-    "@tailwindcss/postcss": "^4.2.2",
-    "tailwindcss": "^4.2.2",
     "postcss": "^8.5.10",
     "postcss-load-config": "^6.0.1",
+    "tailwindcss": "^4.2.2",
     "typescript": "6.0.3"
   },
   "scripts": {

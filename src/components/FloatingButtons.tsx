@@ -21,7 +21,7 @@ export default function FloatingButtons() {
     <div className="fixed right-6 bottom-[calc(env(safe-area-inset-bottom,1.5rem)+5.5rem)] lg:bottom-10 z-[100] flex flex-col gap-5 animate-fade-in-up">
       {/* TikTok */}
       <a
-        href="https://tiktok.com/@corepawas"
+        href="https://www.tiktok.com/@corepawas.gadget?_r=1&_t=ZS-96OEN3RK6R0"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="TikTok COREPAWAS"
