@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import {
   Cpu,
@@ -643,6 +643,7 @@ function BlogModal({ post, onSave, onClose }: { post?: BlogPost | null; onSave: 
 // ─── Main Admin Dashboard ─────────────────────────────────────────────────────
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const { products, setProducts, deleteProduct, blogPosts, setBlogPosts, deleteBlogPost, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl, googleMapsEmbedUrl, setGoogleMapsEmbedUrl } = useData();
+  const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
@@ -816,7 +817,11 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                startTransition(() => {
+                  setActiveTab(tab.id);
+                });
+              }}
               className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-black uppercase tracking-widest transition-all text-left border ${
                 activeTab === tab.id
                   ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20 scale-[1.02]'
@@ -836,7 +841,11 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                startTransition(() => {
+                  setActiveTab(tab.id);
+                });
+              }}
               className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-xs font-medium transition-colors ${
                 activeTab === tab.id ? 'text-blue-400' : 'text-slate-500'
               }`}
