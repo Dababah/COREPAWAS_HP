@@ -1196,15 +1196,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       value={settingsAddr}
                       onChange={(e) => setSettingsAddr(e.target.value)}
                       rows={3}
+                      className="w-full px-6 py-5 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-bold focus:outline-none focus:border-brand-orange/50 resize-none transition-all shadow-inner"
+                    />
                   </div>
                 </div>
 
-                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
-                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
+                <div className="p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl">
+                  <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-4">
                     <div className="w-1.5 h-6 bg-red-500 rounded-full" />
-                    Konfigurasi Google Maps
+                    Google Maps Integration
                   </h3>
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     <div>
                       <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Google Maps API Security Key</label>
                       <input
@@ -1214,9 +1216,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         className="w-full px-6 py-4 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-mono focus:border-brand-orange/50 outline-none shadow-inner"
                         placeholder="AIza..."
                       />
-                      <p className="text-slate-600 text-[10px] mt-3 font-bold uppercase tracking-widest italic">
-                        *Required for high-performance map rendering.
-                      </p>
                     </div>
                     <div>
                       <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Direct Google Maps Interface Link</label>
@@ -1229,12 +1228,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       />
                     </div>
                     <div>
-                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Manual Embed URL (Iframe Src)</label>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Manual Embed URL (Iframe Src)</label>
                       <textarea
                         value={settingsMapEmbed}
                         onChange={(e) => setSettingsMapEmbed(e.target.value)}
                         rows={3}
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-[11px] font-mono focus:border-blue-500 resize-none outline-none"
+                        className="w-full px-6 py-5 rounded-2xl bg-brand-navy border border-white/5 text-white text-[11px] font-mono focus:border-brand-orange/50 resize-none outline-none shadow-inner"
                         placeholder="https://www.google.com/maps/embed?..."
                       />
                     </div>
@@ -1243,10 +1242,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
                 <button
                   onClick={handleSaveSettings}
-                  className="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 rounded-[2rem] bg-blue-600 text-white font-black text-lg shadow-xl shadow-blue-600/30 hover:bg-blue-500 transition-all active:scale-95"
+                  className="w-full sm:w-auto flex items-center justify-center gap-4 px-12 py-5 rounded-[2.5rem] bg-brand-orange text-white font-black text-lg shadow-2xl shadow-brand-orange/30 hover:scale-[1.02] active:scale-95 transition-all"
                 >
                   <Save className="w-5 h-5" />
-                  {saved ? 'DATA BERHASIL DISIMPAN!' : 'SIMPAN SEMUA PERUBAHAN'}
+                  {saved ? 'DATA SYNCHRONIZED!' : 'SAVE SYSTEM CONFIGURATION'}
                 </button>
 
                 <div className="p-10 rounded-[2.5rem] bg-brand-orange/5 border border-brand-orange/20 shadow-xl">
