@@ -77,42 +77,42 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
   return (
     <div className="min-h-screen bg-transparent flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-blue-500/30">
-            <Cpu className="w-8 h-8 text-white" />
+        <div className="text-center mb-12">
+          <div className="w-16 h-16 rounded-[1.5rem] bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-brand-orange/40">
+            <Cpu className="w-9 h-9 text-white" />
           </div>
-          <h1 className="text-2xl font-black text-white">Admin COREPAWAS</h1>
-          <p className="text-slate-400 text-sm mt-1">Silakan masuk dengan akun Anda</p>
+          <h1 className="text-4xl font-black text-white tracking-tighter uppercase">Admin <span className="text-brand-orange">Panel</span></h1>
+          <p className="text-slate-500 text-xs font-bold mt-2 uppercase tracking-widest">Access Restricted to Authorized Personnel</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-slate-500 text-xs mb-1.5 uppercase tracking-wider">Email</label>
+            <label className="block text-slate-500 text-[10px] font-black mb-2 uppercase tracking-[0.3em]">Credentials / Email</label>
             <input
               type="email"
               placeholder="admin@corepawas.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full px-6 py-4 rounded-2xl bg-brand-navy-dark border border-white/5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
               required
             />
           </div>
 
           <div>
-            <label className="block text-slate-500 text-xs mb-1.5 uppercase tracking-wider">Password</label>
+            <label className="block text-slate-500 text-[10px] font-black mb-2 uppercase tracking-[0.3em]">Access Code / Password</label>
             <div className="relative">
               <input
                 type={showPw ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3.5 pr-12 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full px-6 py-4 pr-12 rounded-2xl bg-brand-navy-dark border border-white/5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 transition-all shadow-xl"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPw(!showPw)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-white transition-colors"
               >
                 {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -120,8 +120,8 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-              <XCircle className="w-4 h-4" />
+            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-widest">
+              <AlertTriangle className="w-4 h-4" />
               {error}
             </div>
           )}
@@ -129,15 +129,15 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-navy to-brand-orange text-white font-black text-lg hover:opacity-90 transition-all shadow-xl shadow-brand-orange/20 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-5 rounded-[2rem] bg-brand-orange text-white font-black text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-brand-orange/30 disabled:opacity-50 flex items-center justify-center gap-3"
           >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Masuk ke Dashboard'}
+            {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : <>Masuk ke Dashboard <ArrowRight className="w-5 h-5" /></>}
           </button>
         </form>
 
-        <div className="mt-8 text-center">
-          <Link href="/" className="text-orange-400 hover:text-white text-sm font-bold transition-colors">
-            ← Kembali ke Website
+        <div className="mt-12 text-center">
+          <Link href="/" className="text-slate-500 hover:text-brand-orange text-[10px] font-black uppercase tracking-widest transition-all">
+            ← Back to Public Website
           </Link>
         </div>
       </div>
@@ -276,21 +276,21 @@ function ProductModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-start justify-center p-4 overflow-y-auto">
-      <div className="w-full max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl my-8">
-        <div className="flex items-center justify-between p-5 border-b border-slate-800">
-          <h2 className="text-white font-bold text-lg">{product ? 'Edit Produk' : 'Tambah Produk Baru'}</h2>
-          <button onClick={onClose} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
-            <X className="w-5 h-5" />
+    <div className="fixed inset-0 z-50 bg-brand-navy/60 backdrop-blur-xl flex items-start justify-center p-4 overflow-y-auto">
+      <div className="w-full max-w-2xl bg-brand-navy-dark border border-white/10 rounded-[2.5rem] my-8 shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between p-8 border-b border-white/5 bg-white/5">
+          <h2 className="text-white font-black text-2xl tracking-tighter uppercase">{product ? 'Edit' : 'Tambah'} <span className="text-brand-orange">Unit</span></h2>
+          <button onClick={onClose} className="p-3 rounded-2xl text-slate-500 hover:text-white hover:bg-white/10 transition-all">
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        <div className="p-5 grid grid-cols-2 gap-4">
+        <div className="p-8 grid grid-cols-2 gap-6">
           {/* Name */}
           <div className="col-span-2">
-            <label className="block text-slate-400 text-xs mb-1.5 uppercase tracking-wider">Nama Produk *</label>
+            <label className="block text-slate-500 text-[10px] font-black mb-2 uppercase tracking-[0.3em]">Model / Type Name *</label>
             <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-blue-500"
+              className="w-full px-5 py-4 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-bold focus:outline-none focus:border-brand-orange/50 shadow-inner"
               placeholder="cth: iPhone 13 128GB" />
           </div>
 
@@ -503,15 +503,15 @@ function ProductModal({
           </div>
         </div>
 
-        <div className="flex gap-3 p-5 border-t border-slate-800">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-slate-700 text-slate-300 font-medium hover:bg-slate-800 transition-colors">
-            Batal
+        <div className="flex gap-4 p-8 border-t border-white/5 bg-white/5">
+          <button onClick={onClose} className="flex-1 py-4 rounded-2xl border border-white/10 text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-white/5 transition-all">
+            Cancel
           </button>
           <button onClick={handleSave}
             disabled={!form.name || !form.price || !form.image}
-            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-            <Save className="w-4 h-4" />
-            Simpan
+            className="flex-1 py-4 rounded-2xl bg-brand-orange text-white font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-brand-orange/20 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-3">
+            <Save className="w-5 h-5" />
+            Commit Changes
           </button>
         </div>
       </div>
@@ -828,34 +828,34 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   return (
     <div className="min-h-screen bg-transparent flex flex-col">
       {/* Top Nav */}
-      <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-40 shadow-lg">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+      <header className="bg-brand-navy-dark border-b border-white/5 px-6 py-5 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-2xl">
+        <div className="flex items-center gap-5">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center shadow-xl shadow-brand-orange/30">
             <Cpu className="w-6 h-6 text-white" />
           </div>
           <div>
-            <span className="text-white font-black text-lg tracking-tight">COREPAWAS</span>
-            <span className="ml-3 px-2 py-0.5 rounded-md bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest">Admin Panel</span>
+            <span className="text-white font-black text-xl tracking-tighter uppercase">CORE<span className="text-brand-orange">PAWAS</span></span>
+            <span className="ml-4 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[9px] font-black uppercase tracking-[0.2em]">System Admin</span>
           </div>
         </div>
-        <div className="flex items-center gap-5">
-          <Link href="/" target="_blank" className="text-slate-300 hover:text-white text-sm font-bold transition-all flex items-center gap-2 group">
-            <Eye className="w-4 h-4 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Lihat Web</span>
+        <div className="flex items-center gap-6">
+          <Link href="/" target="_blank" className="text-slate-500 hover:text-white text-xs font-black uppercase tracking-widest transition-all flex items-center gap-3 group">
+            <Eye className="w-5 h-5 group-hover:scale-110 transition-transform text-brand-orange" />
+            <span className="hidden sm:inline">View Live Site</span>
           </Link>
           <button
             onClick={onLogout}
-            className="flex items-center gap-2 text-slate-300 hover:text-red-400 text-sm font-bold transition-all group"
+            className="flex items-center gap-3 text-slate-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-all group"
           >
-            <LogOut className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            <span className="hidden sm:inline">Keluar</span>
+            <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span className="hidden sm:inline">Exit Panel</span>
           </button>
         </div>
       </header>
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="hidden sm:flex flex-col w-64 bg-slate-900 border-r border-slate-800 p-4 gap-2">
+        <aside className="hidden sm:flex flex-col w-72 bg-brand-navy-dark border-r border-white/5 p-6 gap-3">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -864,13 +864,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   setActiveTab(tab.id);
                 });
               }}
-              className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-black uppercase tracking-widest transition-all text-left border ${
+              className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all text-left border ${
                 activeTab === tab.id
-                  ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20 scale-[1.02]'
-                  : 'text-slate-400 border-transparent hover:text-white hover:bg-slate-800 hover:border-slate-700'
+                  ? 'bg-brand-orange border-brand-orange text-white shadow-2xl shadow-brand-orange/30 scale-[1.02]'
+                  : 'text-slate-500 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
               }`}
             >
-              <div className={`${activeTab === tab.id ? 'text-white' : 'text-slate-500'}`}>
+              <div className={`${activeTab === tab.id ? 'text-white' : 'text-slate-600'}`}>
                 {tab.icon}
               </div>
               {tab.label}
@@ -904,51 +904,61 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {/* ─── Dashboard ─── */}
           {activeTab === 'dashboard' && (
             <div>
-              <h1 className="text-xl font-black text-white mb-6">Overview</h1>
+              <h1 className="text-2xl font-black text-white mb-8 tracking-tighter uppercase flex items-center gap-3">
+                <div className="w-1.5 h-8 bg-brand-orange rounded-full" />
+                Overview
+              </h1>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 {[
-                  { label: 'Total Produk', value: products.length, icon: <Package className="w-6 h-6 text-blue-400" />, color: 'blue' },
+                  { label: 'Total Produk', value: products.length, icon: <Package className="w-6 h-6 text-brand-orange" />, color: 'orange' },
                   { label: 'Ready Stock', value: readyCount, icon: <CheckCircle className="w-6 h-6 text-emerald-400" />, color: 'emerald' },
                   { label: 'Terjual', value: soldCount, icon: <TrendingUp className="w-6 h-6 text-purple-400" />, color: 'purple' },
                   { label: 'Total Artikel', value: blogPosts.length, icon: <BookOpen className="w-6 h-6 text-cyan-400" />, color: 'cyan' },
                 ].map((stat, i) => (
-                  <div key={i} className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl group hover:border-blue-500/30 transition-all">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-slate-500 text-[10px] font-black uppercase tracking-widest">{stat.label}</span>
-                      <div className="p-2 rounded-xl bg-slate-800 group-hover:scale-110 transition-transform">
+                  <div key={i} className="p-8 rounded-[2rem] bg-brand-navy-dark border border-white/5 shadow-2xl group hover:border-brand-orange/30 transition-all relative overflow-hidden">
+                    <div className="absolute -top-10 -right-10 w-24 h-24 bg-white/5 blur-3xl rounded-full" />
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em]">{stat.label}</span>
+                      <div className="p-3 rounded-xl bg-white/5 border border-white/5 group-hover:scale-110 transition-transform">
                         {stat.icon}
                       </div>
                     </div>
-                    <div className="text-4xl font-black text-white tracking-tight">{stat.value}</div>
+                    <div className="text-5xl font-black text-white tracking-tighter">{stat.value}</div>
                   </div>
                 ))}
               </div>
 
               {/* Value card */}
-               <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-600 to-blue-800 border border-blue-400/30 mb-10 shadow-2xl shadow-blue-900/20 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[100px] rounded-full -mr-20 -mt-20" />
+               <div className="p-10 rounded-[3rem] bg-gradient-to-br from-brand-orange to-orange-700 border border-white/20 mb-12 shadow-2xl shadow-brand-orange/20 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-white/20 blur-[120px] rounded-full -mr-32 -mt-32 group-hover:scale-110 transition-transform duration-1000" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32" />
                 <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-                      <BarChart3 className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-5 mb-6">
+                    <div className="p-4 rounded-2xl bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl">
+                      <BarChart3 className="w-8 h-8 text-white" />
                     </div>
-                    <span className="text-blue-100 text-xs font-black uppercase tracking-[0.2em]">Total Nilai Stok Ready</span>
+                    <div>
+                      <span className="text-white/80 text-[10px] font-black uppercase tracking-[0.4em] block mb-1">Stock Valuation</span>
+                      <span className="text-white text-xs font-bold uppercase tracking-widest">Total Inventory Value (Ready)</span>
+                    </div>
                   </div>
-                  <div className="text-5xl font-black text-white tracking-tighter drop-shadow-sm">
+                  <div className="text-7xl font-black text-white tracking-tighter drop-shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
                     {formatPrice(totalValue)}
                   </div>
                 </div>
               </div>
 
               {/* Recent Products */}
-               <div className="rounded-[2.5rem] bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl">
-                <div className="flex items-center justify-between px-8 py-6 border-b border-slate-800">
-                  <h3 className="text-white font-black uppercase tracking-widest text-sm">Produk Terbaru</h3>
-                  <button onClick={() => setActiveTab('produk')} className="text-blue-400 text-xs font-black uppercase tracking-widest hover:text-blue-300 transition-colors">Lihat Semua</button>
+               <div className="rounded-[3rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl">
+                <div className="flex items-center justify-between px-10 py-8 border-b border-white/5 bg-white/5">
+                  <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs">Recently Added</h3>
+                  <button onClick={() => setActiveTab('produk')} className="text-brand-orange text-[10px] font-black uppercase tracking-widest hover:text-white transition-all flex items-center gap-2 group">
+                    View Catalog <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
                 </div>
-                <div className="divide-y divide-slate-800">
+                <div className="divide-y divide-white/5">
                   {products.slice(0, 4).map((p) => (
                     <div key={p.id} className="flex items-center gap-3 px-5 py-3">
                       <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover" />
@@ -983,34 +993,37 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {activeTab === 'produk' && (
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h1 className="text-2xl font-black text-white tracking-tight uppercase">Kelola Produk</h1>
+                <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center gap-4">
+                  <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                  Inventory <span className="text-brand-orange">Management</span>
+                </h1>
                 <button
                   onClick={() => setEditingProduct(null)}
-                  className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-blue-600 text-white font-black text-sm hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 active:scale-95"
+                  className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-brand-orange text-white font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-brand-orange/20"
                 >
                   <Plus className="w-5 h-5" />
-                  Tambah Produk
+                  Add New Unit
                 </button>
               </div>
 
               {/* Search */}
-              <div className="relative mb-6">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <div className="relative mb-8">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-600" />
                 <input
                   type="text"
                   placeholder="Cari nama produk atau brand..."
                   value={productSearch}
                   onChange={(e) => setProductSearch(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner font-medium"
+                  className="w-full pl-14 pr-8 py-5 rounded-[2rem] bg-brand-navy-dark border border-white/5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 focus:ring-4 focus:ring-brand-orange/5 transition-all shadow-2xl font-bold"
                 />
               </div>
 
               {/* Table */}
-              <div className="rounded-[2.5rem] bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl">
+              <div className="rounded-[2.5rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="bg-slate-800/50 border-b border-slate-700">
+                      <tr className="bg-white/5 border-b border-white/5">
                         <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Info Produk</th>
                         <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] hidden sm:table-cell">Harga Jual</th>
                         <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] hidden md:table-cell">Kondisi Fisik</th>
@@ -1018,13 +1031,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         <th className="text-right px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Aksi Cepat</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800">
+                    <tbody className="divide-y divide-white/5">
                       {filteredProducts.map((p) => (
-                        <tr key={p.id} className="hover:bg-slate-800/40 transition-colors border-b border-slate-800/50 last:border-0">
+                        <tr key={p.id} className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
                           <td className="px-6 py-5">
                             <div className="flex items-center gap-4">
                               <div className="relative group">
-                                <img src={p.image} alt={p.name} className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-slate-700 shadow-lg group-hover:scale-105 transition-transform" />
+                                <img src={p.image} alt={p.name} className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-white/10 shadow-lg group-hover:scale-105 transition-transform" />
                               </div>
                               <div className="min-w-0">
                                 <p className="text-white text-sm font-black truncate tracking-tight">{p.name}</p>
@@ -1036,7 +1049,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                             <span className="text-white text-base font-black tracking-tighter">{formatPrice(p.price)}</span>
                           </td>
                           <td className="px-6 py-5 hidden md:table-cell">
-                            <span className="text-slate-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-lg bg-slate-800 border border-slate-700">{p.condition}</span>
+                            <span className="text-slate-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-lg bg-white/5 border border-white/10">{p.condition}</span>
                           </td>
                           <td className="px-4 py-3">
                             <button
@@ -1054,14 +1067,14 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                             <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => setEditingProduct(p)}
-                                className="p-1.5 rounded-lg text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors"
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-brand-orange hover:bg-brand-orange/10 transition-colors"
                               >
                                 <Pencil className="w-4 h-4" />
                               </button>
                               {deleteConfirm === p.id ? (
                                 <div className="flex gap-1">
                                   <button onClick={() => handleDeleteProduct(p.id)} className="px-2 py-1 rounded bg-red-600 text-white text-xs font-bold">Ya</button>
-                                  <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded bg-slate-700 text-slate-300 text-xs">Batal</button>
+                                  <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded bg-white/10 text-slate-300 text-xs">Batal</button>
                                 </div>
                               ) : (
                                 <button
@@ -1089,31 +1102,34 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {activeTab === 'blog' && (
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h1 className="text-2xl font-black text-white tracking-tight uppercase">Kelola Blog</h1>
+                <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center gap-4">
+                  <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                  Editorial <span className="text-brand-orange">Content</span>
+                </h1>
                 <button
                   onClick={() => setEditingBlog(null)}
-                  className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-blue-600 text-white font-black text-sm hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/30 active:scale-95"
+                  className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-brand-orange text-white font-black text-sm uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-brand-orange/20"
                 >
                   <Plus className="w-5 h-5" />
-                  Tambah Artikel
+                  Create Article
                 </button>
               </div>
 
-              <div className="relative mb-6">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <div className="relative mb-8">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-600" />
                 <input
                   type="text"
-                  placeholder="Cari judul artikel..."
+                  placeholder="Filter articles by title..."
                   value={blogSearch}
                   onChange={(e) => setBlogSearch(e.target.value)}
-                  className="w-full pl-12 pr-6 py-4 rounded-2xl bg-slate-900 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner font-medium"
+                  className="w-full pl-14 pr-8 py-5 rounded-[2rem] bg-brand-navy-dark border border-white/5 text-white placeholder-slate-600 focus:outline-none focus:border-brand-orange/50 focus:ring-4 focus:ring-brand-orange/5 transition-all shadow-2xl font-bold"
                 />
               </div>
 
               <div className="space-y-4">
                 {filteredBlog.map((post) => (
-                  <div key={post.id} className="flex items-center gap-6 p-5 rounded-[2rem] bg-slate-900 border border-slate-800 hover:border-blue-500/30 transition-all group shadow-xl">
-                    <img src={post.image} alt={post.title} className="w-20 h-20 rounded-2xl object-cover flex-shrink-0 border border-slate-800 shadow-lg group-hover:scale-105 transition-transform" />
+                  <div key={post.id} className="flex items-center gap-6 p-5 rounded-[2rem] bg-brand-navy-dark border border-white/5 hover:border-brand-orange/30 transition-all group shadow-xl">
+                    <img src={post.image} alt={post.title} className="w-20 h-20 rounded-2xl object-cover flex-shrink-0 border border-white/5 shadow-lg group-hover:scale-105 transition-transform" />
                     <div className="flex-1 min-w-0">
                       <p className="text-white font-black text-base truncate tracking-tight mb-2 uppercase">{post.title}</p>
                       <div className="flex items-center gap-3">
@@ -1123,7 +1139,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       </div>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
-                      <button onClick={() => setEditingBlog(post)} className="p-2.5 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors border border-transparent hover:border-blue-500/20">
+                      <button onClick={() => setEditingBlog(post)} className="p-2.5 rounded-xl text-slate-400 hover:text-brand-orange hover:bg-brand-orange/10 transition-colors border border-transparent hover:border-brand-orange/20">
                         <Pencil className="w-5 h-5" />
                       </button>
                       <button onClick={() => handleDeleteBlog(post.id)} className="p-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-colors border border-transparent hover:border-red-500/20">
@@ -1133,7 +1149,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </div>
                 ))}
                 {filteredBlog.length === 0 && (
-                  <div className="text-center py-20 bg-slate-900/50 rounded-3xl border border-dashed border-slate-800 text-slate-500 font-bold">Tidak ada artikel ditemukan.</div>
+                  <div className="text-center py-20 bg-brand-navy-dark rounded-3xl border border-dashed border-white/5 text-slate-500 font-bold">Tidak ada artikel ditemukan.</div>
                 )}
               </div>
             </div>
@@ -1142,43 +1158,44 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {/* ─── Pengaturan ─── */}
           {activeTab === 'pengaturan' && (
             <div>
-              <h1 className="text-2xl font-black text-white mb-8 tracking-tight uppercase">Pengaturan Toko</h1>
+              <h1 className="text-3xl font-black text-white mb-10 tracking-tighter uppercase flex items-center gap-4">
+                <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                System <span className="text-brand-orange">Configurations</span>
+              </h1>
 
-              <div className="space-y-6 max-w-2xl">
-                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
-                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
+              <div className="space-y-8 max-w-2xl">
+                <div className="p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl">
+                  <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-4">
                     <div className="w-1.5 h-6 bg-green-500 rounded-full" />
-                    Integrasi WhatsApp
+                    WhatsApp Gateway
                   </h3>
-                  <div className="space-y-4">
-                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest">Nomor Tujuan Konsultasi</label>
+                  <div className="space-y-6">
+                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Customer Service Number</label>
                     <input
                       type="text"
                       value={settingsWa}
                       onChange={(e) => setSettingsWa(e.target.value)}
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                      className="w-full px-6 py-4 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-bold focus:outline-none focus:border-brand-orange/50 transition-all shadow-inner"
                       placeholder="6281234567890"
                     />
-                    <div className="flex gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700">
-                      <Info className="w-4 h-4 text-slate-500 flex-shrink-0" />
-                      <p className="text-slate-500 text-[10px] leading-relaxed font-bold">Format harus menggunakan kode negara tanpa tanda + (cth: 628...). Nomor ini akan digunakan untuk semua tombol "Tanya via WA".</p>
+                    <div className="flex gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                      <Info className="w-5 h-5 text-slate-600 flex-shrink-0" />
+                      <p className="text-slate-500 text-[11px] leading-relaxed font-bold uppercase tracking-widest">Format: Country Code without + (e.g. 628...). Used for all dynamic CTA buttons.</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-8 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl">
-                  <h3 className="text-white font-black uppercase tracking-widest text-sm mb-6 flex items-center gap-3">
-                    <div className="w-1.5 h-6 bg-blue-500 rounded-full" />
-                    Identitas Toko
+                <div className="p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl">
+                  <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-4">
+                    <div className="w-1.5 h-6 bg-brand-orange rounded-full" />
+                    Store Identity
                   </h3>
-                  <div className="space-y-4">
-                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest">Alamat Lengkap Operasional</label>
+                  <div className="space-y-6">
+                    <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em]">Operational Headquarters Address</label>
                     <textarea
                       value={settingsAddr}
                       onChange={(e) => setSettingsAddr(e.target.value)}
                       rows={3}
-                      className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:outline-none focus:border-blue-500 resize-none transition-all"
-                    />
                   </div>
                 </div>
 
@@ -1189,25 +1206,25 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </h3>
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Google Maps API Key</label>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Google Maps API Security Key</label>
                       <input
                         type="password"
                         value={settingsMapKey}
                         onChange={(e) => setSettingsMapKey(e.target.value)}
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-mono focus:border-blue-500 outline-none"
+                        className="w-full px-6 py-4 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-mono focus:border-brand-orange/50 outline-none shadow-inner"
                         placeholder="AIza..."
                       />
-                      <p className="text-slate-500 text-[10px] mt-2 font-bold italic">
-                        *Dibutuhkan untuk performa map yang stabil.
+                      <p className="text-slate-600 text-[10px] mt-3 font-bold uppercase tracking-widest italic">
+                        *Required for high-performance map rendering.
                       </p>
                     </div>
                     <div>
-                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Direct Google Maps Link</label>
+                      <label className="block text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4">Direct Google Maps Interface Link</label>
                       <input
                         type="text"
                         value={settingsMapUrl}
                         onChange={(e) => setSettingsMapUrl(e.target.value)}
-                        className="w-full px-5 py-4 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm font-bold focus:border-blue-500 outline-none"
+                        className="w-full px-6 py-4 rounded-2xl bg-brand-navy border border-white/5 text-white text-sm font-bold focus:border-brand-orange/50 outline-none shadow-inner"
                         placeholder="https://maps.app.goo.gl/..."
                       />
                     </div>
@@ -1232,38 +1249,38 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   {saved ? 'DATA BERHASIL DISIMPAN!' : 'SIMPAN SEMUA PERUBAHAN'}
                 </button>
 
-                <div className="p-6 rounded-2xl bg-blue-500/5 border border-blue-500/20">
-                  <h3 className="text-blue-400 font-bold mb-3 flex items-center gap-2">
-                    <Database className="w-4 h-4" />
-                    Database Sync
+                <div className="p-10 rounded-[2.5rem] bg-brand-orange/5 border border-brand-orange/20 shadow-xl">
+                  <h3 className="text-brand-orange font-black uppercase tracking-[0.3em] text-xs mb-4 flex items-center gap-3">
+                    <Database className="w-5 h-5" />
+                    Cloud Synchronization
                   </h3>
-                  <p className="text-slate-400 text-sm mb-5">
-                    Gunakan fitur ini untuk memindahkan data awal (Produk & Blog) dari sistem ke database Supabase Anda jika tabel masih kosong.
+                  <p className="text-slate-500 text-[11px] font-bold uppercase tracking-wider leading-relaxed mb-8">
+                    Force sync local demonstration data to your live Supabase cloud instances. 
                   </p>
                   <button
                     onClick={handleSync}
                     disabled={syncing}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${
+                    className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-2xl ${
                       syncing 
-                        ? 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                        ? 'bg-brand-navy-dark text-slate-600 cursor-not-allowed'
                         : syncSuccess
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'
+                          ? 'bg-emerald-600 text-white shadow-emerald-600/20'
+                          : 'bg-brand-orange hover:scale-[1.02] text-white shadow-brand-orange/30'
                     }`}
                   >
                     <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
-                    {syncing ? 'Memindahkan Data...' : syncSuccess ? 'Data Terkirim!' : 'Sync Data ke Supabase'}
+                    {syncing ? 'Synchronizing...' : syncSuccess ? 'SYNC COMPLETED!' : 'PUSH TO SUPABASE CLOUD'}
                   </button>
                 </div>
 
-                <div className="p-8 rounded-3xl bg-red-950/20 border border-red-500/20">
-                  <h3 className="text-red-500 font-black uppercase tracking-widest text-sm mb-2 flex items-center gap-2">
+                <div className="p-10 rounded-[2.5rem] bg-red-950/20 border border-red-500/20 shadow-2xl">
+                  <h3 className="text-red-500 font-black uppercase tracking-[0.3em] text-xs mb-4 flex items-center gap-3">
                     <AlertTriangle className="w-5 h-5" />
-                    Zona Bahaya
+                    High-Risk Territory
                   </h3>
-                  <p className="text-slate-500 text-[11px] mb-6 font-bold leading-relaxed">Menghapus semua data kustom Anda dan mengembalikan sistem ke kondisi awal (demo data). Tindakan ini tidak dapat dibatalkan.</p>
-                  <button onClick={handleResetData} className="px-6 py-3 rounded-xl border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">
-                    Reset Database ke Default
+                  <p className="text-slate-600 text-[10px] mb-8 font-black uppercase tracking-widest leading-relaxed">Destroy all custom data and revert to factory baseline configurations. This operation is irreversible.</p>
+                  <button onClick={handleResetData} className="px-8 py-4 rounded-2xl border border-red-500/50 text-red-500 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-red-500 hover:text-white transition-all">
+                    Initialize System Reset
                   </button>
                 </div>
               </div>
@@ -1323,8 +1340,8 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-brand-navy flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-brand-orange border-t-transparent rounded-full animate-spin shadow-2xl shadow-brand-orange/20"></div>
       </div>
     );
   }
