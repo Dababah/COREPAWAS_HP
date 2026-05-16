@@ -29,6 +29,7 @@ import {
   Loader2,
   Info,
   AlertTriangle,
+  ArrowRight,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useData } from '@/context/DataContext';
