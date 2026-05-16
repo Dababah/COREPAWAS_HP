@@ -15,6 +15,9 @@ import {
   Package,
   Zap,
   ChevronRight,
+  ZoomIn,
+  X,
+  ChevronLeft,
 } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
@@ -43,6 +46,7 @@ export default function ProductDetail() {
   const relatedProducts = products.filter((p) => p.id !== id && p.brand === product?.brand).slice(0, 3);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   if (!product) {
     return (
@@ -92,12 +96,20 @@ export default function ProductDetail() {
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-10">
           {/* Left: Image */}
           <div className="space-y-4">
-            <div className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 aspect-[4/5] sm:aspect-square shadow-xl">
+            <div 
+              className="relative rounded-3xl overflow-hidden bg-white border border-slate-200 aspect-[4/5] sm:aspect-square shadow-xl cursor-zoom-in group/img"
+              onClick={() => !isSold && setLightboxOpen(true)}
+            >
               <img
                 src={productImages[currentImageIndex]}
                 alt={product.name}
                 className={`w-full h-full object-cover transition-all duration-700 ${isSold ? 'grayscale opacity-70' : ''}`}
               />
+              {!isSold && (
+                <div className="absolute bottom-4 right-4 w-10 h-10 rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 flex items-center justify-center text-slate-600 opacity-0 group-hover/img:opacity-100 transition-opacity shadow-lg">
+                  <ZoomIn className="w-5 h-5" />
+                </div>
+              )}
               {isSold && (
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-950/50">
                   <span className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 font-bold text-lg tracking-widest uppercase">
@@ -278,6 +290,68 @@ export default function ProductDetail() {
           </div>
         )}
       </div>
+
+      {/* ── LIGHTBOX ZOOM ── */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center" onClick={() => setLightboxOpen(false)}>
+          {/* Close button */}
+          <button 
+            onClick={() => setLightboxOpen(false)} 
+            className="absolute top-6 right-6 z-10 w-12 h-12 rounded-2xl bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Image counter */}
+          <div className="absolute top-6 left-6 px-4 py-2 rounded-xl bg-white/10 border border-white/20 text-white text-sm font-bold">
+            {currentImageIndex + 1} / {productImages.length}
+          </div>
+
+          {/* Navigation buttons */}
+          {productImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length); }}
+                className="absolute left-4 sm:left-8 z-10 w-14 h-14 rounded-2xl bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex((prev) => (prev + 1) % productImages.length); }}
+                className="absolute right-4 sm:right-8 z-10 w-14 h-14 rounded-2xl bg-white/10 border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            </>
+          )}
+
+          {/* Main Image */}
+          <img
+            src={productImages[currentImageIndex]}
+            alt={`${product.name} - Foto ${currentImageIndex + 1}`}
+            className="max-w-[90vw] max-h-[85vh] object-contain rounded-2xl shadow-2xl select-none"
+            onClick={(e) => e.stopPropagation()}
+            draggable={false}
+          />
+
+          {/* Thumbnails */}
+          {productImages.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 p-2 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-sm">
+              {productImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
+                  className={`w-14 h-14 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
+                    idx === currentImageIndex ? 'border-brand-orange scale-110' : 'border-transparent opacity-50 hover:opacity-80'
+                  }`}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── MOBILE STICKY BOTTOM CTA ── */}
       {!isSold && (

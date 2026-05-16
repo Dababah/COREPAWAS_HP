@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS products (
   warranty_status text,
   accessories jsonb DEFAULT '[]',
   is_featured boolean DEFAULT false,
+  images jsonb DEFAULT '[]',
   created_at timestamp with time zone DEFAULT now()
 );
 

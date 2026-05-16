@@ -87,8 +87,13 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         }
 
         if (!bError && dbBlog) {
-          setBlogPostsState(dbBlog);
-          localStorage.setItem('corepawas_blog', JSON.stringify(dbBlog));
+          // Map snake_case from DB to camelCase for App
+          const mappedBlog = dbBlog.map(b => ({
+            ...b,
+            readTime: b.read_time || b.readTime || '5 menit',
+          }));
+          setBlogPostsState(mappedBlog);
+          localStorage.setItem('corepawas_blog', JSON.stringify(mappedBlog));
         } else {
           const savedBlog = localStorage.getItem('corepawas_blog');
           if (savedBlog !== null) {
@@ -165,7 +170,13 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'blog_posts' }, (payload) => {
         const fetchBlog = async () => {
           const { data } = await supabase.from('blog_posts').select('*');
-          if (data) setBlogPostsState(data);
+          if (data) {
+            const mapped = data.map(b => ({
+              ...b,
+              readTime: b.read_time || b.readTime || '5 menit',
+            }));
+            setBlogPostsState(mapped);
+          }
         };
         fetchBlog();
       })
@@ -274,7 +285,24 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('corepawas_blog', JSON.stringify(posts));
     
     try {
-      await supabase.from('blog_posts').upsert(posts);
+      // Map camelCase to snake_case for DB
+      const mapped = posts.map(p => ({
+        id: p.id,
+        slug: p.slug,
+        title: p.title,
+        excerpt: p.excerpt,
+        content: p.content,
+        image: p.image,
+        date: p.date,
+        read_time: p.readTime,
+        category: p.category,
+        author: p.author,
+      }));
+      const { error } = await supabase.from('blog_posts').upsert(mapped);
+      if (error) {
+        console.error('Supabase sync failed for blog:', error);
+        alert(`Gagal sinkronisasi blog ke database: ${error.message}`);
+      }
     } catch (e) {
       console.warn('Supabase sync failed for blog', e);
     }

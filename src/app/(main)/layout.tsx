@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
 import CompareBar from '@/components/CompareBar';
 import CustomerChat from '@/components/CustomerChat';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function MainLayout({
   children,
@@ -17,7 +18,9 @@ export default function MainLayout({
       <Navigation />
       {/* pb-32 on mobile accounts for the fixed bottom nav bar height */}
       <main className="flex-1 text-white pb-32 md:pb-0">
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </main>
       <Footer />
       <CompareBar />
@@ -26,3 +29,4 @@ export default function MainLayout({
     </>
   );
 }
+

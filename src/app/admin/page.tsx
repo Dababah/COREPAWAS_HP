@@ -659,14 +659,37 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [syncing, setSyncing] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
 
-  const handleAiFillProduct = (data: any) => {
-    const newProduct = {
+  const handleAiFillProduct = (data: Partial<Product> & { _warnings?: string[] }) => {
+    // Tampilkan warning dari AI jika ada
+    if (data._warnings && data._warnings.length > 0) {
+      const proceed = confirm(`⚠️ Peringatan validasi AI:\n\n${data._warnings.join('\n')}\n\nLanjutkan simpan?`);
+      if (!proceed) return;
+    }
+
+    // Validasi client-side
+    if (!data.name || data.name.trim().length < 2) {
+      alert('❌ Gagal: Nama produk wajib diisi (minimal 2 karakter)');
+      return;
+    }
+    if (!data.price || data.price <= 0) {
+      alert('❌ Gagal: Harga harus lebih dari 0');
+      return;
+    }
+
+    const mainImage = data.image || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800';
+    const { _warnings, ...cleanData } = data;
+    const newProduct: Product = {
       ...emptyProduct,
-      ...data,
+      ...cleanData,
       id: Date.now().toString(),
       createdAt: new Date().toISOString().split('T')[0],
-      image: data.image || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800', // Default premium image
-      status: data.status || 'Ready'
+      image: mainImage,
+      images: data.images || [mainImage],
+      status: data.status || 'Ready',
+      hasUBL: data.hasUBL ?? false,
+      isRooted: data.isRooted ?? false,
+      warrantyStatus: data.warrantyStatus || 'No Warranty',
+      accessories: data.accessories || [],
     };
     
     // Simpan langsung ke database via Context
@@ -677,13 +700,32 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     alert('✅ Produk berhasil disimpan langsung ke Katalog & Supabase!');
   };
 
-  const handleAiFillBlog = (data: any) => {
-    const newPost = {
+  const handleAiFillBlog = (data: Partial<BlogPost> & { _warnings?: string[] }) => {
+    // Tampilkan warning dari AI jika ada
+    if (data._warnings && data._warnings.length > 0) {
+      const proceed = confirm(`⚠️ Peringatan validasi AI:\n\n${data._warnings.join('\n')}\n\nLanjutkan simpan?`);
+      if (!proceed) return;
+    }
+
+    // Validasi client-side
+    if (!data.title || data.title.trim().length < 3) {
+      alert('❌ Gagal: Judul artikel wajib diisi (minimal 3 karakter)');
+      return;
+    }
+
+    const title = data.title;
+    const { _warnings, ...cleanData } = data;
+    const newPost: BlogPost = {
       id: Date.now().toString(),
-      slug: data.title?.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-'),
+      slug: title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim(),
+      title,
+      excerpt: cleanData.excerpt || '',
+      content: cleanData.content || '',
+      image: cleanData.image || 'https://images.unsplash.com/photo-1633997011021-0254baa23289?w=800&q=80',
       date: new Date().toISOString().split('T')[0],
-      author: 'Tim COREPAWAS',
-      ...data,
+      readTime: cleanData.readTime || '5 menit',
+      category: cleanData.category || 'Tips & Tricks',
+      author: cleanData.author || 'Tim COREPAWAS',
     };
 
     // Simpan langsung ke database via Context
