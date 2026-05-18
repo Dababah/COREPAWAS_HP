@@ -84,7 +84,7 @@ export default function Katalog() {
       {/* Header Section */}
       <div className="relative py-12 sm:py-20 overflow-hidden">
         <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-end text-right">
           <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-[0.3em] mb-6 animate-fade-in">
             Explore Collection
           </div>
