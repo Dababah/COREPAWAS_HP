@@ -137,8 +137,8 @@ export default function TradeInPage() {
   return (
     <div className="min-h-screen bg-transparent pt-24 pb-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="text-right flex flex-col items-end mb-20 relative">
-          <div className="absolute top-0 right-10 w-96 h-96 bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />
+        <div className="text-left mb-20 relative">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[10px] font-black uppercase tracking-[0.3em] mb-8 animate-fade-in">
             <TrendingDown className="w-4 h-4" />
             Penampungan Unit Terpercaya
@@ -147,7 +147,7 @@ export default function TradeInPage() {
             Kalkulator <br />
             <span className="text-gradient">Penampungan HP</span>
           </h1>
-          <p className="text-slate-600 max-w-3xl ml-auto mr-0 text-lg font-medium leading-relaxed">
+          <p className="text-slate-600 max-w-3xl text-lg font-medium leading-relaxed">
             Mau jual HP lamamu dengan cepat? Kami berikan penawaran harga beli langsung (Bakul) untuk stok operasional kami. Proses instan, harga transparan!
           </p>
         </div>
