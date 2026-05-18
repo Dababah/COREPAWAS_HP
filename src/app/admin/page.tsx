@@ -18,6 +18,7 @@ import {
   Search,
   Save,
   X,
+  Menu,
   BarChart3,
   TrendingUp,
   Package,
@@ -646,6 +647,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const { products, setProducts, deleteProduct, blogPosts, setBlogPosts, deleteBlogPost, waNumber, setWaNumber, storeAddress, setStoreAddress, googleMapsApiKey, setGoogleMapsApiKey, googleMapsUrl, setGoogleMapsUrl, googleMapsEmbedUrl, setGoogleMapsEmbedUrl } = useData();
   const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setIsSidebarOpen(true);
+    }
+  }, []);
   const [productSearch, setProductSearch] = useState('');
   const [blogSearch, setBlogSearch] = useState('');
   const [editingProduct, setEditingProduct] = useState<Product | null | undefined>(undefined);
@@ -830,13 +838,26 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     <div className="min-h-screen bg-transparent flex flex-col">
       {/* Top Nav */}
       <header className="bg-brand-navy-dark border-b border-white/5 px-6 py-5 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-2xl">
-        <div className="flex items-center gap-5">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center shadow-xl shadow-brand-orange/30">
+        <div className="flex items-center gap-3 sm:gap-5">
+          {/* Hamburger Sidebar Toggle */}
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="p-2.5 -ml-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 active:scale-95 transition-all flex items-center justify-center border border-transparent hover:border-white/10 cursor-pointer"
+            aria-label="Toggle Sidebar"
+          >
+            {isSidebarOpen ? (
+              <X className="w-5 h-5 text-brand-orange transition-all" />
+            ) : (
+              <Menu className="w-5 h-5 text-slate-300 transition-all" />
+            )}
+          </button>
+
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-orange to-orange-600 flex items-center justify-center shadow-xl shadow-brand-orange/30 flex-shrink-0">
             <Cpu className="w-6 h-6 text-white" />
           </div>
           <div>
             <span className="text-white font-black text-xl tracking-tighter uppercase">CORE<span className="text-brand-orange">PAWAS</span></span>
-            <span className="ml-4 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[9px] font-black uppercase tracking-[0.2em]">System Admin</span>
+            <span className="ml-4 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[9px] font-black uppercase tracking-[0.2em] hidden xs:inline-block">System Admin</span>
           </div>
         </div>
         <div className="flex items-center gap-6">
@@ -855,26 +876,53 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <div className="flex flex-1">
+        {/* Mobile/Tablet Drawer Backdrop */}
+        {isSidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-md transition-all duration-300 animate-in fade-in"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className="hidden sm:flex flex-col w-72 bg-brand-navy-dark border-r border-white/5 p-6 gap-3">
+        <aside className={`fixed lg:static top-[85px] bottom-0 left-0 z-40 flex flex-col bg-brand-navy-dark border-r border-white/5 p-6 gap-3 transition-all duration-300 ease-in-out h-[calc(100vh-85px)] lg:h-auto ${
+          isSidebarOpen 
+            ? 'translate-x-0 w-72' 
+            : '-translate-x-full lg:translate-x-0 lg:w-20 lg:px-4'
+        }`}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => {
                 startTransition(() => {
                   setActiveTab(tab.id);
+                  // Close drawer on click for mobile/tablet screens
+                  if (window.innerWidth < 1024) {
+                    setIsSidebarOpen(false);
+                  }
                 });
               }}
-              className={`flex items-center gap-4 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all text-left border ${
+              className={`flex items-center rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all border cursor-pointer ${
+                isSidebarOpen
+                  ? 'px-6 py-4 gap-4 text-left justify-start'
+                  : 'px-6 py-4 lg:px-0 lg:py-4 lg:justify-center lg:gap-0 gap-4 text-left justify-start'
+              } ${
                 activeTab === tab.id
                   ? 'bg-brand-orange border-brand-orange text-white shadow-2xl shadow-brand-orange/30 scale-[1.02]'
                   : 'text-slate-500 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
               }`}
+              title={!isSidebarOpen ? tab.label : undefined}
             >
-              <div className={`${activeTab === tab.id ? 'text-white' : 'text-slate-600'}`}>
+              <div className={`transition-all duration-300 ${activeTab === tab.id ? 'text-white' : 'text-slate-600'} ${!isSidebarOpen ? 'lg:scale-110' : ''}`}>
                 {tab.icon}
               </div>
-              {tab.label}
+              <span className={`transition-all duration-300 truncate ${
+                isSidebarOpen 
+                  ? 'opacity-100 w-auto' 
+                  : 'opacity-100 lg:opacity-0 lg:w-0 lg:hidden'
+              }`}>
+                {tab.label}
+              </span>
             </button>
           ))}
         </aside>
