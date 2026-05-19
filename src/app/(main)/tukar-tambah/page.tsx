@@ -10,38 +10,51 @@ const MODELS_DATA: Record<string, string[]> = {
   'iPhone': [
     'iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone 17 Plus', 'iPhone 17', 'iPhone 17 Air',
     'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16',
-    'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15', 'iPhone 14 Pro Max',
-    'iPhone 13 Pro Max', 'iPhone 13', 'iPhone 12', 'iPhone 11'
+    'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15',
+    'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14',
+    'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 13 mini',
+    'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 12 mini',
+    'iPhone 11 Pro Max', 'iPhone 11 Pro', 'iPhone 11'
   ],
   'Samsung': [
     'Galaxy S26 Ultra', 'Galaxy S26+', 'Galaxy S26',
     'Galaxy S25 Ultra', 'Galaxy S25+', 'Galaxy S25',
     'Galaxy Z Fold 7', 'Galaxy Z Flip 7', 'Galaxy Z Fold 6', 'Galaxy Z Flip 6',
-    'Galaxy S24 Ultra', 'Galaxy S23 Ultra', 'Galaxy A56 5G', 'Galaxy A36 5G', 'Galaxy S24 FE'
+    'Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S24', 'Galaxy S24 FE',
+    'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
+    'Galaxy S22 Ultra', 'Galaxy S22+', 'Galaxy S22',
+    'Galaxy A56 5G', 'Galaxy A36 5G', 'Galaxy A55 5G', 'Galaxy A35 5G'
   ],
   'Infinix': [
     'GT 30 Pro', 'Zero 50 Ultra', 'Zero 40 5G', 'Note 50 Pro', 'Note 50', 
     'Note 40 Pro', 'Hot 60 Pro', 'Hot 50 Pro', 'Hot 50i', 'Smart 9 Pro', 'Smart 9'
   ],
   'Xiaomi': [
-    'Xiaomi 16 Ultra', 'Xiaomi 16 Pro', 'Xiaomi 16', 'Xiaomi 15T Pro', 'Xiaomi 15T',
+    'Xiaomi 16 Ultra', 'Xiaomi 16 Pro', 'Xiaomi 16', 
+    'Xiaomi 15T Pro', 'Xiaomi 15T', 'Xiaomi 14 Ultra', 'Xiaomi 14 Pro', 'Xiaomi 14',
     'Redmi Note 15 Pro+ 5G', 'Redmi Note 15 Pro', 'Redmi Note 15',
-    'Redmi Note 14 Pro 5G', 'Poco F7 Pro', 'Poco F7', 'Poco X7 Pro', 'Poco M7 Pro'
+    'Redmi Note 14 Pro+ 5G', 'Redmi Note 14 Pro', 'Redmi Note 14',
+    'Poco F7 Pro', 'Poco F7', 'Poco X7 Pro', 'Poco F6 Pro', 'Poco F6', 'Poco X6 Pro'
   ],
   'Oppo': [
-    'Find X9 Pro', 'Find X9', 'Find N5 Flip', 'Reno 13 Pro', 'Reno 13', 
-    'Reno 12 Pro', 'Oppo A100', 'Oppo A98', 'Oppo A79', 'Oppo A59'
+    'Find X9 Pro', 'Find X9', 'Find N5 Flip', 'Find X8 Pro', 'Find X8',
+    'Reno 13 Pro', 'Reno 13', 'Reno 12 Pro', 'Reno 12', 'Reno 11 Pro', 'Reno 11',
+    'Oppo A100', 'Oppo A98', 'Oppo A79', 'Oppo A59', 'Oppo A60', 'Oppo A3 Pro'
   ],
   'Vivo': [
-    'X110 Pro+', 'X110 Pro', 'V40 Pro', 'V40', 'V30 Pro', 'V30', 
-    'V29 5G', 'Vivo Y200 5G', 'Vivo Y100', 'Vivo Y30', 'Vivo iQOO 13'
+    'X110 Pro+', 'X110 Pro', 'X100 Pro', 'X100',
+    'V40 Pro', 'V40', 'V30 Pro', 'V30', 'V29 5G', 
+    'Vivo Y200 5G', 'Vivo Y100', 'Vivo Y30', 'Vivo iQOO 13', 'Vivo iQOO 12'
   ],
   'Realme': [
-    'Realme GT 7', 'Realme 14 Pro+', 'Realme 14', 'Realme 13 Pro+', 
-    'Realme 12 Pro+', 'Realme C77', 'Realme C67', 'Realme C55'
+    'Realme GT 7', 'Realme GT 6', 'Realme 14 Pro+', 'Realme 14', 
+    'Realme 13 Pro+', 'Realme 13', 'Realme 12 Pro+', 'Realme 12',
+    'Realme C77', 'Realme C67', 'Realme C55', 'Realme C65'
   ],
   'Google Pixel': [
-    'Pixel 10 Pro XL', 'Pixel 10 Pro', 'Pixel 10', 'Pixel 9 Pro', 'Pixel 9', 'Pixel 8 Pro'
+    'Pixel 10 Pro XL', 'Pixel 10 Pro', 'Pixel 10', 
+    'Pixel 9 Pro XL', 'Pixel 9 Pro', 'Pixel 9', 
+    'Pixel 8 Pro', 'Pixel 8', 'Pixel 7 Pro', 'Pixel 7'
   ],
   'Others': ['Tipe lain (Gunakan Manual Input)']
 };
@@ -93,33 +106,119 @@ export default function TradeInPage() {
       base = (manualMarketPrice || 0) * 0.65;
     } else {
       if (brand === 'iPhone') {
-        if (model.includes('17 Pro')) base = 22000000;
-        else if (model.includes('17')) base = 16000000;
-        else if (model.includes('16 Pro')) base = 18000000;
-        else if (model.includes('16')) base = 12500000;
-        else if (model.includes('15 Pro')) base = 13500000;
-        else if (model.includes('14 Pro')) base = 11000000;
-        else if (model.includes('13')) base = 7500000;
-        else if (model.includes('11')) base = 3500000;
+        if (model.includes('17 Pro Max')) base = 22000000;
+        else if (model.includes('17 Pro')) base = 20000000;
+        else if (model.includes('17 Plus')) base = 17500000;
+        else if (model.includes('17 Air')) base = 16500000;
+        else if (model.includes('17')) base = 15000000;
+        else if (model.includes('16 Pro Max')) base = 19500000;
+        else if (model.includes('16 Pro')) base = 17500000;
+        else if (model.includes('16 Plus')) base = 14500000;
+        else if (model.includes('16')) base = 13000000;
+        else if (model.includes('15 Pro Max')) base = 16000000;
+        else if (model.includes('15 Pro')) base = 14500000;
+        else if (model.includes('15 Plus')) base = 12500000;
+        else if (model.includes('15')) base = 11000000;
+        else if (model.includes('14 Pro Max')) base = 13500000;
+        else if (model.includes('14 Pro')) base = 12000000;
+        else if (model.includes('14 Plus')) base = 10000000;
+        else if (model.includes('14')) base = 9000000;
+        else if (model.includes('13 Pro Max')) base = 11000000;
+        else if (model.includes('13 Pro')) base = 9800000;
+        else if (model.includes('13')) base = 8200000;
+        else if (model.includes('12 Pro Max')) base = 8500000;
+        else if (model.includes('12 Pro')) base = 7500000;
+        else if (model.includes('12')) base = 6200000;
+        else if (model.includes('11 Pro Max')) base = 6500000;
+        else if (model.includes('11 Pro')) base = 5500000;
+        else if (model.includes('11')) base = 4200000;
       } 
       else if (brand === 'Samsung') {
         if (model.includes('S26 Ultra')) base = 21000000;
-        else if (model.includes('S26')) base = 14000000;
-        else if (model.includes('S25 Ultra')) base = 17500000;
+        else if (model.includes('S26+')) base = 15000000;
+        else if (model.includes('S26')) base = 12500000;
+        else if (model.includes('S25 Ultra')) base = 18000000;
+        else if (model.includes('S25+')) base = 13000000;
         else if (model.includes('S25')) base = 11000000;
+        else if (model.includes('Z Fold 7')) base = 22000000;
+        else if (model.includes('Z Flip 7')) base = 13500000;
+        else if (model.includes('Z Fold 6')) base = 17500000;
+        else if (model.includes('Z Flip 6')) base = 11500000;
         else if (model.includes('S24 Ultra')) base = 14500000;
-        else if (model.includes('Z Fold')) base = 18000000;
+        else if (model.includes('S24+')) base = 10500000;
+        else if (model.includes('S24 FE')) base = 8000000;
+        else if (model.includes('S24')) base = 8500000;
+        else if (model.includes('S23 Ultra')) base = 11000000;
+        else if (model.includes('S23+')) base = 8000000;
+        else if (model.includes('S23 FE')) base = 5500000;
+        else if (model.includes('S23')) base = 6800000;
+        else if (model.includes('S22 Ultra')) base = 7800000;
+        else if (model.includes('S22+')) base = 6200000;
+        else if (model.includes('S22')) base = 5000000;
         else if (model.includes('A56')) base = 5800000;
+        else if (model.includes('A36')) base = 4200000;
+        else if (model.includes('A55')) base = 4200000;
+        else if (model.includes('A35')) base = 3200000;
         else base = 2500000;
       }
-      else if (brand === 'Infinix' || brand === 'Realme' || brand === 'Xiaomi') {
-        if (model.includes('Xiaomi 16')) base = 12500000;
-        else if (model.includes('Xiaomi 15')) base = 9500000;
-        else if (model.includes('GT 30') || model.includes('GT 7')) base = 7500000;
-        else if (model.includes('Note 15 Pro')) base = 4200000;
-        else if (model.includes('Note 50 Pro')) base = 3800000;
-        else if (model.includes('C77')) base = 2200000;
-        else base = 1500000;
+      else if (brand === 'Google Pixel') {
+        if (model.includes('10 Pro XL')) base = 16000000;
+        else if (model.includes('10 Pro')) base = 14500000;
+        else if (model.includes('10')) base = 11500000;
+        else if (model.includes('9 Pro XL')) base = 12000000;
+        else if (model.includes('9 Pro')) base = 13500000;
+        else if (model.includes('9')) base = 10000000;
+        else if (model.includes('8 Pro')) base = 8500000;
+        else if (model.includes('8')) base = 6200000;
+        else if (model.includes('7 Pro')) base = 5800000;
+        else if (model.includes('7')) base = 4200000;
+        else base = 4000000;
+      }
+      else if (brand === 'Xiaomi') {
+        if (model.includes('16 Ultra')) base = 16000000;
+        else if (model.includes('16 Pro')) base = 13000000;
+        else if (model.includes('16')) base = 10000000;
+        else if (model.includes('15T Pro')) base = 8500000;
+        else if (model.includes('15T')) base = 6500000;
+        else if (model.includes('14 Ultra')) base = 12000000;
+        else if (model.includes('14 Pro')) base = 10000000;
+        else if (model.includes('14')) base = 7500000;
+        else if (model.includes('Poco F7 Pro')) base = 7500000;
+        else if (model.includes('Poco F7')) base = 5500000;
+        else if (model.includes('Poco F6 Pro')) base = 5800000;
+        else if (model.includes('Poco F6')) base = 4500000;
+        else if (model.includes('Poco X6 Pro')) base = 3600000;
+        else if (model.includes('Redmi Note 15 Pro+')) base = 4800000;
+        else if (model.includes('Redmi Note 15 Pro')) base = 4000000;
+        else if (model.includes('Redmi Note 14 Pro+')) base = 3800000;
+        else if (model.includes('Redmi Note 14 Pro')) base = 3000000;
+        else base = 2500000;
+      }
+      else if (brand === 'Oppo' || brand === 'Vivo') {
+        if (model.includes('Find X9 Pro') || model.includes('X110 Pro+')) base = 16000000;
+        else if (model.includes('Find X9') || model.includes('X110 Pro')) base = 13000000;
+        else if (model.includes('Find X8 Pro') || model.includes('X100 Pro')) base = 11500000;
+        else if (model.includes('Find X8') || model.includes('X100')) base = 9500000;
+        else if (model.includes('Find N5') || model.includes('V40 Pro')) base = 9000000;
+        else if (model.includes('Reno 13 Pro') || model.includes('V30 Pro')) base = 7500000;
+        else if (model.includes('Reno 13') || model.includes('V30')) base = 5800000;
+        else if (model.includes('Reno 12')) base = 4800000;
+        else if (model.includes('Reno 11 Pro')) base = 4800000;
+        else if (model.includes('Reno 11')) base = 3800000;
+        else if (model.includes('Oppo A60') || model.includes('Vivo Y100')) base = 2500000;
+        else if (model.includes('Oppo A3 Pro') || model.includes('Vivo Y30')) base = 1800000;
+        else base = 2500000;
+      }
+      else if (brand === 'Infinix' || brand === 'Realme') {
+        if (model.includes('GT 7') || model.includes('GT 30')) base = 7500000;
+        else if (model.includes('GT 6')) base = 5800000;
+        else if (model.includes('Zero 50') || model.includes('14 Pro+')) base = 5800000;
+        else if (model.includes('Zero 40') || model.includes('13 Pro+')) base = 4800000;
+        else if (model.includes('Note 50') || model.includes('Realme 14')) base = 3500000;
+        else if (model.includes('Note 40') || model.includes('Realme 13')) base = 2800000;
+        else if (model.includes('Realme 12')) base = 2400000;
+        else if (model.includes('C67') || model.includes('C65') || model.includes('C55')) base = 1500000;
+        else base = 1800000;
       }
     }
 
@@ -324,7 +423,7 @@ export default function TradeInPage() {
                         <select 
                           value={model}
                           onChange={(e) => { setModel(e.target.value); setIsCalculated(false); }}
-                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer shadow-sm"
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer shadow-sm animate-fade-in"
                         >
                           <option value="" className="bg-[#0f172a]">-- Pilih Seri --</option>
                           {(MODELS_DATA[brand] || []).map(m => (
@@ -411,7 +510,10 @@ export default function TradeInPage() {
                 <div className="bg-white rounded-[3.5rem] p-10 sm:p-14 text-brand-navy shadow-[0_40px_100px_-20px_rgba(250,140,22,0.3)] border-[6px] border-brand-orange relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-full h-2 bg-brand-orange" />
                   
-                  <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mb-6">Estimasi Penawaran Kami</div>
+                  <div className="text-[10px] font-black text-rose-500 uppercase tracking-[0.15em] mb-6 flex items-center gap-2 animate-pulse">
+                    <AlertTriangle className="w-4 h-4 text-rose-500" />
+                    Ini masih perkiraan, biar pas langsung chat admin aja
+                  </div>
                   <div className="text-6xl sm:text-7xl font-black mb-10 flex items-start tracking-tighter">
                     <span className="text-2xl font-black mr-1 mt-3">Rp</span>
                     {calculateEstimate.toLocaleString('id-ID')}
