@@ -1620,9 +1620,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                   <div className="flex items-center justify-end gap-2.5">
                                     {/* Lihat Postingan */}
                                     <button
-                                      onClick={() => window.open(deal.fbLink, "_blank")}
+                                      onClick={() => window.open(`https://www.facebook.com/marketplace/yogyakarta/search?query=${encodeURIComponent(deal.name)}`, "_blank")}
                                       className="px-4 py-2.5 rounded-xl border border-white/10 hover:border-brand-orange/30 text-slate-300 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5"
-                                      title="Buka Iklan Facebook Marketplace Jogja"
+                                      title="Buka Pencarian Live Facebook Marketplace Yogyakarta"
                                     >
                                       <Globe className="w-3.5 h-3.5 text-brand-orange" />
                                       Lihat Postingan
@@ -1630,8 +1630,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
                                     {/* Hubungi Penjual */}
                                     <button
-                                      onClick={() => window.open(`https://m.me/`, "_blank")}
+                                      onClick={() => window.open(`https://www.facebook.com/groups/search/groups/?q=${encodeURIComponent('jual beli hp second ' + deal.brand + ' jogja')}`, "_blank")}
                                       className="px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 hover:bg-amber-400 text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 shadow-lg shadow-amber-500/20"
+                                      title="Buka Grup Jual Beli HP Second Jogja"
                                     >
                                       <MessageSquare className="w-3.5 h-3.5" />
                                       Hubungi Penjual
