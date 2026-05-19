@@ -243,7 +243,7 @@ export async function POST(req: Request) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash", // We use 1.5-flash which is widely supported and supports JSON output schemas natively
+      model: "gemini-3.1-flash-lite",
       generationConfig: {
         responseMimeType: "application/json",
       }
