@@ -53,9 +53,9 @@ export async function POST(req: Request) {
 
       Your goal is to parse user intents and respond matching this TypeScript schema:
       interface AgentResponse {
-        type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates';
+        type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates' | 'generate_cod_checklist';
         reply: string; // The chat message or analysis report. Write in rich, professional Indonesian. Supports standard markdown formatting. Keep it engaging.
-        data?: any; // Only populated if type is 'fill_product', 'fill_blog', or 'update_templates'
+        data?: any; // Only populated if type is 'fill_product', 'fill_blog', 'update_templates', or 'generate_cod_checklist'
       }
 
       How to classify 'type':
@@ -99,7 +99,18 @@ export async function POST(req: Request) {
              "iconColor": string (Tailwind gradient color classes, e.g. "from-blue-500 to-indigo-600" or "from-purple-500 to-fuchsia-600")
            }
       4. 'analyze': If the user asks about the store inventory status, statistics, counts, valuations, or recommendations based on their live catalog data (e.g., "Berapa total produk?", "Tolong analisa stok saya...", "Berapa valuasi stok ready?").
-      5. 'chat': For standard chat, greetings, casual talk, gadget advice, or general explanations.
+      5. 'generate_cod_checklist': If the user asks to create, modify, or generate a COD preparation or inspection checklist for a specific phone brand/model (e.g., "Buatkan to do list cek iPhone 13", "SOP beli Samsung lipat"). 
+         - Under 'data', output an array of checklist items tailored to the phone's unique features:
+           [
+             {
+               "id": "todo_1", // unique string
+               "order_index": 1,
+               "title": string, // Action-oriented, e.g., "Cek Face ID & True Tone"
+               "description": string, // Short guide on how/why to check it
+               "is_critical": boolean // true for fatal issues (iCloud, signal), false for accessories
+             }
+           ]
+      6. 'chat': For standard chat, greetings, casual talk, gadget advice, or general explanations.
 
       You MUST respond with a pure JSON object matching AgentResponse. Never output markdown block wrappers (like \`\`\`json), conversational filler outside the JSON, or other text.
     `;

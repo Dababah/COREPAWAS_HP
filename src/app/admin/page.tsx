@@ -739,6 +739,42 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setLoadingCod(false);
   }
 
+  // ─── COD Checklist CRUD & AI ───
+  const handleAiUpdateCodTodos = async (newTodos: any[]) => {
+    setCodTodos(newTodos);
+    // Hapus data lama (opsional, tapi lebih aman jika AI mengubah drastis)
+    await supabase.from('cod_todos').delete().neq('id', 'placeholder');
+    // Insert data baru
+    const { error } = await supabase.from('cod_todos').upsert(newTodos);
+    if (error) {
+      alert("Gagal sinkronisasi checklist baru ke Supabase: " + error.message);
+    }
+  };
+
+  const updateCodTodo = async (id: string, field: string, value: string | boolean) => {
+    const updated = codTodos.map(t => t.id === id ? { ...t, [field]: value } : t);
+    setCodTodos(updated);
+    await supabase.from('cod_todos').update({ [field]: value }).eq('id', id);
+  };
+
+  const addCodTodo = async () => {
+    const newTodo = {
+      id: `todo_${Date.now()}`,
+      order_index: codTodos.length + 1,
+      title: 'Pengecekan Baru',
+      description: 'Detail yang harus dicek...',
+      is_critical: false
+    };
+    setCodTodos([...codTodos, newTodo]);
+    await supabase.from('cod_todos').insert(newTodo);
+  };
+
+  const deleteCodTodo = async (id: string) => {
+    if (!confirm('Hapus poin ini?')) return;
+    setCodTodos(codTodos.filter(t => t.id !== id));
+    await supabase.from('cod_todos').delete().eq('id', id);
+  };
+
   const handleCopyText = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
@@ -2285,46 +2321,102 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       {codTodos.map((todo) => (
                         <div 
                           key={todo.id} 
-                          onClick={() => toggleCodCheck(todo.id)}
-                          className={`flex gap-4 p-6 rounded-2xl border transition-all cursor-pointer ${
+                          className={`group flex gap-4 p-5 rounded-2xl border transition-all relative ${
                             checkedCod[todo.id] 
                               ? 'bg-emerald-500/10 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
                               : 'bg-white/5 border-white/10 hover:border-brand-orange/30'
                           }`}
                         >
-                          <div className={`mt-1 w-6 h-6 rounded-md flex items-center justify-center border-2 transition-colors flex-shrink-0 ${
+                          {/* Trash button (Notion style) */}
+                          <button 
+                            onClick={() => deleteCodTodo(todo.id)}
+                            className="absolute -right-3 -top-3 w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 hover:scale-110 transition-all z-10"
+                            title="Hapus poin ini"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+
+                          <div 
+                            onClick={() => toggleCodCheck(todo.id)}
+                            className={`mt-1 w-6 h-6 rounded-md flex items-center justify-center border-2 transition-colors flex-shrink-0 cursor-pointer ${
                             checkedCod[todo.id]
                               ? 'bg-emerald-500 border-emerald-500'
-                              : 'border-slate-500 bg-transparent'
+                              : 'border-slate-500 bg-transparent hover:border-brand-orange'
                           }`}>
                             {checkedCod[todo.id] && <Check className="w-4 h-4 text-white" />}
                           </div>
-                          <div>
+                          <div className="flex-1 space-y-1">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
-                              <h4 className={`text-sm font-black uppercase tracking-wider ${
-                                checkedCod[todo.id] ? 'text-emerald-400' : (todo.is_critical ? 'text-rose-400' : 'text-white')
-                              }`}>
-                                {todo.title}
-                              </h4>
-                              {todo.is_critical && (
-                                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 border border-rose-500/20">Wajib</span>
-                              )}
+                              <input 
+                                value={todo.title}
+                                onChange={(e) => updateCodTodo(todo.id, 'title', e.target.value)}
+                                className={`flex-1 min-w-[200px] text-sm font-black uppercase tracking-wider bg-transparent border-none focus:outline-none focus:ring-0 ${
+                                  checkedCod[todo.id] ? 'text-emerald-400 line-through' : (todo.is_critical ? 'text-rose-400' : 'text-white')
+                                }`}
+                                placeholder="JUDUL PENGECEKAN"
+                              />
+                              <label className="flex items-center gap-1.5 cursor-pointer bg-white/5 px-2 py-1 rounded-lg border border-white/5 hover:bg-white/10">
+                                <input 
+                                  type="checkbox"
+                                  checked={todo.is_critical}
+                                  onChange={(e) => updateCodTodo(todo.id, 'is_critical', e.target.checked)}
+                                  className="accent-rose-500 w-3 h-3"
+                                />
+                                <span className="text-[9px] font-black uppercase tracking-widest text-rose-400">Wajib</span>
+                              </label>
                             </div>
-                            <p className={`text-xs leading-relaxed transition-colors ${checkedCod[todo.id] ? 'text-emerald-400/70' : 'text-slate-400'}`}>
-                              {todo.description}
-                            </p>
+                            <textarea 
+                              value={todo.description}
+                              onChange={(e) => updateCodTodo(todo.id, 'description', e.target.value)}
+                              rows={1}
+                              className={`w-full text-xs leading-relaxed bg-transparent border-none focus:outline-none resize-none transition-colors ${checkedCod[todo.id] ? 'text-emerald-400/70 line-through' : 'text-slate-400'}`}
+                              placeholder="Deskripsi cara mengeceknya..."
+                              onInput={(e) => {
+                                const target = e.target as HTMLTextAreaElement;
+                                target.style.height = 'auto';
+                                target.style.height = target.scrollHeight + 'px';
+                              }}
+                            />
                           </div>
                         </div>
                       ))}
+                      
+                      {/* Notion style Add Button */}
+                      <button
+                        onClick={addCodTodo}
+                        className="w-full py-4 rounded-xl border border-dashed border-white/20 text-slate-400 hover:text-white hover:border-brand-orange hover:bg-brand-orange/5 text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Tambah Pengecekan Baru (Notion Style)
+                      </button>
                     </div>
 
-                    <button
-                      onClick={resetCodChecklist}
-                      className="w-full mt-8 py-5 rounded-xl border border-rose-500/20 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-[10px] font-black uppercase tracking-widest transition-colors flex justify-center items-center gap-2"
-                    >
-                      <RefreshCcw className="w-4 h-4" />
-                      Reset Checklist untuk COD Berikutnya
-                    </button>
+                    <div className="flex gap-4 mt-8">
+                      <button
+                        onClick={resetCodChecklist}
+                        className="flex-1 py-5 rounded-xl border border-rose-500/20 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-[10px] font-black uppercase tracking-widest transition-colors flex justify-center items-center gap-2"
+                      >
+                        <RefreshCcw className="w-4 h-4" />
+                        Reset Status Centang
+                      </button>
+                      <button
+                        onClick={() => {
+                          const aiBtn = document.querySelector('button[title="Open COREPAWAS Neural Agent Chat"]') as HTMLButtonElement;
+                          if (aiBtn) aiBtn.click();
+                          setTimeout(() => {
+                            const input = document.querySelector('textarea[placeholder*="Tanya analisis"]') as HTMLTextAreaElement;
+                            if (input) {
+                              input.value = "Tolong buatkan SOP COD khusus untuk iPhone 13 Pro Max...";
+                              input.focus();
+                            }
+                          }, 100);
+                        }}
+                        className="flex-1 py-5 rounded-xl bg-brand-orange/10 border border-brand-orange/30 text-brand-orange hover:bg-brand-orange hover:text-white text-[10px] font-black uppercase tracking-widest transition-all flex justify-center items-center gap-2 shadow-lg shadow-brand-orange/10"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        Minta AI Buatkan SOP Brand Lain
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -2610,7 +2702,15 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           </div>
         );
       })()}
-      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} products={products} blogPosts={blogPosts} chatTemplates={chatTemplates} onUpdateTemplates={handleAiUpdateTemplates} />
+      <AiAssistant 
+        onFillProduct={handleAiFillProduct} 
+        onFillBlog={handleAiFillBlog} 
+        products={products} 
+        blogPosts={blogPosts} 
+        chatTemplates={chatTemplates} 
+        onUpdateTemplates={handleAiUpdateTemplates} 
+        onUpdateCodTodos={handleAiUpdateCodTodos} 
+      />
     </div>
   );
 }

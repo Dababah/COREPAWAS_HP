@@ -25,18 +25,19 @@ interface AiAssistantProps {
   blogPosts: any[];
   chatTemplates: any[];
   onUpdateTemplates: (data: any) => void;
+  onUpdateCodTodos?: (todos: any[]) => void;
 }
 
 interface Message {
   id: string;
   sender: 'user' | 'ai';
-  type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates';
+  type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates' | 'generate_cod_checklist';
   reply: string;
   data?: any;
   applied?: boolean;
 }
 
-export default function AiAssistant({ onFillProduct, onFillBlog, products, blogPosts, chatTemplates, onUpdateTemplates }: AiAssistantProps) {
+export default function AiAssistant({ onFillProduct, onFillBlog, products, blogPosts, chatTemplates, onUpdateTemplates, onUpdateCodTodos }: AiAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -143,13 +144,15 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
     }
   };
 
-  const handleApplyAction = (msgId: string, type: 'product' | 'blog' | 'templates', data: any) => {
+  const handleApplyAction = (msgId: string, type: 'product' | 'blog' | 'templates' | 'cod_checklist', data: any) => {
     if (type === 'product') {
       onFillProduct(data);
     } else if (type === 'blog') {
       onFillBlog(data);
     } else if (type === 'templates') {
       onUpdateTemplates(data);
+    } else if (type === 'cod_checklist') {
+      if (onUpdateCodTodos) onUpdateCodTodos(data);
     }
 
     setMessages(prev => prev.map(m => {
@@ -286,8 +289,8 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
                 <div className="p-4 rounded-2xl bg-slate-950/40 border border-brand-orange/20 shadow-2xl space-y-4 animate-scale-up">
                   <div className="flex items-center justify-between border-b border-white/5 pb-2">
                     <span className="text-brand-orange text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                      {msg.type === 'fill_product' ? <Package className="w-3.5 h-3.5" /> : msg.type === 'fill_blog' ? <BookOpen className="w-3.5 h-3.5" /> : <MessageSquare className="w-3.5 h-3.5" />}
-                      {msg.type === 'fill_product' ? 'Parsed Product' : msg.type === 'fill_blog' ? 'Parsed Article' : 'Proposed Chat Template'}
+                      {msg.type === 'fill_product' ? <Package className="w-3.5 h-3.5" /> : msg.type === 'fill_blog' ? <BookOpen className="w-3.5 h-3.5" /> : msg.type === 'update_templates' ? <MessageSquare className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+                      {msg.type === 'fill_product' ? 'Parsed Product' : msg.type === 'fill_blog' ? 'Parsed Article' : msg.type === 'update_templates' ? 'Proposed Chat Template' : 'Generated Checklist'}
                     </span>
                     <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[8px] font-black uppercase tracking-widest">
                       Ready to Sync
@@ -346,6 +349,26 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
                       >
                         <Check className="w-3.5 h-3.5" />
                         Terapkan ke Templat Panel
+                      </button>
+                    </div>
+                  )}
+
+                  {msg.type === 'generate_cod_checklist' && (
+                    <div className="space-y-2">
+                      <div className="text-white text-xs font-bold">Generated SOP COD</div>
+                      <div className="text-[10px] text-slate-400 italic bg-black/20 p-2 rounded-lg border border-white/5 line-clamp-2">
+                        {msg.data.length} poin pengecekan khusus berhasil disusun.
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-[10px] mt-1">
+                        <div><span className="text-slate-500 font-bold uppercase block text-[7px] tracking-wider">Total Item</span><span className="text-brand-orange font-medium">{msg.data.length} Poin</span></div>
+                        <div><span className="text-slate-500 font-bold uppercase block text-[7px] tracking-wider">Poin Kritis</span><span className="text-rose-400 font-semibold">{msg.data.filter((d: any) => d.is_critical).length} Wajib</span></div>
+                      </div>
+                      <button
+                        onClick={() => handleApplyAction(msg.id, 'cod_checklist', msg.data)}
+                        className="w-full mt-2 py-2.5 rounded-xl bg-brand-orange text-white text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-lg shadow-brand-orange/20 hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        Terapkan sebagai SOP Baru
                       </button>
                     </div>
                   )}
