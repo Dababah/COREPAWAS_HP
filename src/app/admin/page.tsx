@@ -743,6 +743,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     warningText: '',
   });
 
+  const [negotiatingDeal, setNegotiatingDeal] = useState<any | null>(null);
+  const [selectedCodZone, setSelectedCodZone] = useState<string>('McD Jakal (KM 5)');
+  const [sellerPhone, setSellerPhone] = useState<string>('');
+  const [copiedNegoText, setCopiedNegoText] = useState<boolean>(false);
+
+  const handleCopyNegoText = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedNegoText(true);
+    setTimeout(() => setCopiedNegoText(false), 2000);
+  };
+
   const handleEditTemplate = (tpl: any) => {
     setEditingTemplateId(tpl.id);
     setTplForm({
@@ -1780,9 +1791,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
                                     {/* Hubungi Penjual */}
                                     <button
-                                      onClick={() => window.open(`https://www.facebook.com/groups/search/groups/?q=${encodeURIComponent('jual beli hp second ' + deal.brand + ' jogja')}`, "_blank")}
+                                      onClick={() => {
+                                        setNegotiatingDeal(deal);
+                                        setSellerPhone('');
+                                      }}
                                       className="px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 hover:bg-amber-400 text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5 shadow-lg shadow-amber-500/20"
-                                      title="Buka Grup Jual Beli HP Second Jogja"
+                                      title="Buka Panel Negosiasi SOP COD Terpercaya COREPAWAS"
                                     >
                                       <MessageSquare className="w-3.5 h-3.5" />
                                       Hubungi Penjual
@@ -2280,6 +2294,139 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           onClose={() => setEditingBlog(undefined)}
         />
       )}
+      {negotiatingDeal && (() => {
+        const generatedMessage = `Halo Mas/Mbak, unit ${negotiatingDeal.name} (${negotiatingDeal.brand} · ${negotiatingDeal.storage}) yang di-posting seharga ${formatPrice(negotiatingDeal.originalPrice)}-nya masih ada? Kalau sesuai deskripsi, siang/sore ini saya siap meluncur COD langsung ke lokasi dekat sampeyan. Bisa COD di lokasi ramai ya mas, misal di ${selectedCodZone}? Matur nuwun.`;
+
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+            <div className="relative w-full max-w-2xl rounded-[2.5rem] bg-brand-navy-dark border border-white/10 p-8 sm:p-10 shadow-2xl overflow-hidden animate-fade-in text-white">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-[40px] rounded-full -mr-10 -mt-10" />
+              
+              {/* Header */}
+              <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-brand-orange/10 flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-brand-orange" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-wider text-white">SOP Screening & Negosiasi</h3>
+                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Stage 1 - Pancingan Ketersediaan & Lokasi</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setNegotiatingDeal(null)}
+                  className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 text-slate-400 hover:text-white transition-all cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Deal Summary */}
+              <div className="p-5 rounded-2xl bg-white/5 border border-white/5 mb-6 relative z-10 flex gap-4 items-center">
+                <img src={negotiatingDeal.image} alt={negotiatingDeal.name} className="w-14 h-14 rounded-xl object-cover border border-white/10" />
+                <div>
+                  <h4 className="text-white font-bold text-sm">{negotiatingDeal.name}</h4>
+                  <p className="text-slate-400 text-xs font-semibold mt-1">{negotiatingDeal.brand} · {negotiatingDeal.storage} · BH {negotiatingDeal.batteryHealth}%</p>
+                  <div className="flex flex-wrap items-center gap-4 mt-2">
+                    <span className="text-rose-400 text-[10px] font-black uppercase bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">Sourcing: {formatPrice(negotiatingDeal.originalPrice)}</span>
+                    <span className="text-emerald-400 text-[10px] font-black uppercase bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Target Jual: {formatPrice(negotiatingDeal.originalPrice + negotiatingDeal.profitMargin)}</span>
+                    <span className="text-brand-orange text-[10px] font-black uppercase bg-brand-orange/10 px-2 py-0.5 rounded border border-brand-orange/20">Est. Profit: +{formatPrice(negotiatingDeal.profitMargin)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Configurations */}
+              <div className="grid sm:grid-cols-2 gap-4 mb-6 relative z-10">
+                <div>
+                  <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">Pilih Titik COD Terpercaya (Jogja)</label>
+                  <select 
+                    value={selectedCodZone}
+                    onChange={(e) => setSelectedCodZone(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40 cursor-pointer"
+                  >
+                    <option value="McD Jakal (KM 5)">McD Jakal (KM 5) - Sleman / Utara</option>
+                    <option value="SPBU Terban">SPBU Terban - Kota / Tengah</option>
+                    <option value="Lobby Ambarrukmo Plaza">Lobby Ambarrukmo Plaza - Depok / Timur</option>
+                    <option value="SPBU Gejayan">SPBU Gejayan - Depok / Utara</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">No. WhatsApp Penjual (Opsional)</label>
+                  <input 
+                    type="text" 
+                    placeholder="Contoh: 628123456789"
+                    value={sellerPhone}
+                    onChange={(e) => setSellerPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                    className="w-full px-4 py-3 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
+                  />
+                </div>
+              </div>
+
+              {/* Message Box */}
+              <div className="relative z-10 mb-6">
+                <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">Pesan Teks Terkustomisasi (SOP Stage 1)</label>
+                <div className="relative">
+                  <textarea 
+                    rows={4}
+                    readOnly
+                    value={generatedMessage}
+                    className="w-full p-5 rounded-2xl bg-brand-navy border border-white/5 text-slate-300 text-xs font-medium leading-relaxed font-mono resize-none focus:outline-none select-all"
+                  />
+                  <button 
+                    onClick={() => handleCopyNegoText(generatedMessage)}
+                    className={`absolute bottom-3 right-3 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${
+                      copiedNegoText 
+                        ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
+                        : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    {copiedNegoText ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5 text-brand-orange" />}
+                    {copiedNegoText ? 'Copied!' : 'Copy Script'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="grid sm:grid-cols-2 gap-4 relative z-10">
+                <button
+                  onClick={() => {
+                    handleCopyNegoText(generatedMessage);
+                    window.open(`https://www.facebook.com/groups/search/groups/?q=${encodeURIComponent('jual beli hp second ' + negotiatingDeal.brand + ' jogja')}`, "_blank");
+                  }}
+                  className="py-4 rounded-xl border border-white/10 hover:border-white/20 hover:bg-white/5 text-slate-300 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <Globe className="w-4 h-4 text-brand-orange" />
+                  Salin & Cari di Grup Facebook
+                </button>
+                
+                {sellerPhone ? (
+                  <a
+                    href={`https://wa.me/${sellerPhone}?text=${encodeURIComponent(generatedMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    Kirim via WhatsApp
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handleCopyNegoText(generatedMessage);
+                      alert('Teks berhasil disalin! Silakan tempel (paste) saat mengirim chat ke penjual.');
+                      window.open(`https://www.facebook.com/marketplace/yogyakarta/search?sortBy=creation_time_descend&query=${encodeURIComponent(negotiatingDeal.name.split(' ').slice(0, 3).join(' '))}`, "_blank");
+                    }}
+                    className="py-4 rounded-xl bg-brand-orange hover:bg-orange-500 text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-brand-orange/20"
+                  >
+                    <Smartphone className="w-4 h-4" />
+                    Salin & Buka Marketplace
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
       <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} products={products} blogPosts={blogPosts} chatTemplates={chatTemplates} onUpdateTemplates={handleAiUpdateTemplates} />
     </div>
   );

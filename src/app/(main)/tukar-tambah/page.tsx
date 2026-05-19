@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from 'react';
-import { Smartphone, RefreshCw, ShieldCheck, Info, MessageCircle, ChevronDown, CheckCircle2, TrendingDown, HelpCircle, ArrowRight } from 'lucide-react';
+import { Smartphone, RefreshCw, ShieldCheck, Info, MessageCircle, ChevronDown, CheckCircle2, TrendingDown, HelpCircle, ArrowRight, AlertTriangle } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
@@ -76,41 +76,51 @@ export default function TradeInPage() {
   const [storage, setStorage] = useState('128GB');
   const [conditionIndex, setConditionIndex] = useState(0);
   const [isCalculated, setIsCalculated] = useState(false);
+  
+  // Custom manual states
   const [isManual, setIsManual] = useState(false);
+  const [manualBrand, setManualBrand] = useState('');
   const [manualModel, setManualModel] = useState('');
-  const [manualStorage, setManualStorage] = useState('');
+  const [manualStorage, setManualStorage] = useState('128GB');
+  const [manualMarketPrice, setManualMarketPrice] = useState<number>(0);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const calculateEstimate = useMemo(() => {
     let base = 3000000;
 
-    if (brand === 'iPhone') {
-      if (model.includes('17 Pro')) base = 22000000;
-      else if (model.includes('17')) base = 16000000;
-      else if (model.includes('16 Pro')) base = 18000000;
-      else if (model.includes('16')) base = 12500000;
-      else if (model.includes('15 Pro')) base = 13500000;
-      else if (model.includes('14 Pro')) base = 11000000;
-      else if (model.includes('13')) base = 7500000;
-      else if (model.includes('11')) base = 3500000;
-    } 
-    else if (brand === 'Samsung') {
-      if (model.includes('S26 Ultra')) base = 21000000;
-      else if (model.includes('S26')) base = 14000000;
-      else if (model.includes('S25 Ultra')) base = 17500000;
-      else if (model.includes('S25')) base = 11000000;
-      else if (model.includes('S24 Ultra')) base = 14500000;
-      else if (model.includes('Z Fold')) base = 18000000;
-      else if (model.includes('A56')) base = 5800000;
-      else base = 2500000;
-    }
-    else if (brand === 'Infinix' || brand === 'Realme' || brand === 'Xiaomi') {
-      if (model.includes('Xiaomi 16')) base = 12500000;
-      else if (model.includes('Xiaomi 15')) base = 9500000;
-      else if (model.includes('GT 30') || model.includes('GT 7')) base = 7500000;
-      else if (model.includes('Note 15 Pro')) base = 4200000;
-      else if (model.includes('Note 50 Pro')) base = 3800000;
-      else if (model.includes('C77')) base = 2200000;
-      else base = 1500000;
+    if (isManual) {
+      // Wholesale buying price (harga bakul) is roughly 65% of current brand new retail price
+      base = (manualMarketPrice || 0) * 0.65;
+    } else {
+      if (brand === 'iPhone') {
+        if (model.includes('17 Pro')) base = 22000000;
+        else if (model.includes('17')) base = 16000000;
+        else if (model.includes('16 Pro')) base = 18000000;
+        else if (model.includes('16')) base = 12500000;
+        else if (model.includes('15 Pro')) base = 13500000;
+        else if (model.includes('14 Pro')) base = 11000000;
+        else if (model.includes('13')) base = 7500000;
+        else if (model.includes('11')) base = 3500000;
+      } 
+      else if (brand === 'Samsung') {
+        if (model.includes('S26 Ultra')) base = 21000000;
+        else if (model.includes('S26')) base = 14000000;
+        else if (model.includes('S25 Ultra')) base = 17500000;
+        else if (model.includes('S25')) base = 11000000;
+        else if (model.includes('S24 Ultra')) base = 14500000;
+        else if (model.includes('Z Fold')) base = 18000000;
+        else if (model.includes('A56')) base = 5800000;
+        else base = 2500000;
+      }
+      else if (brand === 'Infinix' || brand === 'Realme' || brand === 'Xiaomi') {
+        if (model.includes('Xiaomi 16')) base = 12500000;
+        else if (model.includes('Xiaomi 15')) base = 9500000;
+        else if (model.includes('GT 30') || model.includes('GT 7')) base = 7500000;
+        else if (model.includes('Note 15 Pro')) base = 4200000;
+        else if (model.includes('Note 50 Pro')) base = 3800000;
+        else if (model.includes('C77')) base = 2200000;
+        else base = 1500000;
+      }
     }
 
     let storageFactor = 1.0;
@@ -121,17 +131,75 @@ export default function TradeInPage() {
 
     const result = (base * storageFactor) * CONDITIONS[conditionIndex].factor;
     return Math.round(result / 10000) * 10000;
-  }, [brand, model, storage, conditionIndex, isManual, manualModel, manualStorage]);
+  }, [brand, model, storage, conditionIndex, isManual, manualBrand, manualModel, manualStorage, manualMarketPrice]);
+
+  const validateManualInput = (): boolean => {
+    if (!isManual) return true;
+
+    // Check custom brand
+    const cleanBrand = manualBrand.trim().toLowerCase();
+    if (cleanBrand.length < 2) {
+      setValidationError("Nama merk minimal harus 2 karakter.");
+      return false;
+    }
+    if (/^[0-9\s\-_]+$/.test(cleanBrand)) {
+      setValidationError("Nama merk tidak boleh hanya berisi angka atau simbol.");
+      return false;
+    }
+
+    // Check custom model
+    const cleanModel = manualModel.trim().toLowerCase();
+    if (cleanModel.length < 3) {
+      setValidationError("Nama tipe/seri minimal harus 3 karakter.");
+      return false;
+    }
+    if (/^[0-9\s\-_]+$/.test(cleanModel)) {
+      setValidationError("Nama tipe/seri tidak boleh hanya berisi angka atau simbol.");
+      return false;
+    }
+    
+    // Anti-spam keyboard mashing and joke patterns
+    const spamWords = [
+      'asdf', 'qwer', 'zxcv', 'uiop', 'jkl;', 'hjkl', '1111', '2222', '3333', '4444', '5555',
+      'aaaa', 'bbbb', 'cccc', 'dddd', 'eeee', 'ffff', 'gggg', 'test', 'hp', 'phone', 'dummy',
+      'anjing', 'kontol', 'bangsat', 'memek', 'goblok', 'babi', 'asu', 'bajingan', 'pepek'
+    ];
+    if (spamWords.some(pat => cleanModel.includes(pat) || cleanBrand.includes(pat))) {
+      setValidationError("Harap masukkan merk dan seri HP asli (sistem mendeteksi input acak, spam, atau kata kasar).");
+      return false;
+    }
+
+    // Check market price
+    if (!manualMarketPrice || manualMarketPrice < 500000) {
+      setValidationError("Harga pasar baru HP minimal adalah Rp 500.000.");
+      return false;
+    }
+    if (manualMarketPrice > 35000000) {
+      setValidationError("Harga pasar baru HP maksimal yang diterima sistem adalah Rp 35.000.000.");
+      return false;
+    }
+
+    setValidationError(null);
+    return true;
+  };
 
   const handleCalculate = () => {
-    if (!isManual && !model) return;
-    if (isManual && !manualModel) return;
+    if (isManual) {
+      const isValid = validateManualInput();
+      if (!isValid) {
+        setIsCalculated(false);
+        return;
+      }
+    } else {
+      if (!model) return;
+      setValidationError(null);
+    }
     setIsCalculated(true);
     window.scrollTo({ top: 350, behavior: 'smooth' });
   };
 
   const waMessage = encodeURIComponent(
-    `Halo COREPAWAS! Saya mau Trade-In unit.\n\nUnit: ${brand} ${isManual ? manualModel : model} (${isManual ? manualStorage : storage})\nKondisi: ${CONDITIONS[conditionIndex].label}\nPenawaran Sistem: Rp ${calculateEstimate.toLocaleString('id-ID')}`
+    `Halo COREPAWAS! Saya mau Trade-In unit.\n\nUnit: ${isManual ? manualBrand : brand} ${isManual ? manualModel : model} (${isManual ? manualStorage : storage})\nKondisi: ${CONDITIONS[conditionIndex].label}\nHarga Retail Baru: Rp ${(isManual ? manualMarketPrice : 0).toLocaleString('id-ID')}\nPenawaran Sistem: Rp ${calculateEstimate.toLocaleString('id-ID')}`
   );
 
   return (
@@ -174,6 +242,7 @@ export default function TradeInPage() {
                         setModel(''); 
                         setIsCalculated(false);
                         setIsManual(b === 'Others');
+                        setValidationError(null);
                       }}
                       className={`py-5 rounded-2xl text-[11px] font-black border transition-all cursor-pointer relative z-10 ${
                         brand === b 
@@ -187,23 +256,70 @@ export default function TradeInPage() {
                 </div>
               </div>
 
-              {/* Model & Storage */}
-              <div className="grid sm:grid-cols-2 gap-10">
-                <div className="relative">
-                  <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-                    <span className="w-6 h-6 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-black">2</span>
-                    Tipe / Seri Unit
-                  </label>
-                  <div className="relative">
-                    {isManual ? (
-                      <input 
-                        type="text"
-                        placeholder="Ketik Seri HP Anda..."
-                        value={manualModel}
-                        onChange={(e) => { setManualModel(e.target.value); setIsCalculated(false); }}
-                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm"
-                      />
-                    ) : (
+              {/* Model, Storage & Custom Inputs */}
+              <div>
+                {isManual ? (
+                  <div className="space-y-8">
+                    <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-4">
+                      <span className="w-6 h-6 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-black">2</span>
+                      Spesifikasi Detail Manual (Others)
+                    </label>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-slate-500 text-[10px] font-black uppercase tracking-wider mb-2.5">Nama Merk HP</label>
+                        <input 
+                          type="text"
+                          placeholder="Contoh: Asus, Nokia, Huawei..."
+                          value={manualBrand}
+                          onChange={(e) => { setManualBrand(e.target.value); setIsCalculated(false); setValidationError(null); }}
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-500 text-[10px] font-black uppercase tracking-wider mb-2.5">Seri / Tipe HP</label>
+                        <input 
+                          type="text"
+                          placeholder="Contoh: ROG Phone 8, Pura 70..."
+                          value={manualModel}
+                          onChange={(e) => { setManualModel(e.target.value); setIsCalculated(false); setValidationError(null); }}
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-500 text-[10px] font-black uppercase tracking-wider mb-2.5">Kapasitas Internal</label>
+                        <input 
+                          type="text"
+                          placeholder="Contoh: 128GB, 256GB..."
+                          value={manualStorage}
+                          onChange={(e) => { setManualStorage(e.target.value); setIsCalculated(false); setValidationError(null); }}
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-slate-500 text-[10px] font-black uppercase tracking-wider mb-2.5">Harga Pasar Baru HP Saat Ini</label>
+                        <div className="relative">
+                          <span className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">Rp</span>
+                          <input 
+                            type="number"
+                            placeholder="Contoh: 5000000"
+                            value={manualMarketPrice || ''}
+                            onChange={(e) => { setManualMarketPrice(Number(e.target.value)); setIsCalculated(false); setValidationError(null); }}
+                            className="w-full bg-white border border-slate-200 rounded-2xl pl-14 pr-6 py-5 text-slate-900 text-sm font-black focus:border-brand-orange/50 outline-none shadow-sm transition-all"
+                          />
+                        </div>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mt-2.5 leading-normal">
+                          Masukkan kisaran harga beli baru unit ini saat ini di pasar Indonesia.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid sm:grid-cols-2 gap-10">
+                    <div className="relative">
+                      <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+                        <span className="w-6 h-6 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-black">2</span>
+                        Tipe / Seri Unit
+                      </label>
                       <div className="relative">
                         <select 
                           value={model}
@@ -217,39 +333,29 @@ export default function TradeInPage() {
                         </select>
                         <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
                       </div>
-                    )}
-                  </div>
-                </div>
+                    </div>
 
-                <div>
-                  <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-                    Kapasitas Internal
-                  </label>
-                  <div className="flex gap-2">
-                    {isManual ? (
-                      <input 
-                        type="text"
-                        placeholder="cth: 256GB"
-                        value={manualStorage}
-                        onChange={(e) => { setManualStorage(e.target.value); setIsCalculated(false); }}
-                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none shadow-sm"
-                      />
-                    ) : (
-                      ['128GB', '256GB', '512GB'].map(s => (
-                        <button 
-                          key={s}
-                          type="button"
-                          onClick={() => { setStorage(s); setIsCalculated(false); }}
-                          className={`flex-1 py-5 rounded-2xl text-[10px] font-black border transition-all cursor-pointer ${
-                            storage === s ? 'bg-brand-orange/20 border-brand-orange/50 text-brand-orange' : 'bg-white/5 border-white/5 text-slate-600'
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))
-                    )}
+                    <div>
+                      <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+                        Kapasitas Internal
+                      </label>
+                      <div className="flex gap-2">
+                        {['128GB', '256GB', '512GB'].map(s => (
+                          <button 
+                            key={s}
+                            type="button"
+                            onClick={() => { setStorage(s); setIsCalculated(false); }}
+                            className={`flex-1 py-5 rounded-2xl text-[10px] font-black border transition-all cursor-pointer ${
+                              storage === s ? 'bg-brand-orange/20 border-brand-orange/50 text-brand-orange' : 'bg-white/5 border-white/5 text-slate-600'
+                            }`}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Condition */}
@@ -277,13 +383,24 @@ export default function TradeInPage() {
                 </div>
               </div>
 
-                <button 
-                  onClick={handleCalculate}
-                  disabled={isManual ? !manualModel : !model}
-                  className="w-full py-6 rounded-3xl bg-brand-orange text-white font-black text-xl shadow-2xl shadow-brand-orange/30 hover:scale-[1.02] transition-all disabled:opacity-20 active:scale-95 cursor-pointer"
-                >
-                  Lihat Penawaran Beli
-                </button>
+              {/* Validation Alert */}
+              {validationError && (
+                <div className="p-6 rounded-3xl bg-rose-50 border border-rose-100 flex gap-4 text-rose-600 text-xs font-bold leading-relaxed relative z-10 animate-fade-in">
+                  <AlertTriangle className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <span className="text-rose-700 text-[10px] font-black uppercase tracking-widest block mb-1">Gagal Validasi</span>
+                    <p>{validationError}</p>
+                  </div>
+                </div>
+              )}
+
+              <button 
+                onClick={handleCalculate}
+                disabled={isManual ? (!manualModel || !manualBrand || !manualMarketPrice) : !model}
+                className="w-full py-6 rounded-3xl bg-brand-orange text-white font-black text-xl shadow-2xl shadow-brand-orange/30 hover:scale-[1.02] transition-all disabled:opacity-20 active:scale-95 cursor-pointer"
+              >
+                Lihat Penawaran Beli
+              </button>
             </div>
           </div>
 
@@ -308,7 +425,7 @@ export default function TradeInPage() {
                       <div>
                         <h4 className="font-black text-sm mb-2 uppercase tracking-widest">Penawaran Nett (Harga Bakul)</h4>
                         <p className="text-blue-100/60 text-[11px] leading-relaxed font-medium">
-                          Kami memberikan harga beli terbaik untuk sistem penampungan di <span className="text-white font-bold">COREPAWAS</span>. Penilaian final ditentukan setelah pengecekan fisik menyeluruh.
+                          Kami memberikan harga beli terbaik untuk sistem penampungan di <span className="text-white font-bold">COREPAWAS</span>. Penilaian final ditentukan setelah pengecekan fisik menyeluruh oleh tim teknisi kami.
                         </p>
                       </div>
                     </div>

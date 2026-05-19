@@ -13,7 +13,9 @@ import {
   TrendingUp,
   Cpu,
   Trophy,
-  Users
+  Users,
+  MapPin,
+  Truck
 } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
@@ -206,6 +208,97 @@ export default function Home() {
                 <p className="text-slate-500 leading-relaxed font-medium">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── YOGYAKARTA SAFE ZONES & NATIONAL SIGNAL GUARANTEE ─── */}
+      <section className="py-24 px-6 bg-brand-navy border-y border-white/5 relative overflow-hidden text-white">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-orange/5 blur-[120px] rounded-full opacity-60" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 blur-[120px] rounded-full opacity-60" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* Left side: Trust and Guarantee badges */}
+            <div className="lg:col-span-5 space-y-8">
+              <span className="text-brand-orange text-xs font-black uppercase tracking-[0.4em] block">Jogja & National Hub</span>
+              <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tighter leading-tight">
+                Transaksi Aman <br />
+                <span className="text-brand-orange">Tanpa Was-Was.</span>
+              </h2>
+              <p className="text-slate-400 text-base leading-relaxed font-medium">
+                Kami melayani COD aman di titik keramaian Yogyakarta dan melayani pengiriman bergaransi penuh ke seluruh pelosok Indonesia. Sinyal aman selamanya!
+              </p>
+
+              {/* National Guarantee Badges */}
+              <div className="space-y-4 pt-4">
+                <div className="flex gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                  <ShieldCheck className="w-8 h-8 text-brand-orange flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-white font-bold text-base">Garansi IMEI Permanen Seumur Hidup</h4>
+                    <p className="text-slate-400 text-xs mt-1">Khawatir pemblokiran sinyal? Kami menjamin sinyal unit ex-inter maupun resmi tetap aktif permanen selamanya.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 p-5 rounded-2xl bg-white/5 border border-white/5">
+                  <Truck className="w-8 h-8 text-brand-orange flex-shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-white font-bold text-base">Pengiriman Ekspedisi Bergaransi Penuh</h4>
+                    <p className="text-slate-400 text-xs mt-1">Pengiriman nasional menggunakan packing kayu solid, asuransi penuh, dan jaminan uang kembali jika barang rusak di jalan.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side: Yogyakarta Safe Zones Map Card */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="p-8 sm:p-10 rounded-[3rem] bg-white/5 border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-[40px] rounded-full -mr-10 -mt-10 animate-pulse" />
+                <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-3">
+                  <div className="w-1.5 h-6 bg-brand-orange rounded-full shadow-[0_0_10px_rgba(250,140,22,0.4)]" />
+                  Titik COD Terpercaya Yogyakarta (Safe Zones)
+                </h3>
+
+                <div className="grid sm:grid-cols-3 gap-4">
+                  {[
+                    {
+                      name: 'McD Jakal (KM 5)',
+                      desc: 'Titik COD terpopuler mahasiswa UGM, UNY, UPN di area ramai, terang, dan nyaman untuk cek fungsi.',
+                      tag: 'Sleman / Utara'
+                    },
+                    {
+                      name: 'SPBU Terban',
+                      desc: 'Lokasi strategis di pusat kota dekat area kampus UGM, sangat mudah dijangkau dari segala penjuru Jogja.',
+                      tag: 'Kota / Tengah'
+                    },
+                    {
+                      name: 'Lobby Ambarrukmo',
+                      desc: 'Titik aman COD indoor ber-AC, sangat direkomendasikan untuk transaksi gadget premium/high-end.',
+                      tag: 'Depok / Timur'
+                    }
+                  ].map((zone, idx) => (
+                    <div key={idx} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-brand-orange/30 hover:bg-white/10 transition-all group/zone flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <MapPin className="w-5 h-5 text-brand-orange group-hover/zone:scale-110 transition-transform" />
+                          <span className="text-brand-orange text-[8px] font-black uppercase tracking-wider bg-brand-orange/10 px-2 py-0.5 rounded-md">{zone.tag}</span>
+                        </div>
+                        <h4 className="text-white font-bold text-sm mb-2">{zone.name}</h4>
+                        <p className="text-slate-400 text-[11px] leading-relaxed">{zone.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 p-4 rounded-xl bg-brand-orange/5 border border-brand-orange/10 text-center">
+                  <p className="text-brand-orange text-[10px] font-black uppercase tracking-widest leading-relaxed">
+                    SOP COD COREPAWAS: Seluruh pengecekan unit dipandu langsung oleh SOP 50-inspeksi resmi kami!
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
