@@ -690,38 +690,133 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const chatTemplates = [
-    {
-      id: 'stage1',
-      stage: 'Stage 1',
-      title: 'Pancingan Pertama (Validasi Ketersediaan & Lokasi COD)',
-      subtitle: 'Gunakan pesan tegas, padat, dan langsung mengunci opsi COD di tempat ramai.',
-      message: 'Halo Mas/Mbak, unit iPhone 11 Pro-nya masih ada? Kalau sesuai deskripsi, siang/sore ini saya siap meluncur COD langsung ke lokasi dekat sampeyan. Bisa COD di lokasi ramai ya mas, misal di SPBU terdekat, depan minimarket, atau McD Jakal? Matur nuwun.',
-      warningTitle: 'Ciri Penipu di Stage 1',
-      warningText: 'Menolak COD dengan alasan "Lagi di luar kota, barang bisa dipaketkan" atau meminta transfer DP (tanda jadi) dengan alasan "banyak yang antre / nawar". JANGAN PERNAH TRANSFER DP/TANDA JADI!',
-      iconColor: 'from-blue-500 to-indigo-600',
-    },
-    {
-      id: 'stage2',
-      stage: 'Stage 2',
-      title: 'Skrining Keaslian Foto (Anti-Foto Comotan)',
-      subtitle: 'Minta foto/video real-time dengan tanda khusus tulisan tangan nama akun mereka.',
-      message: 'Boleh minta tolong kirimkan foto/video singkat kondisi fisik HP-nya sekarang, Mas/Mbak? Tolong difotokan bareng kertas yang ditulis tangan nama akun FB Mas/Mbak ya, buat mastiin barangnya beneran di tangan dan siap COD. Makasih banyak sebelumnya.',
-      warningTitle: 'Ciri Penipu di Stage 2',
-      warningText: 'Membuat 1001 alasan seperti "HP di rumah, saya sedang kerja", "foto di postingan sudah sangat jelas", atau tiba-tiba menghilang/memblokir Anda karena tidak memiliki fisik barang asli.',
-      iconColor: 'from-amber-500 to-orange-600',
-    },
-    {
-      id: 'stage3',
-      stage: 'Stage 3',
-      title: 'Mengunci Aturan Main COD (Sebelum Bertemu)',
-      subtitle: 'Kunci kesepakatan pengecekan fungsi menyeluruh sebelum transaksi pembayaran dilakukan.',
-      message: 'Oke Mas/Mbak, deal di harga kesepakatan ya. Nanti pas COD izin saya cek fungsinya agak lama dan detail ya Mas (sinyal, kamera, wifi, speaker, akun iCloud/Google, layar, IMEI, dll). Kalau semua cocok sesuai deskripsi, uang langsung saya transfer via M-Banking / Cash di tempat.',
-      warningTitle: 'Ciri Penipu di Stage 3',
-      warningText: 'Mendesak/terburu-buru saat COD dan tidak mau menunggu pengecekan detail. Jika mereka berkata "Bisa cepat gak mas saya sibuk", tingkatkan kewaspadaan Anda atau batalkan transaksi.',
-      iconColor: 'from-emerald-500 to-teal-600',
+  const [chatTemplates, setChatTemplates] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('corepawas_chat_templates');
+      if (saved) return JSON.parse(saved);
     }
-  ];
+    return [
+      {
+        id: 'stage1',
+        stage: 'Stage 1',
+        title: 'Pancingan Pertama (Validasi Ketersediaan & Lokasi COD)',
+        subtitle: 'Gunakan pesan tegas, padat, dan langsung mengunci opsi COD di tempat ramai.',
+        message: 'Halo Mas/Mbak, unit iPhone 11 Pro-nya masih ada? Kalau sesuai deskripsi, siang/sore ini saya siap meluncur COD langsung ke lokasi dekat sampeyan. Bisa COD di lokasi ramai ya mas, misal di SPBU terdekat, depan minimarket, atau McD Jakal? Matur nuwun.',
+        warningTitle: 'Ciri Penipu di Stage 1',
+        warningText: 'Menolak COD dengan alasan "Lagi di luar kota, barang bisa dipaketkan" atau meminta transfer DP (tanda jadi) dengan alasan "banyak yang antre / nawar". JANGAN PERNAH TRANSFER DP/TANDA JADI!',
+        iconColor: 'from-blue-500 to-indigo-600',
+      },
+      {
+        id: 'stage2',
+        stage: 'Stage 2',
+        title: 'Skrining Keaslian Foto (Anti-Foto Comotan)',
+        subtitle: 'Minta foto/video real-time dengan tanda khusus tulisan tangan nama akun mereka.',
+        message: 'Boleh minta tolong kirimkan foto/video singkat kondisi fisik HP-nya sekarang, Mas/Mbak? Tolong difotokan bareng kertas yang ditulis tangan nama akun FB Mas/Mbak ya, buat mastiin barangnya beneran di tangan dan siap COD. Makasih banyak sebelumnya.',
+        warningTitle: 'Ciri Penipu di Stage 2',
+        warningText: 'Membuat 1001 alasan seperti "HP di rumah, saya sedang kerja", "foto di postingan sudah sangat jelas", atau tiba-tiba menghilang/memblokir Anda karena tidak memiliki fisik barang asli.',
+        iconColor: 'from-amber-500 to-orange-600',
+      },
+      {
+        id: 'stage3',
+        stage: 'Stage 3',
+        title: 'Mengunci Aturan Main COD (Sebelum Bertemu)',
+        subtitle: 'Kunci kesepakatan pengecekan fungsi menyeluruh sebelum transaksi pembayaran dilakukan.',
+        message: 'Oke Mas/Mbak, deal di harga kesepakatan ya. Nanti pas COD izin saya cek fungsinya agak lama dan detail ya Mas (sinyal, kamera, wifi, speaker, akun iCloud/Google, layar, IMEI, dll). Kalau semua cocok sesuai deskripsi, uang langsung saya transfer via M-Banking / Cash di tempat.',
+        warningTitle: 'Ciri Penipu di Stage 3',
+        warningText: 'Mendesak/terburu-buru saat COD dan tidak mau menunggu pengecekan detail. Jika mereka berkata "Bisa cepat gak mas saya sibuk", tingkatkan kewaspadaan Anda atau batalkan transaksi.',
+        iconColor: 'from-emerald-500 to-teal-600',
+      }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('corepawas_chat_templates', JSON.stringify(chatTemplates));
+  }, [chatTemplates]);
+
+  const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null);
+  const [tplForm, setTplForm] = useState<any>({
+    stage: '',
+    title: '',
+    subtitle: '',
+    message: '',
+    warningTitle: '',
+    warningText: '',
+  });
+
+  const handleEditTemplate = (tpl: any) => {
+    setEditingTemplateId(tpl.id);
+    setTplForm({
+      stage: tpl.stage || 'Custom',
+      title: tpl.title || '',
+      subtitle: tpl.subtitle || '',
+      message: tpl.message || '',
+      warningTitle: tpl.warningTitle || 'Peringatan',
+      warningText: tpl.warningText || '',
+    });
+  };
+
+  const handleSaveTemplateInline = (id: string) => {
+    setChatTemplates(prev => prev.map(t => {
+      if (t.id === id) {
+        return {
+          ...t,
+          ...tplForm
+        };
+      }
+      return t;
+    }));
+    setEditingTemplateId(null);
+  };
+
+  const handleDeleteTemplate = (id: string) => {
+    if (confirm('Hapus templat chat ini?')) {
+      setChatTemplates(prev => prev.filter(t => t.id !== id));
+    }
+  };
+
+  const handleAddNewTemplate = () => {
+    const newId = 'tpl_' + Date.now();
+    const newTpl = {
+      id: newId,
+      stage: 'Custom',
+      title: 'Judul Templat Baru',
+      subtitle: 'Deskripsi singkat templat chat baru Anda.',
+      message: 'Tulis pesan chat di sini...',
+      warningTitle: 'Peringatan Khusus',
+      warningText: 'Tulis ciri penipu atau catatan penting di sini...',
+      iconColor: 'from-purple-500 to-fuchsia-600',
+    };
+    setChatTemplates(prev => [...prev, newTpl]);
+    setEditingTemplateId(newId);
+    setTplForm(newTpl);
+  };
+
+  const handleAiUpdateTemplates = (data: any) => {
+    if (Array.isArray(data)) {
+      setChatTemplates(data);
+      alert('✅ Berhasil menyinkronisasikan seluruh templat chat dari AI Agent!');
+    } else if (data && typeof data === 'object') {
+      if (data.id) {
+        setChatTemplates(prev => {
+          const exists = prev.some(t => t.id === data.id);
+          if (exists) {
+            return prev.map(t => t.id === data.id ? { ...t, ...data } : t);
+          } else {
+            return [...prev, data];
+          }
+        });
+      } else {
+        const newItem = {
+          ...data,
+          id: 'tpl_' + Date.now(),
+          stage: data.stage || 'Custom',
+          iconColor: data.iconColor || 'from-purple-500 to-fuchsia-600',
+        };
+        setChatTemplates(prev => [...prev, newItem]);
+      }
+      alert('✅ Berhasil menerapkan templat chat baru dari AI Agent!');
+    }
+  };
 
   const handleLaunchScanning = async () => {
     if (!huntingPrompt.trim()) return;
@@ -1812,6 +1907,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2 ml-5">Anti-Fraud & Seller Screening Kit Yogyakarta</p>
                 </div>
                 <div className="flex items-center gap-3">
+                  <button 
+                    onClick={handleAddNewTemplate}
+                    className="px-6 py-3 rounded-2xl bg-brand-orange hover:bg-orange-500 text-white text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-brand-orange/20 cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Tambah Templat Baru
+                  </button>
                   <a 
                     href="https://cekrekening.id" 
                     target="_blank" 
@@ -1831,52 +1933,151 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <div key={tpl.id} className="p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl relative overflow-hidden group">
                       <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 blur-[50px] rounded-full -mr-16 -mt-16" />
                       
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-6">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${tpl.iconColor} flex items-center justify-center font-black text-white text-xs shadow-xl`}>
-                            {tpl.stage}
+                      {editingTemplateId === tpl.id ? (
+                        /* Inline Editor Mode */
+                        <div className="space-y-4 relative z-10">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Tahap / Stage</label>
+                              <input 
+                                type="text" 
+                                value={tplForm.stage} 
+                                onChange={(e) => setTplForm({ ...tplForm, stage: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Judul Templat</label>
+                              <input 
+                                type="text" 
+                                value={tplForm.title} 
+                                onChange={(e) => setTplForm({ ...tplForm, title: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
+                              />
+                            </div>
                           </div>
+
                           <div>
-                            <h3 className="text-white font-black uppercase tracking-wider text-sm">{tpl.title}</h3>
-                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-wider mt-1">{tpl.subtitle}</p>
+                            <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Deskripsi Singkat / Subtitle</label>
+                            <input 
+                              type="text" 
+                              value={tplForm.subtitle} 
+                              onChange={(e) => setTplForm({ ...tplForm, subtitle: e.target.value })}
+                              className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Isi Pesan Chat (Template)</label>
+                            <textarea 
+                              rows={3} 
+                              value={tplForm.message} 
+                              onChange={(e) => setTplForm({ ...tplForm, message: e.target.value })}
+                              className="w-full px-4 py-3 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-medium focus:outline-none focus:border-brand-orange/40 resize-none font-mono"
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Judul Peringatan Penipu</label>
+                              <input 
+                                type="text" 
+                                value={tplForm.warningTitle} 
+                                onChange={(e) => setTplForm({ ...tplForm, warningTitle: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-rose-400 text-xs font-bold focus:outline-none focus:border-brand-orange/40"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Penjelasan Peringatan</label>
+                              <input 
+                                type="text" 
+                                value={tplForm.warningText} 
+                                onChange={(e) => setTplForm({ ...tplForm, warningText: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-slate-300 text-xs font-medium focus:outline-none focus:border-brand-orange/40"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2 pt-2">
+                            <button 
+                              onClick={() => setEditingTemplateId(null)}
+                              className="flex-grow py-2.5 rounded-xl border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer"
+                            >
+                              Batal
+                            </button>
+                            <button 
+                              onClick={() => handleSaveTemplateInline(tpl.id)}
+                              className="flex-grow py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/20 cursor-pointer"
+                            >
+                              Simpan Templat
+                            </button>
                           </div>
                         </div>
-                        
-                        <button
-                          onClick={() => handleCopyText(tpl.message, tpl.id)}
-                          className={`self-start sm:self-auto px-5 py-3 rounded-xl border font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer ${
-                            copiedId === tpl.id
-                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                              : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20 hover:text-white'
-                          }`}
-                        >
-                          {copiedId === tpl.id ? (
-                            <>
-                              <Check className="w-3.5 h-3.5" />
-                              Copied!
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="w-3.5 h-3.5 text-brand-orange" />
-                              Salin Chat
-                            </>
-                          )}
-                        </button>
-                      </div>
+                      ) : (
+                        /* Normal View Mode */
+                        <>
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-6">
+                            <div className="flex items-center gap-4">
+                              <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${tpl.iconColor || 'from-purple-500 to-fuchsia-600'} flex items-center justify-center font-black text-white text-xs shadow-xl`}>
+                                {tpl.stage}
+                              </div>
+                              <div>
+                                <h3 className="text-white font-black uppercase tracking-wider text-sm">{tpl.title}</h3>
+                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-wider mt-1">{tpl.subtitle}</p>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-2 self-start sm:self-auto">
+                              <button
+                                onClick={() => handleEditTemplate(tpl)}
+                                className="px-4 py-3 rounded-xl border border-white/5 bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleDeleteTemplate(tpl.id)}
+                                className="px-4 py-3 rounded-xl border border-transparent bg-rose-500/5 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer"
+                              >
+                                Hapus
+                              </button>
+                              <button
+                                onClick={() => handleCopyText(tpl.message, tpl.id)}
+                                className={`px-5 py-3 rounded-xl border font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer ${
+                                  copiedId === tpl.id
+                                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                                    : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20 hover:text-white'
+                                }`}
+                              >
+                                {copiedId === tpl.id ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5" />
+                                    Copied!
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5 text-brand-orange" />
+                                    Salin Chat
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                          </div>
 
-                      {/* Chat text box */}
-                      <div className="p-6 rounded-2xl bg-brand-navy border border-white/5 text-slate-300 text-sm font-medium leading-relaxed relative font-mono shadow-inner mb-6">
-                        "{tpl.message}"
-                      </div>
+                          {/* Chat text box */}
+                          <div className="p-6 rounded-2xl bg-brand-navy border border-white/5 text-slate-300 text-sm font-medium leading-relaxed relative font-mono shadow-inner mb-6">
+                            "{tpl.message}"
+                          </div>
 
-                      {/* Danger indicator */}
-                      <div className="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/10 flex gap-4">
-                        <AlertTriangle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <span className="text-rose-400 text-[10px] font-black uppercase tracking-[0.2em] block mb-1">{tpl.warningTitle}</span>
-                          <p className="text-slate-400 text-xs leading-relaxed">{tpl.warningText}</p>
-                        </div>
-                      </div>
+                          {/* Danger indicator */}
+                          <div className="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/10 flex gap-4">
+                            <AlertTriangle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                              <span className="text-rose-400 text-[10px] font-black uppercase tracking-[0.2em] block mb-1">{tpl.warningTitle}</span>
+                              <p className="text-slate-400 text-xs leading-relaxed">{tpl.warningText}</p>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -1901,12 +2102,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         {
                           num: '02',
                           title: 'Verifikasi Nomor & Rekening',
-                          desc: 'Sebelum bertemu atau jika ada permintaan transaksi apa pun, cek nomor rekening atau no HP penjual di situs resmi Kemkominfo (cekrekening.id) untuk mendeteksi laporan kasus penipuan.'
+                          desc: 'Sebelum bertemu or jika ada permintaan transaksi apa pun, cek nomor rekening atau no HP penjual di situs resmi Kemkominfo (cekrekening.id) untuk mendeteksi laporan kasus penipuan.'
                         },
                         {
                           num: '03',
                           title: 'Log Out Semua Akun',
-                          desc: 'Pastikan akun iCloud (untuk iPhone) atau Akun Google (untuk Android) sudah di-log out/kosong total di tempat COD sebelum uang diserahkan. Jangan pernah beli unit dengan akun tersangkut!'
+                          desc: 'Pastikan akun iCloud (untuk iPhone) or Akun Google (untuk Android) sudah di-log out/kosong total di tempat COD sebelum uang diserahkan. Jangan pernah beli unit dengan akun tersangkut!'
                         }
                       ].map((item, index) => (
                         <div key={index} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all">
@@ -2079,7 +2280,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           onClose={() => setEditingBlog(undefined)}
         />
       )}
-      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} products={products} blogPosts={blogPosts} />
+      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} products={products} blogPosts={blogPosts} chatTemplates={chatTemplates} onUpdateTemplates={handleAiUpdateTemplates} />
     </div>
   );
 }

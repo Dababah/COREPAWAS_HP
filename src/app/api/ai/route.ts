@@ -53,9 +53,9 @@ export async function POST(req: Request) {
 
       Your goal is to parse user intents and respond matching this TypeScript schema:
       interface AgentResponse {
-        type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze';
+        type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates';
         reply: string; // The chat message or analysis report. Write in rich, professional Indonesian. Supports standard markdown formatting. Keep it engaging.
-        data?: any; // Only populated if type is 'fill_product' or 'fill_blog'
+        data?: any; // Only populated if type is 'fill_product', 'fill_blog', or 'update_templates'
       }
 
       How to classify 'type':
@@ -86,8 +86,20 @@ export async function POST(req: Request) {
              "readTime": string,
              "author": "Tim COREPAWAS"
            }
-      3. 'analyze': If the user asks about the store inventory status, statistics, counts, valuations, or recommendations based on their live catalog data (e.g., "Berapa total produk?", "Tolong analisa stok saya...", "Berapa valuasi stok ready?").
-      4. 'chat': For standard chat, greetings, casual talk, gadget advice, or general explanations.
+      3. 'update_templates': If the user explicitly asks to modify, add, change tone, or rewrite chat templates or SOP items (e.g. "Ubah templat chat stage 1...", "tambah templat chat nego...", "buatkan templat COD malam...").
+         - Under 'data', generate either the single updated template object or the full proposed template object to add:
+           {
+             "id": string (e.g. "stage1" or new ID),
+             "stage": string (e.g. "Stage 1", "Custom"),
+             "title": string,
+             "subtitle": string,
+             "message": string,
+             "warningTitle": string,
+             "warningText": string,
+             "iconColor": string (Tailwind gradient color classes, e.g. "from-blue-500 to-indigo-600" or "from-purple-500 to-fuchsia-600")
+           }
+      4. 'analyze': If the user asks about the store inventory status, statistics, counts, valuations, or recommendations based on their live catalog data (e.g., "Berapa total produk?", "Tolong analisa stok saya...", "Berapa valuasi stok ready?").
+      5. 'chat': For standard chat, greetings, casual talk, gadget advice, or general explanations.
 
       You MUST respond with a pure JSON object matching AgentResponse. Never output markdown block wrappers (like \`\`\`json), conversational filler outside the JSON, or other text.
     `;

@@ -23,18 +23,20 @@ interface AiAssistantProps {
   onFillBlog: (data: any) => void;
   products: any[];
   blogPosts: any[];
+  chatTemplates: any[];
+  onUpdateTemplates: (data: any) => void;
 }
 
 interface Message {
   id: string;
   sender: 'user' | 'ai';
-  type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze';
+  type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates';
   reply: string;
   data?: any;
   applied?: boolean;
 }
 
-export default function AiAssistant({ onFillProduct, onFillBlog, products, blogPosts }: AiAssistantProps) {
+export default function AiAssistant({ onFillProduct, onFillBlog, products, blogPosts, chatTemplates, onUpdateTemplates }: AiAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [isRecording, setIsRecording] = useState(false);
@@ -44,7 +46,7 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
       id: 'welcome',
       sender: 'ai',
       type: 'chat',
-      reply: 'Halo! Saya **COREPAWAS Neural Agent**. ⚡\n\nSaya adalah asisten AI multitasking kognitif Anda. Saya bisa:\n- **Diajak ngobrol & diskusi** strategi bisnis.\n- **Menganalisis stok barang** riil Anda (coba tanya: *"analisis stok saya"* atau *"hitung total valuasi inventaris"*).\n- **Menginput produk otomatis** (coba ketik: *"tambahkan iPhone 11 Pro 128GB harga 3.4 Juta mulus"*).\n- **Membuat draf artikel blog** (coba ketik: *"tulis draf tips mengamankan IMEI"*).\n\nAda yang bisa saya bantu hari ini?'
+      reply: 'Halo! Saya **COREPAWAS Neural Agent**. ⚡\n\nSaya adalah asisten AI multitasking kognitif Anda. Saya bisa:\n- **Diajak ngobrol & diskusi** strategi bisnis.\n- **Menganalisis stok barang** riil Anda (coba tanya: *"analisis stok saya"*).\n- **Menginput produk otomatis** (coba ketik: *"tambahkan iPhone 11 Pro 128GB harga 3.4 Juta mulus"*).\n- **Mengkustomisasi templat chat Anda lewat perintah AI!** (coba ketik: *"tambah templat chat nego sadis"* atau *"ubah templat Stage 1 pakai bahasa santai bro"*).\n\nAda yang bisa saya bantu hari ini?'
     }
   ]);
   
@@ -112,7 +114,7 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
         body: JSON.stringify({ 
           prompt: userMessageText, 
           history: messages.map(m => ({ sender: m.sender, reply: m.reply })),
-          catalog: { products, blogPosts }
+          catalog: { products, blogPosts, chatTemplates }
         }),
       });
 
@@ -141,11 +143,13 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
     }
   };
 
-  const handleApplyAction = (msgId: string, type: 'product' | 'blog', data: any) => {
+  const handleApplyAction = (msgId: string, type: 'product' | 'blog' | 'templates', data: any) => {
     if (type === 'product') {
       onFillProduct(data);
-    } else {
+    } else if (type === 'blog') {
       onFillBlog(data);
+    } else if (type === 'templates') {
+      onUpdateTemplates(data);
     }
 
     setMessages(prev => prev.map(m => {
@@ -153,7 +157,7 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
         return { 
           ...m, 
           applied: true,
-          reply: m.reply + `\n\n✅ *Sukses! Data telah disinkronisasikan ke katalog Supabase.*`
+          reply: m.reply + `\n\n✅ *Sukses! Data telah diterapkan dan disinkronisasikan.*`
         };
       }
       return m;
@@ -277,20 +281,20 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
                 </div>
               </div>
 
-              {/* Dynamic Interactive Cards for fill_product/fill_blog */}
+              {/* Dynamic Interactive Cards for fill_product/fill_blog/update_templates */}
               {msg.sender === 'ai' && msg.data && !msg.applied && (
                 <div className="p-4 rounded-2xl bg-slate-950/40 border border-brand-orange/20 shadow-2xl space-y-4 animate-scale-up">
                   <div className="flex items-center justify-between border-b border-white/5 pb-2">
                     <span className="text-brand-orange text-[8px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                      {msg.type === 'fill_product' ? <Package className="w-3 h-3" /> : <BookOpen className="w-3 h-3" />}
-                      {msg.type === 'fill_product' ? 'Parsed Product' : 'Parsed Article'}
+                      {msg.type === 'fill_product' ? <Package className="w-3.5 h-3.5" /> : msg.type === 'fill_blog' ? <BookOpen className="w-3.5 h-3.5" /> : <MessageSquare className="w-3.5 h-3.5" />}
+                      {msg.type === 'fill_product' ? 'Parsed Product' : msg.type === 'fill_blog' ? 'Parsed Article' : 'Proposed Chat Template'}
                     </span>
                     <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[8px] font-black uppercase tracking-widest">
                       Ready to Sync
                     </span>
                   </div>
 
-                  {msg.type === 'fill_product' ? (
+                  {msg.type === 'fill_product' && (
                     <div className="space-y-2">
                       <div className="text-white text-xs font-bold">{msg.data.name}</div>
                       <div className="grid grid-cols-2 gap-2 text-[10px]">
@@ -307,7 +311,9 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
                         Simpan ke Katalog & Sync
                       </button>
                     </div>
-                  ) : (
+                  )}
+
+                  {msg.type === 'fill_blog' && (
                     <div className="space-y-2">
                       <div className="text-white text-xs font-bold line-clamp-1">{msg.data.title}</div>
                       <div className="grid grid-cols-2 gap-2 text-[10px]">
@@ -320,6 +326,26 @@ export default function AiAssistant({ onFillProduct, onFillBlog, products, blogP
                       >
                         <Check className="w-3.5 h-3.5" />
                         Terbitkan ke Blog & Sync
+                      </button>
+                    </div>
+                  )}
+
+                  {msg.type === 'update_templates' && (
+                    <div className="space-y-2">
+                      <div className="text-white text-xs font-bold">{msg.data.title}</div>
+                      <div className="text-[10px] text-slate-400 italic bg-black/20 p-2 rounded-lg border border-white/5 line-clamp-2">
+                        "{msg.data.message}"
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 text-[10px] mt-1">
+                        <div><span className="text-slate-500 font-bold uppercase block text-[7px] tracking-wider">Tahap</span><span className="text-brand-orange font-medium">{msg.data.stage || 'Custom'}</span></div>
+                        <div><span className="text-slate-500 font-bold uppercase block text-[7px] tracking-wider">Peringatan</span><span className="text-rose-400 font-semibold">{msg.data.warningTitle || 'Ciri Penipu'}</span></div>
+                      </div>
+                      <button
+                        onClick={() => handleApplyAction(msg.id, 'templates', msg.data)}
+                        className="w-full mt-2 py-2.5 rounded-xl bg-brand-orange text-white text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-1.5 shadow-lg shadow-brand-orange/20 hover:brightness-110 active:scale-95 transition-all cursor-pointer"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        Terapkan ke Templat Panel
                       </button>
                     </div>
                   )}
