@@ -4,81 +4,116 @@ import { Smartphone, RefreshCw, ShieldCheck, Info, MessageCircle, ChevronDown, C
 import { WhatsAppIcon } from '@/components/WhatsAppIcon';
 import { useData } from '@/context/DataContext';
 
-const BRANDS = ['iPhone', 'Samsung', 'Infinix', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Google Pixel', 'Others'];
+const BRANDS = ['iPhone', 'Samsung', 'Google Pixel', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Infinix', 'Others'];
 
-const MODELS_DATA: Record<string, string[]> = {
-  'iPhone': [
-    'iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone 17 Plus', 'iPhone 17', 'iPhone 17 Air',
-    'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16',
-    'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15',
-    'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14',
-    'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 13 mini',
-    'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 12 mini',
-    'iPhone 11 Pro Max', 'iPhone 11 Pro', 'iPhone 11'
-  ],
-  'Samsung': [
-    'Galaxy S26 Ultra', 'Galaxy S26+', 'Galaxy S26',
-    'Galaxy S25 Ultra', 'Galaxy S25+', 'Galaxy S25',
-    'Galaxy Z Fold 7', 'Galaxy Z Flip 7', 'Galaxy Z Fold 6', 'Galaxy Z Flip 6',
-    'Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S24', 'Galaxy S24 FE',
-    'Galaxy S23 Ultra', 'Galaxy S23+', 'Galaxy S23', 'Galaxy S23 FE',
-    'Galaxy S22 Ultra', 'Galaxy S22+', 'Galaxy S22',
-    'Galaxy A56 5G', 'Galaxy A36 5G', 'Galaxy A55 5G', 'Galaxy A35 5G'
-  ],
-  'Infinix': [
-    'GT 30 Pro', 'Zero 50 Ultra', 'Zero 40 5G', 'Note 50 Pro', 'Note 50', 
-    'Note 40 Pro', 'Hot 60 Pro', 'Hot 50 Pro', 'Hot 50i', 'Smart 9 Pro', 'Smart 9'
-  ],
-  'Xiaomi': [
-    'Xiaomi 16 Ultra', 'Xiaomi 16 Pro', 'Xiaomi 16', 
-    'Xiaomi 15T Pro', 'Xiaomi 15T', 'Xiaomi 14 Ultra', 'Xiaomi 14 Pro', 'Xiaomi 14',
-    'Redmi Note 15 Pro+ 5G', 'Redmi Note 15 Pro', 'Redmi Note 15',
-    'Redmi Note 14 Pro+ 5G', 'Redmi Note 14 Pro', 'Redmi Note 14',
-    'Poco F7 Pro', 'Poco F7', 'Poco X7 Pro', 'Poco F6 Pro', 'Poco F6', 'Poco X6 Pro'
-  ],
-  'Oppo': [
-    'Find X9 Pro', 'Find X9', 'Find N5 Flip', 'Find X8 Pro', 'Find X8',
-    'Reno 13 Pro', 'Reno 13', 'Reno 12 Pro', 'Reno 12', 'Reno 11 Pro', 'Reno 11',
-    'Oppo A100', 'Oppo A98', 'Oppo A79', 'Oppo A59', 'Oppo A60', 'Oppo A3 Pro'
-  ],
-  'Vivo': [
-    'X110 Pro+', 'X110 Pro', 'X100 Pro', 'X100',
-    'V40 Pro', 'V40', 'V30 Pro', 'V30', 'V29 5G', 
-    'Vivo Y200 5G', 'Vivo Y100', 'Vivo Y30', 'Vivo iQOO 13', 'Vivo iQOO 12'
-  ],
-  'Realme': [
-    'Realme GT 7', 'Realme GT 6', 'Realme 14 Pro+', 'Realme 14', 
-    'Realme 13 Pro+', 'Realme 13', 'Realme 12 Pro+', 'Realme 12',
-    'Realme C77', 'Realme C67', 'Realme C55', 'Realme C65'
-  ],
-  'Google Pixel': [
-    'Pixel 10 Pro XL', 'Pixel 10 Pro', 'Pixel 10', 
-    'Pixel 9 Pro XL', 'Pixel 9 Pro', 'Pixel 9', 
-    'Pixel 8 Pro', 'Pixel 8', 'Pixel 7 Pro', 'Pixel 7'
-  ],
-  'Others': ['Tipe lain (Gunakan Manual Input)']
-};
+interface MasterDevice {
+  brand: string;
+  model: string;
+  market_sell: number;
+  max_buyback: number;
+  floor_buyback: number;
+}
+
+const DEVICE_MASTER_DATABASE: MasterDevice[] = [
+  // Apple
+  { brand: "iPhone", model: "iPhone 11 64GB", market_sell: 3100000, max_buyback: 2500000, floor_buyback: 2100000 },
+  { brand: "iPhone", model: "iPhone 11 128GB", market_sell: 3600000, max_buyback: 2950000, floor_buyback: 2500000 },
+  { brand: "iPhone", model: "iPhone 11 Pro 64GB", market_sell: 3750000, max_buyback: 3100000, floor_buyback: 2600000 },
+  { brand: "iPhone", model: "iPhone 11 Pro Max 256GB", market_sell: 4900000, max_buyback: 4050000, floor_buyback: 3500000 },
+  { brand: "iPhone", model: "iPhone 12 128GB", market_sell: 4800000, max_buyback: 3900000, floor_buyback: 3400000 },
+  { brand: "iPhone", model: "iPhone 12 Pro 128GB", market_sell: 6200000, max_buyback: 5100000, floor_buyback: 4500000 },
+  { brand: "iPhone", model: "iPhone 13 Mini 128GB", market_sell: 6000000, max_buyback: 4900000, floor_buyback: 4300000 },
+  { brand: "iPhone", model: "iPhone 13 128GB", market_sell: 7200000, max_buyback: 6000000, floor_buyback: 5300000 },
+  { brand: "iPhone", model: "iPhone 13 Pro 128GB", market_sell: 9300000, max_buyback: 7800000, floor_buyback: 7000000 },
+  { brand: "iPhone", model: "iPhone 13 Pro Max 128GB", market_sell: 10500000, max_buyback: 8800000, floor_buyback: 7800000 },
+  { brand: "iPhone", model: "iPhone 14 128GB", market_sell: 8900000, max_buyback: 7450000, floor_buyback: 6700000 },
+  { brand: "iPhone", model: "iPhone 14 Pro 128GB", market_sell: 11500000, max_buyback: 9500000, floor_buyback: 8400000 },
+  { brand: "iPhone", model: "iPhone 14 Pro Max 128GB", market_sell: 12800000, max_buyback: 10800000, floor_buyback: 9600000 },
+  { brand: "iPhone", model: "iPhone 15 128GB", market_sell: 11200000, max_buyback: 9300000, floor_buyback: 8300000 },
+  { brand: "iPhone", model: "iPhone 15 Pro 128GB", market_sell: 14800000, max_buyback: 12300000, floor_buyback: 11000000 },
+  { brand: "iPhone", model: "iPhone 15 Pro Max 256GB", market_sell: 17200000, max_buyback: 14500000, floor_buyback: 13000000 },
+  { brand: "iPhone", model: "iPhone 16 128GB", market_sell: 13800000, max_buyback: 11500000, floor_buyback: 10200000 },
+  { brand: "iPhone", model: "iPhone 16 Pro 128GB", market_sell: 17500000, max_buyback: 14800000, floor_buyback: 13200000 },
+  { brand: "iPhone", model: "iPhone 16 Pro Max 256GB", market_sell: 20500000, max_buyback: 17200000, floor_buyback: 15500000 },
+
+  // Samsung
+  { brand: "Samsung", model: "Galaxy A34 5G 8/128GB", market_sell: 2700000, max_buyback: 2150000, floor_buyback: 1800000 },
+  { brand: "Samsung", model: "Galaxy A54 5G 8/256GB", market_sell: 3600000, max_buyback: 2900000, floor_buyback: 2400000 },
+  { brand: "Samsung", model: "Galaxy A55 5G 8/256GB", market_sell: 4700000, max_buyback: 3850000, floor_buyback: 3300000 },
+  { brand: "Samsung", model: "Galaxy S21 Ultra 5G 12/256GB", market_sell: 5100000, max_buyback: 4150000, floor_buyback: 3600000 },
+  { brand: "Samsung", model: "Galaxy S22 5G 8/128GB", market_sell: 4400000, max_buyback: 3550000, floor_buyback: 3000000 },
+  { brand: "Samsung", model: "Galaxy S22 Ultra 5G 12/256GB", market_sell: 7800000, max_buyback: 6300000, floor_buyback: 5500000 },
+  { brand: "Samsung", model: "Galaxy S23 Ultra 12/256GB", market_sell: 11000000, max_buyback: 9000000, floor_buyback: 8000000 },
+  { brand: "Samsung", model: "Galaxy S24 5G 8/128GB", market_sell: 8800000, max_buyback: 7300000, floor_buyback: 6400000 },
+  { brand: "Samsung", model: "Galaxy S24 5G 8/256GB", market_sell: 9500000, max_buyback: 7900000, floor_buyback: 7000000 },
+  { brand: "Samsung", model: "Galaxy S24 Ultra 12/256GB", market_sell: 14500000, max_buyback: 12000000, floor_buyback: 10500000 },
+
+  // Google Pixel
+  { brand: "Google Pixel", model: "Google Pixel 6 8/128GB", market_sell: 3400000, max_buyback: 2700000, floor_buyback: 2200000 },
+  { brand: "Google Pixel", model: "Google Pixel 6a 6/128GB", market_sell: 3100000, max_buyback: 2400000, floor_buyback: 1900000 },
+  { brand: "Google Pixel", model: "Google Pixel 7 8/128GB", market_sell: 4500000, max_buyback: 3650000, floor_buyback: 3100000 },
+  { brand: "Google Pixel", model: "Google Pixel 7 Pro 12/256GB", market_sell: 5400000, max_buyback: 4400000, floor_buyback: 3800000 },
+  { brand: "Google Pixel", model: "Google Pixel 8 8/128GB", market_sell: 7300000, max_buyback: 6000000, floor_buyback: 5200000 },
+  { brand: "Google Pixel", model: "Google Pixel 8 Pro 12/128GB", market_sell: 9200000, max_buyback: 7600000, floor_buyback: 6700000 },
+
+  // Xiaomi
+  { brand: "Xiaomi", model: "POCO X6 Pro 5G 12/512GB", market_sell: 3700000, max_buyback: 3000000, floor_buyback: 2550000 },
+  { brand: "Xiaomi", model: "POCO F5 5G 8/256GB", market_sell: 3400000, max_buyback: 2750000, floor_buyback: 2300000 },
+  { brand: "Xiaomi", model: "Redmi Note 12 Pro 5G 8/256GB", market_sell: 2500000, max_buyback: 1950000, floor_buyback: 1600000 },
+  { brand: "Xiaomi", model: "Redmi Note 13 Pro 5G 8/256GB", market_sell: 3200000, max_buyback: 2550000, floor_buyback: 2100000 },
+  { brand: "Xiaomi", model: "Xiaomi 13T 12/256GB", market_sell: 4900000, max_buyback: 4000000, floor_buyback: 3500000 },
+
+  // Oppo
+  { brand: "Oppo", model: "Oppo Reno 10 5G 8/256GB", market_sell: 3100000, max_buyback: 2450000, floor_buyback: 2000000 },
+  { brand: "Oppo", model: "Oppo Reno 11 5G 8/256GB", market_sell: 3900000, max_buyback: 3100000, floor_buyback: 2650000 },
+
+  // Vivo
+  { brand: "Vivo", model: "Vivo V27 5G 8/256GB", market_sell: 3200000, max_buyback: 2550000, floor_buyback: 2150000 },
+  { brand: "Vivo", model: "Vivo V30 5G 8/256GB", market_sell: 4100000, max_buyback: 3300000, floor_buyback: 2800000 },
+
+  // Realme
+  { brand: "Realme", model: "Realme 12 Pro+ 5G 8/256GB", market_sell: 4300000, max_buyback: 3500000, floor_buyback: 3000000 },
+
+  // Infinix
+  { brand: "Infinix", model: "Infinix Note 40 Pro 8/256GB", market_sell: 2100000, max_buyback: 1600000, floor_buyback: 1250000 },
+  { brand: "Infinix", model: "Infinix GT 20 Pro 5G 12/256GB", market_sell: 3300000, max_buyback: 2650000, floor_buyback: 2200000 },
+
+  // Others (Tecno)
+  { brand: "Others", model: "Tecno Pova 6 Pro 5G 12/256GB", market_sell: 2250000, max_buyback: 1750000, floor_buyback: 1350000 }
+];
+
+// Dynamically generate MODELS_DATA map from Master Baseline
+const MODELS_DATA: Record<string, string[]> = {};
+BRANDS.forEach(b => {
+  if (b === 'Others') {
+    MODELS_DATA[b] = ['Tecno Pova 6 Pro 5G 12/256GB', 'Tipe lain (Gunakan Manual Input)'];
+  } else {
+    MODELS_DATA[b] = DEVICE_MASTER_DATABASE
+      .filter(d => d.brand === b)
+      .map(d => d.model);
+  }
+});
 
 const CONDITIONS = [
   { 
     label: 'Perfect (Like New)', 
     desc: 'Mulus total, BH >90%, Fullset Ori, No Minus fisik/fungsi.', 
-    factor: 0.75
+    factor: 1.0 // Directly anchors to max_buyback
   },
   { 
     label: 'Great', 
     desc: 'Lecet halus pemakaian, BH 85-90%, Box ada, Berfungsi normal.', 
-    factor: 0.68 
+    factor: 0.75 // Interpolation Weight
   },
   { 
     label: 'Good', 
     desc: 'Ada dent kecil, BH 80-85%, Pernah ganti baterai/layar ori.', 
-    factor: 0.58 
+    factor: 0.40 // Interpolation Weight
   },
   { 
     label: 'Fair / Minus', 
     desc: 'Lecet parah, BH <80%, Box hilang, atau minus fungsi ringan.', 
-    factor: 0.45 
+    factor: 0.0 // Directly anchors to floor_buyback
   },
 ];
 
@@ -99,138 +134,43 @@ export default function TradeInPage() {
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const calculateEstimate = useMemo(() => {
-    let base = 3000000;
+    let finalVal = 2000000;
 
     if (isManual) {
-      // Wholesale buying price (harga bakul) is roughly 65% of current brand new retail price
-      base = (manualMarketPrice || 0) * 0.65;
+      // For manual input, we define margins:
+      // max_buyback is roughly 80% of current retail price (20% dealer margin)
+      // floor_buyback is roughly 55% of current retail price
+      const max_buyback = (manualMarketPrice || 0) * 0.80;
+      const floor_buyback = (manualMarketPrice || 0) * 0.55;
+
+      if (conditionIndex === 0) {
+        finalVal = max_buyback;
+      } else if (conditionIndex === 3) {
+        finalVal = floor_buyback;
+      } else {
+        const weight = CONDITIONS[conditionIndex].factor;
+        finalVal = floor_buyback + (max_buyback - floor_buyback) * weight;
+      }
     } else {
-      if (brand === 'iPhone') {
-        if (model.includes('17 Pro Max')) base = 22000000;
-        else if (model.includes('17 Pro')) base = 20000000;
-        else if (model.includes('17 Plus')) base = 17500000;
-        else if (model.includes('17 Air')) base = 16500000;
-        else if (model.includes('17')) base = 15000000;
-        else if (model.includes('16 Pro Max')) base = 19500000;
-        else if (model.includes('16 Pro')) base = 17500000;
-        else if (model.includes('16 Plus')) base = 14500000;
-        else if (model.includes('16')) base = 13000000;
-        else if (model.includes('15 Pro Max')) base = 16000000;
-        else if (model.includes('15 Pro')) base = 14500000;
-        else if (model.includes('15 Plus')) base = 12500000;
-        else if (model.includes('15')) base = 11000000;
-        else if (model.includes('14 Pro Max')) base = 13500000;
-        else if (model.includes('14 Pro')) base = 12000000;
-        else if (model.includes('14 Plus')) base = 10000000;
-        else if (model.includes('14')) base = 9000000;
-        else if (model.includes('13 Pro Max')) base = 11000000;
-        else if (model.includes('13 Pro')) base = 9800000;
-        else if (model.includes('13')) base = 8200000;
-        else if (model.includes('12 Pro Max')) base = 8500000;
-        else if (model.includes('12 Pro')) base = 7500000;
-        else if (model.includes('12')) base = 6200000;
-        else if (model.includes('11 Pro Max')) base = 6500000;
-        else if (model.includes('11 Pro')) base = 5500000;
-        else if (model.includes('11')) base = 4200000;
-      } 
-      else if (brand === 'Samsung') {
-        if (model.includes('S26 Ultra')) base = 21000000;
-        else if (model.includes('S26+')) base = 15000000;
-        else if (model.includes('S26')) base = 12500000;
-        else if (model.includes('S25 Ultra')) base = 18000000;
-        else if (model.includes('S25+')) base = 13000000;
-        else if (model.includes('S25')) base = 11000000;
-        else if (model.includes('Z Fold 7')) base = 22000000;
-        else if (model.includes('Z Flip 7')) base = 13500000;
-        else if (model.includes('Z Fold 6')) base = 17500000;
-        else if (model.includes('Z Flip 6')) base = 11500000;
-        else if (model.includes('S24 Ultra')) base = 14500000;
-        else if (model.includes('S24+')) base = 10500000;
-        else if (model.includes('S24 FE')) base = 8000000;
-        else if (model.includes('S24')) base = 8500000;
-        else if (model.includes('S23 Ultra')) base = 11000000;
-        else if (model.includes('S23+')) base = 8000000;
-        else if (model.includes('S23 FE')) base = 5500000;
-        else if (model.includes('S23')) base = 6800000;
-        else if (model.includes('S22 Ultra')) base = 7800000;
-        else if (model.includes('S22+')) base = 6200000;
-        else if (model.includes('S22')) base = 5000000;
-        else if (model.includes('A56')) base = 5800000;
-        else if (model.includes('A36')) base = 4200000;
-        else if (model.includes('A55')) base = 4200000;
-        else if (model.includes('A35')) base = 3200000;
-        else base = 2500000;
-      }
-      else if (brand === 'Google Pixel') {
-        if (model.includes('10 Pro XL')) base = 16000000;
-        else if (model.includes('10 Pro')) base = 14500000;
-        else if (model.includes('10')) base = 11500000;
-        else if (model.includes('9 Pro XL')) base = 12000000;
-        else if (model.includes('9 Pro')) base = 13500000;
-        else if (model.includes('9')) base = 10000000;
-        else if (model.includes('8 Pro')) base = 8500000;
-        else if (model.includes('8')) base = 6200000;
-        else if (model.includes('7 Pro')) base = 5800000;
-        else if (model.includes('7')) base = 4200000;
-        else base = 4000000;
-      }
-      else if (brand === 'Xiaomi') {
-        if (model.includes('16 Ultra')) base = 16000000;
-        else if (model.includes('16 Pro')) base = 13000000;
-        else if (model.includes('16')) base = 10000000;
-        else if (model.includes('15T Pro')) base = 8500000;
-        else if (model.includes('15T')) base = 6500000;
-        else if (model.includes('14 Ultra')) base = 12000000;
-        else if (model.includes('14 Pro')) base = 10000000;
-        else if (model.includes('14')) base = 7500000;
-        else if (model.includes('Poco F7 Pro')) base = 7500000;
-        else if (model.includes('Poco F7')) base = 5500000;
-        else if (model.includes('Poco F6 Pro')) base = 5800000;
-        else if (model.includes('Poco F6')) base = 4500000;
-        else if (model.includes('Poco X6 Pro')) base = 3600000;
-        else if (model.includes('Redmi Note 15 Pro+')) base = 4800000;
-        else if (model.includes('Redmi Note 15 Pro')) base = 4000000;
-        else if (model.includes('Redmi Note 14 Pro+')) base = 3800000;
-        else if (model.includes('Redmi Note 14 Pro')) base = 3000000;
-        else base = 2500000;
-      }
-      else if (brand === 'Oppo' || brand === 'Vivo') {
-        if (model.includes('Find X9 Pro') || model.includes('X110 Pro+')) base = 16000000;
-        else if (model.includes('Find X9') || model.includes('X110 Pro')) base = 13000000;
-        else if (model.includes('Find X8 Pro') || model.includes('X100 Pro')) base = 11500000;
-        else if (model.includes('Find X8') || model.includes('X100')) base = 9500000;
-        else if (model.includes('Find N5') || model.includes('V40 Pro')) base = 9000000;
-        else if (model.includes('Reno 13 Pro') || model.includes('V30 Pro')) base = 7500000;
-        else if (model.includes('Reno 13') || model.includes('V30')) base = 5800000;
-        else if (model.includes('Reno 12')) base = 4800000;
-        else if (model.includes('Reno 11 Pro')) base = 4800000;
-        else if (model.includes('Reno 11')) base = 3800000;
-        else if (model.includes('Oppo A60') || model.includes('Vivo Y100')) base = 2500000;
-        else if (model.includes('Oppo A3 Pro') || model.includes('Vivo Y30')) base = 1800000;
-        else base = 2500000;
-      }
-      else if (brand === 'Infinix' || brand === 'Realme') {
-        if (model.includes('GT 7') || model.includes('GT 30')) base = 7500000;
-        else if (model.includes('GT 6')) base = 5800000;
-        else if (model.includes('Zero 50') || model.includes('14 Pro+')) base = 5800000;
-        else if (model.includes('Zero 40') || model.includes('13 Pro+')) base = 4800000;
-        else if (model.includes('Note 50') || model.includes('Realme 14')) base = 3500000;
-        else if (model.includes('Note 40') || model.includes('Realme 13')) base = 2800000;
-        else if (model.includes('Realme 12')) base = 2400000;
-        else if (model.includes('C67') || model.includes('C65') || model.includes('C55')) base = 1500000;
-        else base = 1800000;
+      const matched = DEVICE_MASTER_DATABASE.find(d => d.brand === brand && d.model === model);
+      if (!matched) return 2000000;
+
+      const max_buyback = matched.max_buyback;
+      const floor_buyback = matched.floor_buyback;
+
+      if (conditionIndex === 0) {
+        finalVal = max_buyback;
+      } else if (conditionIndex === 3) {
+        finalVal = floor_buyback;
+      } else {
+        const weight = CONDITIONS[conditionIndex].factor;
+        finalVal = floor_buyback + (max_buyback - floor_buyback) * weight;
       }
     }
 
-    let storageFactor = 1.0;
-    const currentStorage = isManual ? manualStorage : storage;
-    if (currentStorage.includes('256')) storageFactor = 1.08;
-    if (currentStorage.includes('512')) storageFactor = 1.15;
-    if (currentStorage.includes('1TB')) storageFactor = 1.25;
-
-    const result = (base * storageFactor) * CONDITIONS[conditionIndex].factor;
-    return Math.round(result / 10000) * 10000;
-  }, [brand, model, storage, conditionIndex, isManual, manualBrand, manualModel, manualStorage, manualMarketPrice]);
+    // Round to nearest Rp 10.000 for realistic retail format
+    return Math.round(finalVal / 10000) * 10000;
+  }, [brand, model, conditionIndex, isManual, manualBrand, manualModel, manualStorage, manualMarketPrice]);
 
   const validateManualInput = (): boolean => {
     if (!isManual) return true;
@@ -298,7 +238,7 @@ export default function TradeInPage() {
   };
 
   const waMessage = encodeURIComponent(
-    `Halo COREPAWAS! Saya mau Trade-In unit.\n\nUnit: ${isManual ? manualBrand : brand} ${isManual ? manualModel : model} (${isManual ? manualStorage : storage})\nKondisi: ${CONDITIONS[conditionIndex].label}\nHarga Retail Baru: Rp ${(isManual ? manualMarketPrice : 0).toLocaleString('id-ID')}\nPenawaran Sistem: Rp ${calculateEstimate.toLocaleString('id-ID')}`
+    `Halo COREPAWAS! Saya mau Trade-In unit.\n\nUnit: ${isManual ? manualBrand : brand} ${isManual ? manualModel : model} (${isManual ? manualStorage : storage})\nKondisi: ${CONDITIONS[conditionIndex].label}\nPenawaran Sistem: Rp ${calculateEstimate.toLocaleString('id-ID')}`
   );
 
   return (
@@ -315,7 +255,7 @@ export default function TradeInPage() {
             <span className="text-gradient">Penampungan HP</span>
           </h1>
           <p className="text-slate-600 max-w-3xl text-lg font-medium leading-relaxed">
-            Mau jual HP lamamu dengan cepat? Kami berikan penawaran harga beli langsung (Bakul) untuk stok operasional kami. Proses instan, harga transparan!
+            Mau jual HP lamamu dengan cepat? Kami berikan penawaran harga beli langsung (Bakul) untuk stok operasional kami dengan margin aman 15-20% terjamin!
           </p>
         </div>
 
@@ -413,45 +353,42 @@ export default function TradeInPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="grid sm:grid-cols-2 gap-10">
+                  <div className="relative">
+                    <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
+                      <span className="w-6 h-6 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-black">2</span>
+                      Pilih Seri & Varian Tipe HP
+                    </label>
                     <div className="relative">
-                      <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-                        <span className="w-6 h-6 rounded-lg bg-brand-orange/20 text-brand-orange flex items-center justify-center font-black">2</span>
-                        Tipe / Seri Unit
-                      </label>
-                      <div className="relative">
-                        <select 
-                          value={model}
-                          onChange={(e) => { setModel(e.target.value); setIsCalculated(false); }}
-                          className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer shadow-sm animate-fade-in"
-                        >
-                          <option value="" className="bg-[#0f172a]">-- Pilih Seri --</option>
-                          {(MODELS_DATA[brand] || []).map(m => (
-                            <option key={m} value={m} className="bg-[#0f172a] text-white">{m}</option>
-                          ))}
-                        </select>
-                        <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="flex items-center gap-3 text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] mb-8">
-                        Kapasitas Internal
-                      </label>
-                      <div className="flex gap-2">
-                        {['128GB', '256GB', '512GB'].map(s => (
-                          <button 
-                            key={s}
-                            type="button"
-                            onClick={() => { setStorage(s); setIsCalculated(false); }}
-                            className={`flex-1 py-5 rounded-2xl text-[10px] font-black border transition-all cursor-pointer ${
-                              storage === s ? 'bg-brand-orange/20 border-brand-orange/50 text-brand-orange' : 'bg-white/5 border-white/5 text-slate-600'
-                            }`}
+                      {model === 'Tipe lain (Gunakan Manual Input)' ? (
+                        <div className="p-6 rounded-2xl bg-amber-50 border border-amber-100 flex gap-4 text-slate-700 text-xs font-bold leading-normal relative z-10">
+                          <Info className="w-5 h-5 text-brand-orange flex-shrink-0 mt-0.5" />
+                          <div>
+                            <span className="text-slate-900 text-[10px] font-black uppercase tracking-widest block mb-1">Peralihan Input</span>
+                            <p>Tipe ini membutuhkan data spesifikasi kustom. Silakan klik tombol <b>Others</b> di bagian atas untuk mengaktifkan input manual.</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <select 
+                            value={model}
+                            onChange={(e) => { 
+                              setModel(e.target.value); 
+                              setIsCalculated(false); 
+                              if (e.target.value === 'Tipe lain (Gunakan Manual Input)') {
+                                setBrand('Others');
+                                setIsManual(true);
+                              }
+                            }}
+                            className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-5 text-slate-900 text-sm font-bold focus:border-brand-orange/50 outline-none appearance-none cursor-pointer shadow-sm animate-fade-in"
                           >
-                            {s}
-                          </button>
-                        ))}
-                      </div>
+                            <option value="" className="bg-[#0f172a]">-- Pilih Seri & Kapasitas --</option>
+                            {(MODELS_DATA[brand] || []).map(m => (
+                              <option key={m} value={m} className="bg-[#0f172a] text-white">{m}</option>
+                            ))}
+                          </select>
+                          <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                        </>
+                      )}
                     </div>
                   </div>
                 )}
@@ -495,7 +432,7 @@ export default function TradeInPage() {
 
               <button 
                 onClick={handleCalculate}
-                disabled={isManual ? (!manualModel || !manualBrand || !manualMarketPrice) : !model}
+                disabled={isManual ? (!manualModel || !manualBrand || !manualMarketPrice) : (!model || model.includes('Manual'))}
                 className="w-full py-6 rounded-3xl bg-brand-orange text-white font-black text-xl shadow-2xl shadow-brand-orange/30 hover:scale-[1.02] transition-all disabled:opacity-20 active:scale-95 cursor-pointer"
               >
                 Lihat Penawaran Beli
@@ -527,7 +464,7 @@ export default function TradeInPage() {
                       <div>
                         <h4 className="font-black text-sm mb-2 uppercase tracking-widest">Penawaran Nett (Harga Bakul)</h4>
                         <p className="text-blue-100/60 text-[11px] leading-relaxed font-medium">
-                          Kami memberikan harga beli terbaik untuk sistem penampungan di <span className="text-white font-bold">COREPAWAS</span>. Penilaian final ditentukan setelah pengecekan fisik menyeluruh oleh tim teknisi kami.
+                          Kami memberikan penawaran harga beli terbaik berdasarkan <span className="text-white font-bold">Master baseline 2026</span> dengan margin aman 15-20%. Penilaian final ditentukan setelah pengecekan fisik menyeluruh oleh tim teknisi kami.
                         </p>
                       </div>
                     </div>
