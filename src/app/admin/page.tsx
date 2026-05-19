@@ -231,13 +231,13 @@ function ProductModal({
         const { data: { publicUrl } } = supabase.storage
           .from('product-images')
           .getPublicUrl(filePath);
-        
+
         uploadedUrls.push(publicUrl);
       }
 
       const newImages = [...(form.images || []), ...uploadedUrls];
-      setForm(prev => ({ 
-        ...prev, 
+      setForm(prev => ({
+        ...prev,
         images: newImages,
         image: prev.image || uploadedUrls[0] || ''
       }));
@@ -252,8 +252,8 @@ function ProductModal({
   function addImageUrl(url: string) {
     if (!url) return;
     const newImages = [...(form.images || []), url];
-    setForm(prev => ({ 
-      ...prev, 
+    setForm(prev => ({
+      ...prev,
       images: newImages,
       image: prev.image || url
     }));
@@ -262,8 +262,8 @@ function ProductModal({
   function removeImage(index: number) {
     const newImages = [...(form.images || [])];
     newImages.splice(index, 1);
-    setForm(prev => ({ 
-      ...prev, 
+    setForm(prev => ({
+      ...prev,
       images: newImages,
       image: prev.image === form.images[index] ? (newImages[0] || '') : prev.image
     }));
@@ -414,7 +414,7 @@ function ProductModal({
                   <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-700 bg-slate-800 group">
                     <img src={img} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <button 
+                      <button
                         onClick={() => removeImage(idx)}
                         className="p-1.5 rounded-lg bg-red-500 text-white shadow-lg hover:bg-red-600 transition-colors"
                       >
@@ -428,7 +428,7 @@ function ProductModal({
                     )}
                   </div>
                 ))}
-                
+
                 {/* Upload Placeholder */}
                 <label className={`relative aspect-square flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-xl hover:border-blue-500 hover:bg-blue-500/5 transition-all cursor-pointer group ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
                   {uploading ? (
@@ -442,14 +442,14 @@ function ProductModal({
                   <input type="file" accept="image/*" multiple onChange={handleFileUpload} disabled={uploading} className="hidden" />
                 </label>
               </div>
-              
+
               {/* URL Input */}
               <div className="flex gap-2">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="img-url-input"
                   className="flex-1 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-xs focus:outline-none focus:border-blue-500"
-                  placeholder="https://..." 
+                  placeholder="https://..."
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
@@ -458,7 +458,7 @@ function ProductModal({
                     }
                   }}
                 />
-                <button 
+                <button
                   type="button"
                   onClick={() => {
                     const el = document.getElementById('img-url-input') as HTMLInputElement;
@@ -470,7 +470,7 @@ function ProductModal({
                   Add URL
                 </button>
               </div>
-              
+
               {uploadError && (
                 <p className="text-red-400 text-[10px] font-medium">{uploadError}</p>
               )}
@@ -833,7 +833,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     if (!huntingPrompt.trim()) return;
     setIsHuntingScanning(true);
     setHuntingDeals([]);
-    
+
     // Clear and start logging dynamically
     const newLogs: string[] = [];
     const addLog = (msg: string) => {
@@ -849,11 +849,11 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     let marketPrice = 3800000;
 
     const text = huntingPrompt;
-    
+
     // Smart Keyword parsing
-    const kwMatch = text.match(/Cari\s+unit\s+([^,]+?)\s+Jogja/i) || 
-                    text.match(/Cari\s+([A-Za-z0-9\s]+?)\s+harga/i) ||
-                    text.match(/Cari\s+([A-Za-z0-9\s]+?)\s+Jogja/i);
+    const kwMatch = text.match(/Cari\s+unit\s+([^,]+?)\s+Jogja/i) ||
+      text.match(/Cari\s+([A-Za-z0-9\s]+?)\s+harga/i) ||
+      text.match(/Cari\s+([A-Za-z0-9\s]+?)\s+Jogja/i);
     if (kwMatch) {
       keyword = kwMatch[1].trim();
     } else {
@@ -894,9 +894,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       maxPrice = val;
     }
 
-    const marketMatch = text.match(/(?:margin\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) || 
-                        text.match(/(?:hitung\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) ||
-                        text.match(/pasar\s*(\d[\d\.,]*)/i);
+    const marketMatch = text.match(/(?:margin\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) ||
+      text.match(/(?:hitung\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) ||
+      text.match(/pasar\s*(\d[\d\.,]*)/i);
     if (marketMatch) {
       let val = parseCleanFloat(marketMatch[1]);
       if (marketMatch[2] && marketMatch[2].toLowerCase().startsWith('j')) {
@@ -907,7 +907,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
     // Dynamic progress simulation delays to make terminal alive
     addLog(`Ingesting scanning parameters...`);
-    
+
     setTimeout(() => {
       addLog(`Launching stealth crawler (Puppeteer headless mode)...`);
     }, 400);
@@ -970,8 +970,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         id: deal.id || Date.now().toString(),
         name: deal.name,
         brand: deal.brand,
-        price: deal.marketPrice, 
-        originalPrice: deal.originalPrice, 
+        price: deal.marketPrice,
+        originalPrice: deal.originalPrice,
         condition: deal.condition,
         batteryHealth: deal.batteryHealth || 90,
         storage: deal.storage || "128GB",
@@ -991,7 +991,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       };
 
       await setProducts([...products, newProduct]);
-      
+
       setSyncedIds(prev => ({ ...prev, [deal.id]: true }));
       alert(`✅ Berhasil! Unit "${deal.name}" telah terdaftar ke Katalog Aktif & Supabase dengan status Ready.`);
     } catch (err: any) {
@@ -1032,10 +1032,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       warrantyStatus: data.warrantyStatus || 'No Warranty',
       accessories: data.accessories || [],
     };
-    
+
     // Simpan langsung ke database via Context
     setProducts([...products, newProduct]);
-    
+
     // Berikan feedback visual atau pindah tab
     setActiveTab('produk');
     alert('✅ Produk berhasil disimpan langsung ke Katalog & Supabase!');
@@ -1071,7 +1071,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
     // Simpan langsung ke database via Context
     setBlogPosts([...blogPosts, newPost]);
-    
+
     setActiveTab('blog');
     alert('✅ Artikel blog berhasil diterbitkan ke Supabase!');
   };
@@ -1138,11 +1138,11 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   async function handleSync() {
     if (!confirm('Apakah Anda yakin ingin memindahkan data default ke Supabase? Ini akan menimpa data pengaturan yang ada.')) return;
-    
+
     setSyncing(true);
     const result = await seedDatabase();
     setSyncing(false);
-    
+
     if (result.success) {
       setSyncSuccess(true);
       setTimeout(() => setSyncSuccess(false), 3000);
@@ -1219,11 +1219,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         )}
 
         {/* Sidebar */}
-        <aside className={`fixed lg:static top-[85px] bottom-0 left-0 z-40 flex flex-col bg-brand-navy-dark border-r border-white/5 p-6 gap-3 transition-all duration-300 ease-in-out h-[calc(100vh-85px)] lg:h-auto ${
-          isSidebarOpen 
-            ? 'translate-x-0 w-72' 
+        <aside className={`fixed lg:static top-[85px] bottom-0 left-0 z-40 flex flex-col bg-brand-navy-dark border-r border-white/5 p-6 gap-3 transition-all duration-300 ease-in-out h-[calc(100vh-85px)] lg:h-auto ${isSidebarOpen
+            ? 'translate-x-0 w-72'
             : '-translate-x-full lg:translate-x-0 lg:w-20 lg:px-4'
-        }`}>
+          }`}>
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -1236,25 +1235,22 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   }
                 });
               }}
-              className={`flex items-center rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all border cursor-pointer ${
-                isSidebarOpen
+              className={`flex items-center rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all border cursor-pointer ${isSidebarOpen
                   ? 'px-6 py-4 gap-4 text-left justify-start'
                   : 'px-6 py-4 lg:px-0 lg:py-4 lg:justify-center lg:gap-0 gap-4 text-left justify-start'
-              } ${
-                activeTab === tab.id
+                } ${activeTab === tab.id
                   ? 'bg-brand-orange border-brand-orange text-white shadow-2xl shadow-brand-orange/30 scale-[1.02]'
                   : 'text-slate-500 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10'
-              }`}
+                }`}
               title={!isSidebarOpen ? tab.label : undefined}
             >
               <div className={`transition-all duration-300 ${activeTab === tab.id ? 'text-white' : 'text-slate-600'} ${!isSidebarOpen ? 'lg:scale-110' : ''}`}>
                 {tab.icon}
               </div>
-              <span className={`transition-all duration-300 truncate ${
-                isSidebarOpen 
-                  ? 'opacity-100 w-auto' 
+              <span className={`transition-all duration-300 truncate ${isSidebarOpen
+                  ? 'opacity-100 w-auto'
                   : 'opacity-100 lg:opacity-0 lg:w-0 lg:hidden'
-              }`}>
+                }`}>
                 {tab.label}
               </span>
             </button>
@@ -1271,9 +1267,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   setActiveTab(tab.id);
                 });
               }}
-              className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-xs font-medium transition-colors ${
-                activeTab === tab.id ? 'text-blue-400' : 'text-slate-500'
-              }`}
+              className={`flex-1 flex flex-col items-center py-2.5 gap-1 text-xs font-medium transition-colors ${activeTab === tab.id ? 'text-blue-400' : 'text-slate-500'
+                }`}
             >
               {tab.icon}
               {tab.label}
@@ -1314,7 +1309,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               </div>
 
               {/* Value card */}
-               <div className="p-10 rounded-[3rem] bg-gradient-to-br from-brand-orange to-orange-700 border border-white/20 mb-12 shadow-2xl shadow-brand-orange/20 relative overflow-hidden group">
+              <div className="p-10 rounded-[3rem] bg-gradient-to-br from-brand-orange to-orange-700 border border-white/20 mb-12 shadow-2xl shadow-brand-orange/20 relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/20 blur-[120px] rounded-full -mr-32 -mt-32 group-hover:scale-110 transition-transform duration-1000" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32" />
                 <div className="relative z-10">
@@ -1334,7 +1329,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               </div>
 
               {/* Recent Products */}
-               <div className="rounded-[3rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl">
+              <div className="rounded-[3rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between px-10 py-8 border-b border-white/5 bg-white/5">
                   <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs">Recently Added</h3>
                   <button onClick={() => setActiveTab('produk')} className="text-brand-orange text-[10px] font-black uppercase tracking-widest hover:text-white transition-all flex items-center gap-2 group">
@@ -1350,18 +1345,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                         <p className="text-slate-400 text-xs">{formatPrice(p.price)}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button 
+                        <button
                           onClick={() => window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(window.location.origin + '/katalog/' + p.id)}`, '_blank')}
                           className="p-1.5 rounded bg-slate-800 text-slate-400 hover:text-white"
                           title="Generate QR"
                         >
                           <RefreshCw className="w-3.5 h-3.5" />
                         </button>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                          p.status === 'Ready'
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${p.status === 'Ready'
                             ? 'bg-emerald-500/10 text-emerald-400'
                             : 'bg-red-500/10 text-red-400'
-                        }`}>
+                          }`}>
                           {p.status}
                         </span>
                       </div>
@@ -1437,11 +1431,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           <td className="px-4 py-3">
                             <button
                               onClick={() => toggleStatus(p.id)}
-                              className={`px-2.5 py-1 rounded-full text-xs font-bold transition-colors ${
-                                p.status === 'Ready'
+                              className={`px-2.5 py-1 rounded-full text-xs font-bold transition-colors ${p.status === 'Ready'
                                   ? 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'
                                   : 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
-                              }`}
+                                }`}
                             >
                               {p.status}
                             </button>
@@ -1550,26 +1543,24 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </h1>
                   <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Automated Stock Hunting Assistant & AI Valuation</p>
                 </div>
-                
+
                 {/* Mockup sub-tabs */}
                 <div className="flex p-1 bg-brand-navy-dark rounded-2xl border border-white/5 self-start md:self-auto">
                   <button
                     onClick={() => setHuntingSubTab('live')}
-                    className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                      huntingSubTab === 'live' 
-                        ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' 
+                    className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${huntingSubTab === 'live'
+                        ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20'
                         : 'text-slate-500 hover:text-white'
-                    }`}
+                      }`}
                   >
                     Live Hunting
                   </button>
                   <button
                     onClick={() => setHuntingSubTab('history')}
-                    className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                      huntingSubTab === 'history' 
-                        ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20' 
+                    className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${huntingSubTab === 'history'
+                        ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/20'
                         : 'text-slate-500 hover:text-white'
-                    }`}
+                      }`}
                   >
                     Stok History (Supabase)
                   </button>
@@ -1580,7 +1571,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 <div className="space-y-6">
                   {/* Top Row: AI Control Hub & Live Scraping Status */}
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                    
+
                     {/* Left: AI Control Hub (60% width on large screens) */}
                     <div className="lg:col-span-3 p-8 rounded-[2rem] bg-brand-navy-dark border border-white/5 shadow-2xl flex flex-col justify-between">
                       <div>
@@ -1615,7 +1606,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           ))}
                         </div>
                       </div>
-                      
+
                       {/* Action Buttons */}
                       <div className="flex gap-4">
                         <button
@@ -1635,7 +1626,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                             </>
                           )}
                         </button>
-                        
+
                         <button
                           onClick={() => {
                             if (isRecordingHunting) {
@@ -1649,11 +1640,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                               }, 2000);
                             }
                           }}
-                          className={`flex-1 py-4.5 rounded-2xl border font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer ${
-                            isRecordingHunting 
-                              ? 'bg-red-500/10 border-red-500 text-red-500 animate-pulse' 
+                          className={`flex-1 py-4.5 rounded-2xl border font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer ${isRecordingHunting
+                              ? 'bg-red-500/10 border-red-500 text-red-500 animate-pulse'
                               : 'border-white/10 text-slate-400 hover:bg-white/5'
-                          }`}
+                            }`}
                         >
                           <Mic className="w-5 h-5 text-brand-orange" />
                           {isRecordingHunting ? "Listening..." : "Upload Audio"}
@@ -1748,25 +1738,23 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                   <div className="space-y-1.5 max-w-[280px]">
                                     <p className="text-slate-300 text-xs font-bold leading-normal truncate">{deal.description}</p>
                                     <div className="flex flex-wrap items-center gap-2">
-                                      <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase border tracking-widest ${
-                                        deal.category === 'HIGH-PROFIT'
+                                      <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase border tracking-widest ${deal.category === 'HIGH-PROFIT'
                                           ? 'bg-red-500/10 border-red-500/20 text-red-400 font-black shadow-[0_0_10px_rgba(239,68,68,0.2)]'
                                           : deal.category === 'GOOD-DEAL'
                                             ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 font-black'
                                             : 'bg-amber-500/10 border-amber-500/20 text-amber-400 font-black'
-                                      }`}>
+                                        }`}>
                                         {deal.category}
                                       </span>
-                                      
+
                                       <span className="px-2 py-0.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 text-[9px] font-black uppercase tracking-wider">
                                         Completeness: {deal.completeness}
                                       </span>
 
-                                      <span className={`px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider ${
-                                        deal.imeiStatus.toLowerCase().includes("terblokir") || deal.imeiStatus.toLowerCase().includes("bypass")
+                                      <span className={`px-2 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-wider ${deal.imeiStatus.toLowerCase().includes("terblokir") || deal.imeiStatus.toLowerCase().includes("bypass")
                                           ? 'bg-red-500/10 text-red-400'
                                           : 'bg-emerald-500/10 text-emerald-400'
-                                      }`}>
+                                        }`}>
                                         IMEI: {deal.imeiStatus}
                                       </span>
                                     </div>
@@ -1806,11 +1794,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                     <button
                                       onClick={() => handleSyncDealToSupabase(deal)}
                                       disabled={isSynced}
-                                      className={`px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-1.5 cursor-pointer shadow-lg ${
-                                        isSynced
+                                      className={`px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-1.5 cursor-pointer shadow-lg ${isSynced
                                           ? 'bg-emerald-600 text-white shadow-emerald-600/20 cursor-default font-black'
                                           : 'bg-brand-orange hover:bg-orange-500 text-white shadow-brand-orange/20 font-black hover:scale-[1.02] active:scale-95'
-                                      }`}
+                                        }`}
                                     >
                                       {isSynced ? (
                                         <>
@@ -1855,7 +1842,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                       <Database className="w-5 h-5 text-brand-orange" />
                       Live Catalog & Purchased Stock Inventory (Supabase Sync)
                     </h3>
-                    
+
                     {/* Reuses the standard table layout */}
                     <div className="overflow-x-auto">
                       <table className="w-full">
@@ -1890,11 +1877,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                 <span className="text-slate-300 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-lg bg-white/5 border border-white/10">{p.condition}</span>
                               </td>
                               <td className="px-6 py-5">
-                                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                                  p.status === 'Ready'
+                                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${p.status === 'Ready'
                                     ? 'bg-emerald-500/10 text-emerald-400'
                                     : 'bg-red-500/10 text-red-400'
-                                }`}>
+                                  }`}>
                                   {p.status}
                                 </span>
                               </td>
@@ -1921,16 +1907,16 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2 ml-5">Anti-Fraud & Seller Screening Kit Yogyakarta</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <button 
+                  <button
                     onClick={handleAddNewTemplate}
                     className="px-6 py-3 rounded-2xl bg-brand-orange hover:bg-orange-500 text-white text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-lg shadow-brand-orange/20 cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                     Tambah Templat Baru
                   </button>
-                  <a 
-                    href="https://cekrekening.id" 
-                    target="_blank" 
+                  <a
+                    href="https://cekrekening.id"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 hover:text-white text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
                   >
@@ -1946,25 +1932,25 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   {chatTemplates.map((tpl) => (
                     <div key={tpl.id} className="p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl relative overflow-hidden group">
                       <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 blur-[50px] rounded-full -mr-16 -mt-16" />
-                      
+
                       {editingTemplateId === tpl.id ? (
                         /* Inline Editor Mode */
                         <div className="space-y-4 relative z-10">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Tahap / Stage</label>
-                              <input 
-                                type="text" 
-                                value={tplForm.stage} 
+                              <input
+                                type="text"
+                                value={tplForm.stage}
                                 onChange={(e) => setTplForm({ ...tplForm, stage: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
                               />
                             </div>
                             <div>
                               <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Judul Templat</label>
-                              <input 
-                                type="text" 
-                                value={tplForm.title} 
+                              <input
+                                type="text"
+                                value={tplForm.title}
                                 onChange={(e) => setTplForm({ ...tplForm, title: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
                               />
@@ -1973,9 +1959,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
                           <div>
                             <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Deskripsi Singkat / Subtitle</label>
-                            <input 
-                              type="text" 
-                              value={tplForm.subtitle} 
+                            <input
+                              type="text"
+                              value={tplForm.subtitle}
                               onChange={(e) => setTplForm({ ...tplForm, subtitle: e.target.value })}
                               className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40"
                             />
@@ -1983,9 +1969,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
                           <div>
                             <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Isi Pesan Chat (Template)</label>
-                            <textarea 
-                              rows={3} 
-                              value={tplForm.message} 
+                            <textarea
+                              rows={3}
+                              value={tplForm.message}
                               onChange={(e) => setTplForm({ ...tplForm, message: e.target.value })}
                               className="w-full px-4 py-3 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-medium focus:outline-none focus:border-brand-orange/40 resize-none font-mono"
                             />
@@ -1994,18 +1980,18 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Judul Peringatan Penipu</label>
-                              <input 
-                                type="text" 
-                                value={tplForm.warningTitle} 
+                              <input
+                                type="text"
+                                value={tplForm.warningTitle}
                                 onChange={(e) => setTplForm({ ...tplForm, warningTitle: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-rose-400 text-xs font-bold focus:outline-none focus:border-brand-orange/40"
                               />
                             </div>
                             <div>
                               <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-1.5">Penjelasan Peringatan</label>
-                              <input 
-                                type="text" 
-                                value={tplForm.warningText} 
+                              <input
+                                type="text"
+                                value={tplForm.warningText}
                                 onChange={(e) => setTplForm({ ...tplForm, warningText: e.target.value })}
                                 className="w-full px-4 py-2.5 rounded-xl bg-brand-navy border border-white/5 text-slate-300 text-xs font-medium focus:outline-none focus:border-brand-orange/40"
                               />
@@ -2013,13 +1999,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                           </div>
 
                           <div className="flex gap-2 pt-2">
-                            <button 
+                            <button
                               onClick={() => setEditingTemplateId(null)}
                               className="flex-grow py-2.5 rounded-xl border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer"
                             >
                               Batal
                             </button>
-                            <button 
+                            <button
                               onClick={() => handleSaveTemplateInline(tpl.id)}
                               className="flex-grow py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-black uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/20 cursor-pointer"
                             >
@@ -2040,7 +2026,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                 <p className="text-slate-500 text-[10px] font-black uppercase tracking-wider mt-1">{tpl.subtitle}</p>
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-2 self-start sm:self-auto">
                               <button
                                 onClick={() => handleEditTemplate(tpl)}
@@ -2056,11 +2042,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                               </button>
                               <button
                                 onClick={() => handleCopyText(tpl.message, tpl.id)}
-                                className={`px-5 py-3 rounded-xl border font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer ${
-                                  copiedId === tpl.id
+                                className={`px-5 py-3 rounded-xl border font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer ${copiedId === tpl.id
                                     ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
                                     : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20 hover:text-white'
-                                }`}
+                                  }`}
                               >
                                 {copiedId === tpl.id ? (
                                   <>
@@ -2100,12 +2085,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 <div className="space-y-8">
                   <div className="p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-[40px] rounded-full -mr-10 -mt-10 animate-pulse" />
-                    
+
                     <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-3">
                       <div className="w-1.5 h-6 bg-brand-orange rounded-full shadow-[0_0_10px_rgba(250,140,22,0.4)]" />
                       SOP Lapangan (COD)
                     </h3>
-                    
+
                     <div className="space-y-6">
                       {[
                         {
@@ -2245,18 +2230,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     Cloud Synchronization
                   </h3>
                   <p className="text-slate-500 text-[11px] font-bold uppercase tracking-wider leading-relaxed mb-8">
-                    Force sync local demonstration data to your live Supabase cloud instances. 
+                    Force sync local demonstration data to your live Supabase cloud instances.
                   </p>
                   <button
                     onClick={handleSync}
                     disabled={syncing}
-                    className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-2xl ${
-                      syncing 
+                    className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all shadow-2xl ${syncing
                         ? 'bg-brand-navy-dark text-slate-600 cursor-not-allowed'
                         : syncSuccess
                           ? 'bg-emerald-600 text-white shadow-emerald-600/20'
                           : 'bg-brand-orange hover:scale-[1.02] text-white shadow-brand-orange/30'
-                    }`}
+                      }`}
                   >
                     <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} />
                     {syncing ? 'Synchronizing...' : syncSuccess ? 'SYNC COMPLETED!' : 'PUSH TO SUPABASE CLOUD'}
@@ -2301,7 +2285,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
             <div className="relative w-full max-w-2xl rounded-[2.5rem] bg-brand-navy-dark border border-white/10 p-8 sm:p-10 shadow-2xl overflow-hidden animate-fade-in text-white">
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-[40px] rounded-full -mr-10 -mt-10" />
-              
+
               {/* Header */}
               <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5 relative z-10">
                 <div className="flex items-center gap-3">
@@ -2313,7 +2297,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Stage 1 - Pancingan Ketersediaan & Lokasi</p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => setNegotiatingDeal(null)}
                   className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/5 text-slate-400 hover:text-white transition-all cursor-pointer"
                 >
@@ -2339,7 +2323,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               <div className="grid sm:grid-cols-2 gap-4 mb-6 relative z-10">
                 <div>
                   <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">Pilih Titik COD Terpercaya (Jogja)</label>
-                  <select 
+                  <select
                     value={selectedCodZone}
                     onChange={(e) => setSelectedCodZone(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-brand-navy border border-white/5 text-white text-xs font-bold focus:outline-none focus:border-brand-orange/40 cursor-pointer"
@@ -2352,8 +2336,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 </div>
                 <div>
                   <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">No. WhatsApp Penjual (Opsional)</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="Contoh: 628123456789"
                     value={sellerPhone}
                     onChange={(e) => setSellerPhone(e.target.value.replace(/[^0-9]/g, ''))}
@@ -2366,19 +2350,18 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               <div className="relative z-10 mb-6">
                 <label className="block text-slate-500 text-[9px] font-black uppercase tracking-wider mb-2">Pesan Teks Terkustomisasi (SOP Stage 1)</label>
                 <div className="relative">
-                  <textarea 
+                  <textarea
                     rows={4}
                     readOnly
                     value={generatedMessage}
                     className="w-full p-5 rounded-2xl bg-brand-navy border border-white/5 text-slate-300 text-xs font-medium leading-relaxed font-mono resize-none focus:outline-none select-all"
                   />
-                  <button 
+                  <button
                     onClick={() => handleCopyNegoText(generatedMessage)}
-                    className={`absolute bottom-3 right-3 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${
-                      copiedNegoText 
+                    className={`absolute bottom-3 right-3 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md ${copiedNegoText
                         ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
                         : 'bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     {copiedNegoText ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5 text-brand-orange" />}
                     {copiedNegoText ? 'Copied!' : 'Copy Script'}
@@ -2398,7 +2381,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   <Globe className="w-4 h-4 text-brand-orange" />
                   Salin & Cari di Grup Facebook
                 </button>
-                
+
                 {sellerPhone ? (
                   <a
                     href={`https://wa.me/${sellerPhone}?text=${encodeURIComponent(generatedMessage)}`}
@@ -2443,7 +2426,7 @@ export default function Admin() {
       setIsAuth(!!session);
       setLoading(false);
     }
-    
+
     checkAuth();
 
     // Listen for auth changes
