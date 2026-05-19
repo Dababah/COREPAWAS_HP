@@ -721,8 +721,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   };
 
   useEffect(() => {
-    if (activeTab === 'tradein') fetchTradeIn();
-    if (activeTab === 'cod') fetchCodTodos();
+    // Other tab-specific logic can go here
   }, [activeTab]);
 
   async function fetchTradeIn() {
