@@ -718,30 +718,39 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       }
     }
 
-    // Parse prices
-    const lowerMatch = text.match(/>\s*(\d+(?:\.\d+)?)\s*(Juta|juta|Jt|jt)/i) || text.match(/harga\s*>\s*(\d[\d\.]*)/i);
+    // Parse prices helper supporting decimals (e.g. 3.8 / 3,8) and thousands (e.g. 3.800.000)
+    const parseCleanFloat = (valStr: string) => {
+      const normalized = valStr.replace(/,/g, '.');
+      const dotCount = (normalized.match(/\./g) || []).length;
+      if (dotCount > 1) {
+        return parseFloat(normalized.replace(/\./g, ''));
+      }
+      return parseFloat(normalized);
+    };
+
+    const lowerMatch = text.match(/>\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) || text.match(/harga\s*>\s*(\d[\d\.,]*)/i);
     if (lowerMatch) {
-      let val = parseFloat(lowerMatch[1].replace(/\./g, ''));
+      let val = parseCleanFloat(lowerMatch[1]);
       if (lowerMatch[2] && lowerMatch[2].toLowerCase().startsWith('j')) {
         val = val * 1000000;
       }
       minPrice = val;
     }
 
-    const upperMatch = text.match(/<\s*(\d+(?:\.\d+)?)\s*(Juta|juta|Jt|jt)/i) || text.match(/harga\s*<\s*(\d[\d\.]*)/i);
+    const upperMatch = text.match(/<\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) || text.match(/harga\s*<\s*(\d[\d\.,]*)/i);
     if (upperMatch) {
-      let val = parseFloat(upperMatch[1].replace(/\./g, ''));
+      let val = parseCleanFloat(upperMatch[1]);
       if (upperMatch[2] && upperMatch[2].toLowerCase().startsWith('j')) {
         val = val * 1000000;
       }
       maxPrice = val;
     }
 
-    const marketMatch = text.match(/(?:margin\s+)?jual\s*(\d+(?:\.\d+)?)\s*(Juta|juta|Jt|jt)/i) || 
-                        text.match(/(?:hitung\s+)?jual\s*(\d+(?:\.\d+)?)\s*(Juta|juta|Jt|jt)/i) ||
-                        text.match(/pasar\s*(\d[\d\.]*)/i);
+    const marketMatch = text.match(/(?:margin\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) || 
+                        text.match(/(?:hitung\s+)?jual\s*(\d+(?:[\.,]\d+)?)\s*(Juta|juta|Jt|jt)/i) ||
+                        text.match(/pasar\s*(\d[\d\.,]*)/i);
     if (marketMatch) {
-      let val = parseFloat(marketMatch[1].replace(/\./g, ''));
+      let val = parseCleanFloat(marketMatch[1]);
       if (marketMatch[2] && marketMatch[2].toLowerCase().startsWith('j')) {
         val = val * 1000000;
       }
@@ -1620,9 +1629,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                   <div className="flex items-center justify-end gap-2.5">
                                     {/* Lihat Postingan */}
                                     <button
-                                      onClick={() => window.open(`https://www.facebook.com/marketplace/yogyakarta/search?query=${encodeURIComponent(deal.name)}`, "_blank")}
+                                      onClick={() => window.open(deal.fbLink, "_blank")}
                                       className="px-4 py-2.5 rounded-xl border border-white/10 hover:border-brand-orange/30 text-slate-300 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5"
-                                      title="Buka Pencarian Live Facebook Marketplace Yogyakarta"
+                                      title="Buka Postingan Asli Facebook Marketplace Yogyakarta"
                                     >
                                       <Globe className="w-3.5 h-3.5 text-brand-orange" />
                                       Lihat Postingan
