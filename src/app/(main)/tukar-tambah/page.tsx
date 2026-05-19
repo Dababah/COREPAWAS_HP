@@ -70,7 +70,7 @@ export default function TradeInPage() {
 
   let waText = `Halo COREPAWAS! Saya mau Tukar Tambah unit.\n\n`;
   waText += `*Unit Saya:* ${deviceSpecs}\n`;
-  waText += `*Penawaran Beli Sistem AI:* Rp ${tradeInOffer.toLocaleString('id-ID')}\n`;
+  waText += `*Penawaran Beli Sistem:* Rp ${tradeInOffer.toLocaleString('id-ID')}\n`;
 
   if (isUpgradeMode && selectedUpgradeProduct) {
     waText += `\n*Saya ingin Upgrade ke:*\n${selectedUpgradeProduct.name} - Rp ${selectedUpgradeProduct.price.toLocaleString('id-ID')}\n`;
@@ -86,14 +86,14 @@ export default function TradeInPage() {
           <div className="absolute top-0 left-0 w-96 h-96 bg-brand-navy/30 blur-[150px] -z-10 rounded-full" />
           <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-[10px] font-black uppercase tracking-[0.3em] mb-8 animate-fade-in">
             <Sparkles className="w-4 h-4" />
-            AI Trade-In Estimator
+            Sistem Penaksir Harga
           </div>
           <h1 className="text-5xl sm:text-8xl font-black text-slate-900 mb-8 tracking-tighter leading-none">
             Penaksir Harga <br />
-            <span className="text-gradient">Bertenaga AI</span>
+            <span className="text-gradient">Berdasarkan Data Pasar</span>
           </h1>
           <p className="text-slate-600 max-w-3xl text-lg font-medium leading-relaxed">
-            Deskripsikan kondisi HP lamamu, dan biarkan AI kami menganalisa harga pasar seketika. Gunakan fitur Upgrade untuk langsung menukar tambah dengan stok terbaru kami.
+            Deskripsikan kondisi HP lamamu, dan biarkan sistem kami mengecek harga pasar seketika. Gunakan fitur Upgrade untuk langsung menukar tambah dengan stok terbaru kami.
           </p>
         </div>
 
@@ -202,7 +202,7 @@ export default function TradeInPage() {
                 className="w-full py-6 rounded-3xl bg-brand-orange text-white font-black text-xl shadow-2xl shadow-brand-orange/30 hover:scale-[1.02] transition-all disabled:opacity-50 disabled:hover:scale-100 active:scale-95 cursor-pointer flex items-center justify-center gap-3 relative z-10 group"
               >
                 {loadingAI ? <Loader2 className="w-6 h-6 animate-spin" /> : <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" />}
-                {loadingAI ? 'AI Sedang Menganalisa...' : 'Taksir Harga dengan AI'}
+                {loadingAI ? 'Memproses Data Pasar...' : 'Cek Taksiran Harga'}
               </button>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function TradeInPage() {
                   
                   <div className="text-[10px] font-black text-brand-orange uppercase tracking-[0.15em] mb-6 flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
-                    Hasil Analisa AI Generatif
+                    Hasil Kalkulasi Sistem
                   </div>
 
                   {isUpgradeMode ? (
@@ -253,7 +253,7 @@ export default function TradeInPage() {
                         <Info className="w-4 h-4 text-brand-orange" />
                       </div>
                       <div>
-                        <h4 className="font-black text-[10px] mb-2 uppercase tracking-widest text-slate-300">Catatan AI Valuator</h4>
+                        <h4 className="font-black text-[10px] mb-2 uppercase tracking-widest text-slate-300">Catatan Evaluator</h4>
                         <p className="text-slate-400 text-xs leading-relaxed font-medium">
                           {reasoning}
                         </p>
@@ -274,7 +274,7 @@ export default function TradeInPage() {
                 <div className="glass-premium border border-white/10 rounded-3xl p-8 text-center bg-white/5 backdrop-blur-md">
                    <HelpCircle className="w-8 h-8 text-slate-400 mx-auto mb-4" />
                    <p className="text-slate-400 text-xs font-bold leading-relaxed">
-                     Harga yang ditampilkan adalah estimasi sistem AI berdasarkan kondisi pasar. Tim kami akan memverifikasi fisik saat pertemuan COD.
+                     Harga yang ditampilkan adalah estimasi berdasarkan database pasar terkini. Tim kami akan memverifikasi fisik saat pertemuan COD.
                    </p>
                 </div>
               </div>
@@ -284,9 +284,9 @@ export default function TradeInPage() {
                   <Sparkles className="w-12 h-12 text-slate-300 absolute" />
                   {isUpgradeMode && <Calculator className="w-6 h-6 text-brand-orange absolute -bottom-2 -right-2 bg-white rounded-full shadow-md" />}
                 </div>
-                <h3 className="text-slate-900 text-3xl font-black mb-6 tracking-tight">AI Menunggu Instruksi</h3>
+                <h3 className="text-slate-900 text-3xl font-black mb-6 tracking-tight">Sistem Menunggu Input</h3>
                 <p className="text-slate-500 text-lg max-w-xs leading-relaxed font-medium">
-                  {isUpgradeMode ? "Deskripsikan HP lama Anda untuk melihat kalkulasi biaya upgrade ke perangkat baru." : "Ketik spesifikasi dan minus HP Anda, AI kami akan menaksir harga belinya seketika."}
+                  {isUpgradeMode ? "Deskripsikan HP lama Anda untuk melihat kalkulasi biaya upgrade ke perangkat baru." : "Ketik spesifikasi dan minus HP Anda, sistem kami akan menaksir harga belinya seketika."}
                 </p>
               </div>
             )}
