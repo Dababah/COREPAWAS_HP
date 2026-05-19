@@ -85,73 +85,85 @@ function runJogjaMarketSimulator(keyword: string, minPrice: number, maxPrice: nu
   else if (kwLower.includes("vivo")) brand = "Vivo";
   else if (kwLower.includes("realme")) brand = "Realme";
 
-  // Base listings to populate dynamically
+  // Base listings to populate dynamically with strict brand characteristics (Android vs iOS)
   const listingsTemplate = [
     {
-      titleSuffix: "Mulus Fullset Sinyal All Operator",
+      titleSuffix: brand === "iPhone" ? "Mulus Fullset Sinyal All Operator" : "Mulus Fullset Garansi Resmi SEIN",
       priceMultiplier: 0.81, // High Profit margin
-      bh: 89,
+      bh: brand === "iPhone" ? 89 : 92,
       storage: "128GB",
       ram: brand === "iPhone" ? "4GB" : "8GB",
-      accessories: ["Dus Box Original", "Kabel Lightning", "Adapter Charger Charger"],
+      accessories: brand === "iPhone" ? ["Dus Box Original", "Kabel Lightning"] : ["Dus Box Original", "Super Fast Charger SEIN"],
       condition: "Like New",
-      imeiStatus: "Aman Kemenperin (Resmi)",
-      description: "Mulus 99% kyk baru. Face ID lancar, True Tone aktif. Sinyal aman selamanya terdaftar Kemenperin resmi ex iBox. Batre health 89% awet bgt. Kelengkapan fullset dusbox original + charger.",
+      imeiStatus: brand === "iPhone" ? "Aman Kemenperin (Resmi)" : "Resmi Kemenperin SEIN",
+      description: brand === "iPhone"
+        ? "Mulus 99% kyk baru. Face ID lancar, True Tone aktif. Sinyal aman selamanya terdaftar Kemenperin resmi ex iBox. Batre health 89% awet bgt. Kelengkapan fullset dusbox original."
+        : "Fisik mulus 99% super terawat. Layar Super AMOLED bersih no shadow, Fingerprint lancar. Sinyal aman selamanya garansi resmi SEIN Indonesia. Baterai awet banget 5000mAh. Kelengkapan fullset original.",
     },
     {
-      titleSuffix: "Ex Inter Mulus Sinyal On",
+      titleSuffix: brand === "iPhone" ? "Ex Inter Mulus Sinyal On" : "Mulus Lecet Pemakaian Tipis Resmi",
       priceMultiplier: 0.84, // Good Deal
-      bh: 85,
+      bh: brand === "iPhone" ? 85 : 88,
       storage: "256GB",
       ram: brand === "iPhone" ? "4GB" : "8GB",
-      accessories: ["Dus Box OEM", "Kabel Lightning"],
+      accessories: brand === "iPhone" ? ["Dus Box OEM", "Kabel Lightning"] : ["Dus Box OEM", "Kabel Type-C"],
       condition: "Very Good",
-      imeiStatus: "Sinyal All Operator (Garansi Sinyal 3 Bulan)",
-      description: "Fisik 96% pemakaian wajar, mulus no kendala. BH 85% masih awet seharian. Layar jernih, face id & true tone aman jaya. Sinyal all operator lancar ex inter. Kelengkapan HP + box oem + kabel charger.",
+      imeiStatus: brand === "iPhone" ? "Sinyal All Operator (Garansi 3 Bulan)" : "Resmi Kemenperin Indonesia",
+      description: brand === "iPhone"
+        ? "Fisik 96% pemakaian wajar, mulus no kendala. BH 85% masih awet. Layar jernih, face id & true tone aman jaya. Sinyal all operator lancar ex inter."
+        : "Fisik 95% pemakaian wajar mulus, layar jernih. Performa ngebut, kamera bening. Sinyal aman terdaftar Kemenperin resmi. Kelengkapan box oem dan kabel.",
     },
     {
-      titleSuffix: "Batangan Sinyal Smartfren Only Murah",
-      priceMultiplier: 0.65, // Risky / High margin but blocked imei
-      bh: 78,
+      titleSuffix: brand === "iPhone" ? "Batangan Sinyal Smartfren Only" : "Batangan Murah Minus Layar Shadow",
+      priceMultiplier: 0.65, // Risky / High margin
+      bh: brand === "iPhone" ? 78 : 80,
       storage: "64GB",
       ram: brand === "iPhone" ? "4GB" : "6GB",
       accessories: ["Hanya HP (Batangan)"],
       condition: "Good",
-      imeiStatus: "IMEI Terblokir (Hanya kartu Smartfren / Wifi Only)",
-      description: "Dijual murah aja minus imei terblokir jd cuma bisa smartfren/wifi only. BH 78% service tapi msh layak pakai. Fisik lecet halus wajar pemakaian. Kamera & tombol normal jaya. Batangan alias HP aja.",
+      imeiStatus: brand === "iPhone" ? "IMEI Terblokir (Wifi/Smartfren Only)" : "Resmi Kemenperin",
+      description: brand === "iPhone"
+        ? "Dijual murah aja minus imei terblokir jd cuma bisa smartfren/wifi only. BH 78% service. Fisik lecet halus wajar. Kamera & tombol normal jaya. Batangan HP aja."
+        : "Dijual murah batangan minus layar shadow tipis pemakaian. Fingerprint aktif, mesin normal lancar jaya baterai awet. Cocok buat ojek online atau cadangan.",
     },
     {
-      titleSuffix: "Fullset Mulus Minus Face ID Off",
+      titleSuffix: brand === "iPhone" ? "Fullset Mulus Minus Face ID Off" : "Fullset Mulus Minus Backdoor Retak",
       priceMultiplier: 0.72, // Risky
-      bh: 81,
+      bh: brand === "iPhone" ? 81 : 85,
       storage: "128GB",
       ram: brand === "iPhone" ? "4GB" : "8GB",
       accessories: ["Dus Box", "Charger Head", "Kabel USB"],
       condition: "Good",
-      imeiStatus: "Aman Kemenperin (Resmi)",
-      description: "Jual santai, fisik mulus 97%. Sinyal Kemenperin aman ex ibox resmi. Minus cuma Face ID off setelah update ios kemarin, layar asli true tone aktif. Kamera jernih depan belakang. Kelengkapan fullset.",
+      imeiStatus: brand === "iPhone" ? "Aman Kemenperin (Resmi)" : "Resmi Kemenperin SEIN",
+      description: brand === "iPhone"
+        ? "Jual santai, fisik mulus 97%. Sinyal Kemenperin aman ex ibox resmi. Minus cuma Face ID off setelah update ios kemarin, true tone aktif. Kamera jernih."
+        : "Fisik mulus, mesin 100% normal. Minus backdoor bagian belakang retak halus tinggal pasang case tertutup aman. Layar depan mulus no minus.",
     },
     {
-      titleSuffix: "Lecet Pemakaian Murah Butuh Uang",
+      titleSuffix: brand === "iPhone" ? "Lecet Pemakaian Murah Butuh Uang" : "Mulus Murah BU Jual Cepat",
       priceMultiplier: 0.78, // Good Deal
-      bh: 84,
+      bh: brand === "iPhone" ? 84 : 86,
       storage: "128GB",
       ram: brand === "iPhone" ? "4GB" : "8GB",
       accessories: ["HP + Charger"],
       condition: "Good",
       imeiStatus: "Sinyal All Operator Aman",
-      description: "Jual BU fisik ada jamur dikit di frame bekel bekas case, tinggal pasang case mulus lg. Mesin 100% normal. Sinyal aman terdaftar ex inter. Battery health 84%. Kelengkapan HP + charger oem, box ilang.",
+      description: brand === "iPhone"
+        ? "Jual BU fisik ada jamur dikit di frame bekel bekas case, tinggal pasang case mulus lg. Mesin 100% normal. Sinyal aman terdaftar ex inter. BH 84%."
+        : "Jual cepat BU, fisik 94% mulus wajar pemakaian. Mesin lancar jaya baterai awet 4500mAh. Sinyal aman terdaftar resmi Kemenperin. Kelengkapan HP + charger.",
     },
     {
-      titleSuffix: "Special Unit Like New Fullset Garansi Resmi",
+      titleSuffix: brand === "iPhone" ? "Like New Fullset Garansi Resmi" : "Like New Fullset Garansi Resmi SEIN Aktif",
       priceMultiplier: 0.88, // Normal Margin but premium unit
-      bh: 94,
+      bh: brand === "iPhone" ? 94 : 96,
       storage: "128GB",
       ram: brand === "iPhone" ? "6GB" : "8GB",
-      accessories: ["Dus Box Original", "Kabel Lightning Original", "Kitab-kitab Lengkap"],
+      accessories: brand === "iPhone" ? ["Dus Box Original", "Kabel Lightning Original"] : ["Dus Box Original", "Super Fast Charger SEIN"],
       condition: "Like New",
-      imeiStatus: "Resmi Indonesia (iBox/Eraspace) Terdaftar Resmi",
-      description: "Ex garansi resmi Indonesia iBox baru habis bulan lalu. Fisik 99% mulus terawat, pasang TG & case dr awal beli. BH 94% original belum pernah ganti. Sinyal aman selamanya. Fullset charger original.",
+      imeiStatus: brand === "iPhone" ? "Resmi Indonesia (iBox) Terdaftar" : "Resmi Indonesia (SEIN) Aktif",
+      description: brand === "iPhone"
+        ? "Ex garansi resmi Indonesia iBox baru habis bulan lalu. Fisik 99% mulus terawat, pasang TG & case dr awal. BH 94% original belum pernah ganti. Sinyal aman."
+        : "Garansi resmi SEIN Indonesia masih aktif 3 bulan lagi. Fisik 99% like new tanpa lecet. Layar Super AMOLED bersih bening. Fullset original bawaan.",
     }
   ];
 
@@ -193,7 +205,8 @@ export async function POST(req: Request) {
   };
 
   try {
-    const { keyword, minPrice, maxPrice, marketPrice } = await req.json();
+    const { keyword, minPrice, maxPrice, marketPrice, prompt } = await req.json();
+    const finalPrompt = prompt || `Cari unit ${keyword} Jogja, harga < ${maxPrice}, hitung margin jual ${marketPrice}`;
 
     if (!keyword || typeof keyword !== 'string' || keyword.trim().length < 2) {
       return NextResponse.json({ error: "Kata kunci tidak valid." }, { status: 400 });
@@ -245,6 +258,11 @@ export async function POST(req: Request) {
       You are an expert AI stock hunting assistant for COREPAWAS, a premium second-hand gadget store.
       Your job is to analyze Jogja Facebook Marketplace listings, calculate profit margins, check physical conditions/Signal/IMEI risks, and output a clean JSON Array.
       
+      STRICT BRAND MATCHING CONSTRAINT:
+      - The user is strictly searching for the keyword: "${keyword}".
+      - Every analyzed deal in the returned JSON array MUST strictly match the brand and model of "${keyword}".
+      - Under no circumstances should you suggest other brands. If the keyword is an "iPhone", every single returned item's brand MUST be "iPhone", and its name must be an iPhone model. If the keyword is "Samsung", the brand MUST be "Samsung", and so on.
+      
       Calculation:
       profitMargin = [Target Market Selling Price] - [Seller Buy Price]
 
@@ -291,13 +309,39 @@ export async function POST(req: Request) {
       }
     });
 
-    const promptText = `
-      Evaluate the following raw listings:
-      ${JSON.stringify(rawListings, null, 2)}
-      
-      Target Market Selling Price: Rp ${marketPrice}
-      Admin Budget Range: Rp ${minPrice} to Rp ${maxPrice}
-    `;
+    let promptText = "";
+    
+    if (isSimulator) {
+      promptText = `
+        IMPORTANT: The active Puppeteer crawler was rate-limited or blocked by Facebook's firewall.
+        Therefore, you must ACT as the high-fidelity Yogyakarta Market Simulator and dynamically synthesize 6 diverse second-hand gadget listings matching the user's custom prompt: "${finalPrompt}".
+        
+        The user is searching for: "${keyword}"
+        Rentang Budget: Rp ${minPrice} to Rp ${maxPrice}
+        Target Harga Jual Pasar: Rp ${marketPrice}
+        
+        Instructions for generating the 6 mock deals:
+        1. Customize the specifications (brand, model, storage, RAM, battery health, completeness, condition, and IMEI/Signal status) strictly based on what they wrote in their prompt "${finalPrompt}".
+           - If they asked for a specific brand (e.g. Xiaomi, Oppo, Vivo, Realme, Infinix, Google Pixel, iPhone, Samsung, etc.), make sure the deals match that brand!
+           - If they asked for specific custom specs (e.g. "RAM 8GB" or "storage 256GB" or "warna Hazel" or "batangan" or "sinyal terblokir" or "mulus"), make sure the generated deals strictly reflect those custom specs!
+           - If they didn't mention specific specs, make them highly realistic for that model.
+           - Calculate realistic originalPrice within their budget Rp ${minPrice} to Rp ${maxPrice}.
+           - Calculate profitMargin = Rp ${marketPrice} - originalPrice.
+        2. Set the 'fbLink' property of each deal to:
+           "https://www.facebook.com/marketplace/item/970174515405883/" for the first deal, and for others use: "https://www.facebook.com/marketplace/item/" + a realistic active 15-digit ID (e.g., 960412852230492, 1139485293784012, etc.).
+        3. Assign a realistic image URL for each deal using Unsplash source. (e.g., "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500" or similar gadget flat-lay photo).
+        
+        Evaluate and return these 6 generated deals as the final JSON Array matching the interface schema.
+      `;
+    } else {
+      promptText = `
+        Evaluate the following raw listings:
+        ${JSON.stringify(rawListings, null, 2)}
+        
+        Target Market Selling Price: Rp ${marketPrice}
+        Admin Budget Range: Rp ${minPrice} to Rp ${maxPrice}
+      `;
+    }
 
     const result = await model.generateContent([
       { text: systemInstruction },

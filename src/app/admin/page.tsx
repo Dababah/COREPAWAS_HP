@@ -26,6 +26,8 @@ import {
   MapPin,
   Database,
   RefreshCw,
+  Copy,
+  Check,
   Upload,
   Loader2,
   Info,
@@ -45,7 +47,7 @@ import AiAssistant from '@/components/AiAssistant';
 import { addWatermark } from '@/lib/watermark';
 
 
-type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting';
+type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting' | 'templates';
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
@@ -680,6 +682,46 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [huntingSubTab, setHuntingSubTab] = useState<'live' | 'history'>('live');
   const [isRecordingHunting, setIsRecordingHunting] = useState(false);
   const [syncedIds, setSyncedIds] = useState<Record<string, boolean>>({});
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopyText = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const chatTemplates = [
+    {
+      id: 'stage1',
+      stage: 'Stage 1',
+      title: 'Pancingan Pertama (Validasi Ketersediaan & Lokasi COD)',
+      subtitle: 'Gunakan pesan tegas, padat, dan langsung mengunci opsi COD di tempat ramai.',
+      message: 'Halo Mas/Mbak, unit iPhone 11 Pro-nya masih ada? Kalau sesuai deskripsi, siang/sore ini saya siap meluncur COD langsung ke lokasi dekat sampeyan. Bisa COD di lokasi ramai ya mas, misal di SPBU terdekat, depan minimarket, atau McD Jakal? Matur nuwun.',
+      warningTitle: 'Ciri Penipu di Stage 1',
+      warningText: 'Menolak COD dengan alasan "Lagi di luar kota, barang bisa dipaketkan" atau meminta transfer DP (tanda jadi) dengan alasan "banyak yang antre / nawar". JANGAN PERNAH TRANSFER DP/TANDA JADI!',
+      iconColor: 'from-blue-500 to-indigo-600',
+    },
+    {
+      id: 'stage2',
+      stage: 'Stage 2',
+      title: 'Skrining Keaslian Foto (Anti-Foto Comotan)',
+      subtitle: 'Minta foto/video real-time dengan tanda khusus tulisan tangan nama akun mereka.',
+      message: 'Boleh minta tolong kirimkan foto/video singkat kondisi fisik HP-nya sekarang, Mas/Mbak? Tolong difotokan bareng kertas yang ditulis tangan nama akun FB Mas/Mbak ya, buat mastiin barangnya beneran di tangan dan siap COD. Makasih banyak sebelumnya.',
+      warningTitle: 'Ciri Penipu di Stage 2',
+      warningText: 'Membuat 1001 alasan seperti "HP di rumah, saya sedang kerja", "foto di postingan sudah sangat jelas", atau tiba-tiba menghilang/memblokir Anda karena tidak memiliki fisik barang asli.',
+      iconColor: 'from-amber-500 to-orange-600',
+    },
+    {
+      id: 'stage3',
+      stage: 'Stage 3',
+      title: 'Mengunci Aturan Main COD (Sebelum Bertemu)',
+      subtitle: 'Kunci kesepakatan pengecekan fungsi menyeluruh sebelum transaksi pembayaran dilakukan.',
+      message: 'Oke Mas/Mbak, deal di harga kesepakatan ya. Nanti pas COD izin saya cek fungsinya agak lama dan detail ya Mas (sinyal, kamera, wifi, speaker, akun iCloud/Google, layar, IMEI, dll). Kalau semua cocok sesuai deskripsi, uang langsung saya transfer via M-Banking / Cash di tempat.',
+      warningTitle: 'Ciri Penipu di Stage 3',
+      warningText: 'Mendesak/terburu-buru saat COD dan tidak mau menunggu pengecekan detail. Jika mereka berkata "Bisa cepat gak mas saya sibuk", tingkatkan kewaspadaan Anda atau batalkan transaksi.',
+      iconColor: 'from-emerald-500 to-teal-600',
+    }
+  ];
 
   const handleLaunchScanning = async () => {
     if (!huntingPrompt.trim()) return;
@@ -790,7 +832,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       const res = await fetch("/api/scrape", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword, minPrice, maxPrice, marketPrice })
+        body: JSON.stringify({ keyword, minPrice, maxPrice, marketPrice, prompt: huntingPrompt })
       });
 
       const result = await res.json();
@@ -1016,6 +1058,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { id: 'produk', label: 'Produk', icon: <Smartphone className="w-4 h-4" /> },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'hunting', label: 'Stok Hunting & AI', icon: <Sparkles className="w-4 h-4 text-brand-orange" /> },
+    { id: 'templates', label: 'Templat Chat & SOP', icon: <MessageSquare className="w-4 h-4 text-brand-orange" /> },
     { id: 'pengaturan', label: 'Pengaturan', icon: <Settings className="w-4 h-4" /> },
   ];
 
@@ -1629,9 +1672,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                                   <div className="flex items-center justify-end gap-2.5">
                                     {/* Lihat Postingan */}
                                     <button
-                                      onClick={() => window.open(deal.fbLink, "_blank")}
+                                      onClick={() => {
+                                        const cleanQuery = deal.name.split(' ').slice(0, 4).join(' ');
+                                        window.open(`https://www.facebook.com/marketplace/yogyakarta/search?sortBy=creation_time_descend&query=${encodeURIComponent(cleanQuery)}`, "_blank");
+                                      }}
                                       className="px-4 py-2.5 rounded-xl border border-white/10 hover:border-brand-orange/30 text-slate-300 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center gap-1.5"
-                                      title="Buka Postingan Asli Facebook Marketplace Yogyakarta"
+                                      title="Buka Postingan Terbaru Hari Ini di Facebook Marketplace Yogyakarta"
                                     >
                                       <Globe className="w-3.5 h-3.5 text-brand-orange" />
                                       Lihat Postingan
@@ -1751,6 +1797,137 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ─── Chat Templates & SOP ─── */}
+          {activeTab === 'templates' && (
+            <div>
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
+                <div>
+                  <h1 className="text-3xl font-black text-white tracking-tighter uppercase flex items-center gap-4">
+                    <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                    Chat Templates <span className="text-brand-orange">& SOP</span>
+                  </h1>
+                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-2 ml-5">Anti-Fraud & Seller Screening Kit Yogyakarta</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <a 
+                    href="https://cekrekening.id" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300 hover:text-white text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2"
+                  >
+                    <Globe className="w-4 h-4 text-brand-orange" />
+                    Cek Rekening Kemkominfo
+                  </a>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-12">
+                {/* Left 2 columns: Templates cards */}
+                <div className="xl:col-span-2 space-y-8">
+                  {chatTemplates.map((tpl) => (
+                    <div key={tpl.id} className="p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl relative overflow-hidden group">
+                      <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 blur-[50px] rounded-full -mr-16 -mt-16" />
+                      
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-6">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${tpl.iconColor} flex items-center justify-center font-black text-white text-xs shadow-xl`}>
+                            {tpl.stage}
+                          </div>
+                          <div>
+                            <h3 className="text-white font-black uppercase tracking-wider text-sm">{tpl.title}</h3>
+                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-wider mt-1">{tpl.subtitle}</p>
+                          </div>
+                        </div>
+                        
+                        <button
+                          onClick={() => handleCopyText(tpl.message, tpl.id)}
+                          className={`self-start sm:self-auto px-5 py-3 rounded-xl border font-black text-[10px] uppercase tracking-widest transition-all flex items-center gap-2 cursor-pointer ${
+                            copiedId === tpl.id
+                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                              : 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:border-white/20 hover:text-white'
+                          }`}
+                        >
+                          {copiedId === tpl.id ? (
+                            <>
+                              <Check className="w-3.5 h-3.5" />
+                              Copied!
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3.5 h-3.5 text-brand-orange" />
+                              Salin Chat
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Chat text box */}
+                      <div className="p-6 rounded-2xl bg-brand-navy border border-white/5 text-slate-300 text-sm font-medium leading-relaxed relative font-mono shadow-inner mb-6">
+                        "{tpl.message}"
+                      </div>
+
+                      {/* Danger indicator */}
+                      <div className="p-6 rounded-2xl bg-rose-500/5 border border-rose-500/10 flex gap-4">
+                        <AlertTriangle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <span className="text-rose-400 text-[10px] font-black uppercase tracking-[0.2em] block mb-1">{tpl.warningTitle}</span>
+                          <p className="text-slate-400 text-xs leading-relaxed">{tpl.warningText}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Right Column: SOP Lapangan & Checklists */}
+                <div className="space-y-8">
+                  <div className="p-8 sm:p-10 rounded-[2.5rem] bg-brand-navy-dark border border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-brand-orange/10 blur-[40px] rounded-full -mr-10 -mt-10 animate-pulse" />
+                    
+                    <h3 className="text-white font-black uppercase tracking-[0.3em] text-xs mb-8 flex items-center gap-3">
+                      <div className="w-1.5 h-6 bg-brand-orange rounded-full shadow-[0_0_10px_rgba(250,140,22,0.4)]" />
+                      SOP Lapangan (COD)
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      {[
+                        {
+                          num: '01',
+                          title: 'Gunakan SIM Card Berbeda',
+                          desc: 'Pasang SIM card dengan operator berbeda pada HP penjual saat pengecekan fisik. Ini penting untuk memastikan slot SIM berfungsi normal dan sinyal terdaftar permanen (bukan bypass imei ilegal).'
+                        },
+                        {
+                          num: '02',
+                          title: 'Verifikasi Nomor & Rekening',
+                          desc: 'Sebelum bertemu atau jika ada permintaan transaksi apa pun, cek nomor rekening atau no HP penjual di situs resmi Kemkominfo (cekrekening.id) untuk mendeteksi laporan kasus penipuan.'
+                        },
+                        {
+                          num: '03',
+                          title: 'Log Out Semua Akun',
+                          desc: 'Pastikan akun iCloud (untuk iPhone) atau Akun Google (untuk Android) sudah di-log out/kosong total di tempat COD sebelum uang diserahkan. Jangan pernah beli unit dengan akun tersangkut!'
+                        }
+                      ].map((item, index) => (
+                        <div key={index} className="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-brand-orange text-xs font-black tracking-widest">{item.num}</span>
+                            <h4 className="text-white font-bold text-xs uppercase tracking-wider">{item.title}</h4>
+                          </div>
+                          <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-8 p-5 rounded-2xl bg-brand-orange/5 border border-brand-orange/10 flex gap-4">
+                      <Info className="w-5 h-5 text-brand-orange flex-shrink-0 mt-0.5" />
+                      <p className="text-slate-400 text-[10px] leading-relaxed font-bold uppercase tracking-widest">
+                        Patuhi SOP ini untuk memfilter 90% modus penipuan di Facebook Marketplace Jogja bahkan sebelum Anda meluncur COD!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
