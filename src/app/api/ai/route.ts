@@ -53,66 +53,44 @@ export async function POST(req: Request) {
 
       Your goal is to parse user intents and respond matching this TypeScript schema:
       interface AgentResponse {
-        type: 'chat' | 'fill_product' | 'fill_blog' | 'analyze' | 'update_templates' | 'generate_cod_checklist';
-        reply: string; // The chat message or analysis report. Write in rich, professional Indonesian. Supports standard markdown formatting. Keep it engaging.
-        data?: any; // Only populated if type is 'fill_product', 'fill_blog', 'update_templates', or 'generate_cod_checklist'
+        reply: string; // The conversational chat message or analysis report. Write in rich, professional Indonesian. Supports standard markdown formatting.
+        actions?: AgentAction[]; // List of actions to execute simultaneously (multitasking).
       }
 
-      How to classify 'type':
-      1. 'fill_product': If the user explicitly describes a phone to be added to the catalog/stock (e.g., "Tambahkan unit iPhone 11 Pro 128GB...", "Tolong input Samsung S22...", "Bikin produk baru...").
-         - Make sure to parse everything into a valid Product schema:
-           {
-             "name": string,
-             "brand": "iPhone" | "Samsung" | "Xiaomi" | "Oppo" | "Vivo" | "Realme" | "Other",
-             "price": number,
-             "condition": "Like New" | "Very Good" | "Good",
-             "batteryHealth": number (0-100),
-             "storage": string,
-             "ram": string,
-             "chipset": string,
-             "color": string,
-             "status": "Ready",
-             "description": string,
-             "accessories": string[],
-             "isFeatured": boolean
-           }
-      2. 'fill_blog': If the user wants to write a blog post/article (e.g., "Tulis artikel tentang...", "Buat draf blog tips baterai hp...").
-         - Parse into a valid BlogPost schema:
-           {
-             "title": string,
-             "excerpt": string,
-             "content": string (markdown),
-             "category": "Tips & Tricks" | "Edukasi Teknis" | "Panduan" | "Berita",
-             "readTime": string,
-             "author": "Tim COREPAWAS"
-           }
-      3. 'update_templates': If the user explicitly asks to modify, add, change tone, or rewrite chat templates or SOP items (e.g. "Ubah templat chat stage 1...", "tambah templat chat nego...", "buatkan templat COD malam...").
-         - Under 'data', generate either the single updated template object or the full proposed template object to add:
-           {
-             "id": string (e.g. "stage1" or new ID),
-             "stage": string (e.g. "Stage 1", "Custom"),
-             "title": string,
-             "subtitle": string,
-             "message": string,
-             "warningTitle": string,
-             "warningText": string,
-             "iconColor": string (Tailwind gradient color classes, e.g. "from-blue-500 to-indigo-600" or "from-purple-500 to-fuchsia-600")
-           }
-      4. 'analyze': If the user asks about the store inventory status, statistics, counts, valuations, or recommendations based on their live catalog data (e.g., "Berapa total produk?", "Tolong analisa stok saya...", "Berapa valuasi stok ready?").
-      5. 'generate_cod_checklist': If the user asks to create, modify, or generate a COD preparation or inspection checklist for a specific phone brand/model (e.g., "Buatkan to do list cek iPhone 13", "SOP beli Samsung lipat"). 
-         - Under 'data', output an array of checklist items tailored to the phone's unique features:
-           [
-             {
-               "id": "todo_1", // unique string
-               "order_index": 1,
-               "title": string, // Action-oriented, e.g., "Cek Face ID & True Tone"
-               "description": string, // Short guide on how/why to check it
-               "is_critical": boolean // true for fatal issues (iCloud, signal), false for accessories
-             }
-           ]
-      6. 'chat': For standard chat, greetings, casual talk, gadget advice, or general explanations.
+      interface AgentAction {
+        type: 'create_product' | 'update_product' | 'delete_product' | 'create_blog' | 'update_blog' | 'delete_blog' | 'update_template' | 'generate_cod_checklist';
+        description: string; // Short text explaining what this specific action does, e.g. "Menghapus iPhone 11 Pro 128GB"
+        payload: any; // The data required for this action
+      }
 
-      You MUST respond with a pure JSON object matching AgentResponse. Never output markdown block wrappers (like \`\`\`json), conversational filler outside the JSON, or other text.
+      How to classify 'actions' and what 'payload' they need:
+      
+      [PRODUCT ACTIONS]
+      1. 'create_product': If user wants to add a new phone. Payload:
+         { "name": string, "brand": string, "price": number, "condition": string, "batteryHealth": number, "storage": string, "ram": string, "status": "Ready", "description": string }
+      2. 'update_product': If user wants to update price/status of an existing phone. Payload:
+         { "id": string (must match an existing product id), "price"?: number, "status"?: string, "condition"?: string }
+      3. 'delete_product': If user wants to delete/remove a phone. Payload:
+         { "id": string (must match an existing product id) }
+
+      [BLOG ACTIONS]
+      4. 'create_blog': If user wants to write a new blog post. Payload:
+         { "title": string, "excerpt": string, "content": string, "category": string, "readTime": string }
+      5. 'update_blog': If user wants to edit a blog post. Payload:
+         { "id": string, "title"?: string, "content"?: string }
+      6. 'delete_blog': If user wants to delete a blog post. Payload:
+         { "id": string }
+
+      [OTHER ACTIONS]
+      7. 'update_template': If user wants to modify chat templates. Payload:
+         { "id": string, "stage": string, "title": string, "message": string, "warningTitle": string, "warningText": string, "iconColor": string }
+      8. 'generate_cod_checklist': If user wants to generate SOP COD. Payload:
+         [ { "id": string, "order_index": number, "title": string, "description": string, "is_critical": boolean } ]
+
+      If the user is just chatting or asking for analysis, populate 'reply' and omit 'actions'.
+      If the user asks to do multiple things (e.g. "Hapus iPhone 11 dan buat artikel soal layar burn-in"), return a 'reply' confirming it and provide TWO items in 'actions' array!
+      
+      You MUST respond with a pure JSON object matching AgentResponse. Never output markdown block wrappers (like \`\`\`json).
     `;
 
     const genAI = new GoogleGenerativeAI(apiKey);

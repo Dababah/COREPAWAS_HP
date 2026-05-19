@@ -51,7 +51,7 @@ import AiAssistant from '@/components/AiAssistant';
 import { addWatermark } from '@/lib/watermark';
 
 
-type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting' | 'templates' | 'tradein' | 'cod';
+type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting' | 'templates';
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
@@ -739,6 +739,31 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setLoadingCod(false);
   }
 
+  // ─── AI CRUD Handlers ───
+  const handleAiUpdateProduct = async (data: any) => {
+    if (!data.id) return;
+    setProducts(products.map(p => p.id === data.id ? { ...p, ...data } : p));
+    await supabase.from('products').update(data).eq('id', data.id);
+  };
+
+  const handleAiDeleteProduct = async (data: any) => {
+    if (!data.id) return;
+    setProducts(products.filter(p => p.id !== data.id));
+    await supabase.from('products').delete().eq('id', data.id);
+  };
+
+  const handleAiUpdateBlog = async (data: any) => {
+    if (!data.id) return;
+    setBlogPosts(blogPosts.map(b => b.id === data.id ? { ...b, ...data } : b));
+    await supabase.from('blog_posts').update(data).eq('id', data.id);
+  };
+
+  const handleAiDeleteBlog = async (data: any) => {
+    if (!data.id) return;
+    setBlogPosts(blogPosts.filter(b => b.id !== data.id));
+    await supabase.from('blog_posts').delete().eq('id', data.id);
+  };
+
   // ─── COD Checklist CRUD & AI ───
   const handleAiUpdateCodTodos = async (newTodos: any[]) => {
     setCodTodos(newTodos);
@@ -1254,8 +1279,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { id: 'produk', label: 'Produk', icon: <Smartphone className="w-4 h-4" /> },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'tradein', label: 'Tukar Tambah', icon: <ArrowLeftRight className="w-4 h-4" /> },
-    { id: 'cod', label: 'COD Checklist', icon: <CheckSquare className="w-4 h-4" /> },
     { id: 'hunting', label: 'Stok Hunting & AI', icon: <Sparkles className="w-4 h-4 text-brand-orange" /> },
     { id: 'templates', label: 'Templat Chat & SOP', icon: <MessageSquare className="w-4 h-4 text-brand-orange" /> },
     { id: 'pengaturan', label: 'Pengaturan', icon: <Settings className="w-4 h-4" /> },
@@ -2703,8 +2726,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         );
       })()}
       <AiAssistant 
-        onFillProduct={handleAiFillProduct} 
-        onFillBlog={handleAiFillBlog} 
+        onFillProduct={handleAiFillProduct}
+        onUpdateProduct={handleAiUpdateProduct}
+        onDeleteProduct={handleAiDeleteProduct}
+        onFillBlog={handleAiFillBlog}
+        onUpdateBlog={handleAiUpdateBlog}
+        onDeleteBlog={handleAiDeleteBlog}
         products={products} 
         blogPosts={blogPosts} 
         chatTemplates={chatTemplates} 
