@@ -56,10 +56,25 @@ export async function seedDatabase() {
       { key: 'google_maps_url', value: 'https://maps.app.goo.gl/TbLjY3wXDjm5VHuv7' },
       { key: 'google_maps_embed_url', value: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.8297076823324!2d110.32227837357968!3d-7.807844992212534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7af9401f5c9481%3A0x92e4e47d9c0be6ba!2sCOREPAWAS_HP!5e0!3m2!1sen!2sus!4v1776598485909!5m2!1sen!2sus' } 
     ];
-    
     const { error: sError } = await supabase.from('settings').upsert(settings);
     if (sError) throw new Error(`Pengaturan: ${sError.message}`);
     console.log('✓ Pengaturan berhasil dipindah');
+
+    // 4. Sync Trade In Models
+    const { DEVICE_MASTER_DATABASE } = await import('../data/phoneModels');
+    const mappedTradeIn = DEVICE_MASTER_DATABASE.map((m, i) => ({
+      id: `model_${i}`,
+      brand: m.brand,
+      model: m.model,
+      market_sell: m.market_sell,
+      max_buyback: m.max_buyback,
+      floor_buyback: m.floor_buyback
+    }));
+
+    // Split into chunks if it's too large, but 100+ items is usually fine for one upsert
+    const { error: tError } = await supabase.from('trade_in_models').upsert(mappedTradeIn);
+    if (tError) throw new Error(`Trade In: ${tError.message}`);
+    console.log('✓ Trade In Models berhasil dipindah');
 
     return { success: true };
   } catch (error: any) {

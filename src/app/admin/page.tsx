@@ -37,6 +37,10 @@ import {
   Terminal,
   Globe,
   Mic,
+  ArrowLeftRight,
+  CheckSquare,
+  RefreshCcw,
+  ListTodo,
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useData } from '@/context/DataContext';
@@ -47,7 +51,7 @@ import AiAssistant from '@/components/AiAssistant';
 import { addWatermark } from '@/lib/watermark';
 
 
-type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting' | 'templates';
+type Tab = 'dashboard' | 'produk' | 'blog' | 'pengaturan' | 'hunting' | 'templates' | 'tradein' | 'cod';
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
@@ -684,6 +688,31 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [syncedIds, setSyncedIds] = useState<Record<string, boolean>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // ─── Trade In & COD States ───
+  const [tradeInModels, setTradeInModels] = useState<any[]>([]);
+  const [codTodos, setCodTodos] = useState<any[]>([]);
+  const [loadingTradeIn, setLoadingTradeIn] = useState(false);
+  const [loadingCod, setLoadingCod] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === 'tradein') fetchTradeIn();
+    if (activeTab === 'cod') fetchCodTodos();
+  }, [activeTab]);
+
+  async function fetchTradeIn() {
+    setLoadingTradeIn(true);
+    const { data } = await supabase.from('trade_in_models').select('*').order('brand');
+    if (data) setTradeInModels(data);
+    setLoadingTradeIn(false);
+  }
+
+  async function fetchCodTodos() {
+    setLoadingCod(true);
+    const { data } = await supabase.from('cod_todos').select('*').order('order_index');
+    if (data) setCodTodos(data);
+    setLoadingCod(false);
+  }
+
   const handleCopyText = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
@@ -1163,6 +1192,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { id: 'produk', label: 'Produk', icon: <Smartphone className="w-4 h-4" /> },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'tradein', label: 'Tukar Tambah', icon: <ArrowLeftRight className="w-4 h-4" /> },
+    { id: 'cod', label: 'COD Checklist', icon: <CheckSquare className="w-4 h-4" /> },
     { id: 'hunting', label: 'Stok Hunting & AI', icon: <Sparkles className="w-4 h-4 text-brand-orange" /> },
     { id: 'templates', label: 'Templat Chat & SOP', icon: <MessageSquare className="w-4 h-4 text-brand-orange" /> },
     { id: 'pengaturan', label: 'Pengaturan', icon: <Settings className="w-4 h-4" /> },
@@ -2127,6 +2158,85 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* ─── Trade In ─── */}
+          {activeTab === 'tradein' && (
+            <div>
+              <h1 className="text-3xl font-black text-white mb-10 tracking-tighter uppercase flex items-center gap-4">
+                <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                Trade In <span className="text-brand-orange">Prices</span>
+              </h1>
+              <div className="rounded-[2.5rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl p-8">
+                {loadingTradeIn ? (
+                  <div className="flex flex-col items-center justify-center gap-4 py-20">
+                    <Loader2 className="w-10 h-10 text-brand-orange animate-spin" />
+                    <span className="text-slate-400 font-bold uppercase tracking-widest text-xs">Memuat Data Harga Tukar Tambah...</span>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-white/5 border-b border-white/5">
+                          <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Brand</th>
+                          <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Model (Seri)</th>
+                          <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Harga Tampung Bawah (Floor)</th>
+                          <th className="text-left px-6 py-4 text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Harga Tampung Atas (Max)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5">
+                        {tradeInModels.map((m) => (
+                          <tr key={m.id} className="hover:bg-white/5 transition-colors">
+                            <td className="px-6 py-4 text-white text-xs font-bold">{m.brand}</td>
+                            <td className="px-6 py-4 text-slate-300 text-xs font-bold">{m.model}</td>
+                            <td className="px-6 py-4 text-rose-400 text-xs font-black">{formatPrice(m.floor_buyback)}</td>
+                            <td className="px-6 py-4 text-emerald-400 text-xs font-black">{formatPrice(m.max_buyback)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ─── COD Checklist ─── */}
+          {activeTab === 'cod' && (
+            <div>
+              <h1 className="text-3xl font-black text-white mb-10 tracking-tighter uppercase flex items-center gap-4">
+                <div className="w-1.5 h-10 bg-brand-orange rounded-full shadow-[0_0_15px_rgba(250,140,22,0.5)]" />
+                COD <span className="text-brand-orange">Checklist</span>
+              </h1>
+              <div className="rounded-[2.5rem] bg-brand-navy-dark border border-white/5 overflow-hidden shadow-2xl p-8">
+                {loadingCod ? (
+                  <div className="flex flex-col items-center justify-center gap-4 py-20">
+                    <Loader2 className="w-10 h-10 text-brand-orange animate-spin" />
+                    <span className="text-slate-400 font-bold uppercase tracking-widest text-xs">Memuat SOP Checklist...</span>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {codTodos.map((todo) => (
+                      <div key={todo.id} className="flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-orange/30 transition-colors">
+                        <div className="mt-1">
+                          {todo.is_critical ? (
+                            <AlertTriangle className="w-6 h-6 text-rose-500" />
+                          ) : (
+                            <ListTodo className="w-6 h-6 text-brand-orange" />
+                          )}
+                        </div>
+                        <div>
+                          <h4 className={`text-sm font-black uppercase tracking-wider mb-1 ${todo.is_critical ? 'text-rose-400' : 'text-white'}`}>
+                            {todo.title}
+                          </h4>
+                          <p className="text-slate-400 text-xs leading-relaxed">{todo.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
