@@ -694,6 +694,32 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [loadingTradeIn, setLoadingTradeIn] = useState(false);
   const [loadingCod, setLoadingCod] = useState(false);
 
+  const [checkedCod, setCheckedCod] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('corepawas_cod_checklist');
+      if (saved) {
+        try {
+          setCheckedCod(JSON.parse(saved));
+        } catch (e) {}
+      }
+    }
+  }, []);
+
+  const toggleCodCheck = (id: string) => {
+    const newChecked = { ...checkedCod, [id]: !checkedCod[id] };
+    setCheckedCod(newChecked);
+    localStorage.setItem('corepawas_cod_checklist', JSON.stringify(newChecked));
+  };
+
+  const resetCodChecklist = () => {
+    if (confirm('Reset checklist untuk sesi COD baru?')) {
+      setCheckedCod({});
+      localStorage.removeItem('corepawas_cod_checklist');
+    }
+  };
+
   useEffect(() => {
     if (activeTab === 'tradein') fetchTradeIn();
     if (activeTab === 'cod') fetchCodTodos();
@@ -2175,6 +2201,18 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <Loader2 className="w-10 h-10 text-brand-orange animate-spin" />
                     <span className="text-slate-400 font-bold uppercase tracking-widest text-xs">Memuat Data Harga Tukar Tambah...</span>
                   </div>
+                ) : tradeInModels.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+                    <div className="w-16 h-16 rounded-[1.5rem] bg-white/5 border border-white/10 flex items-center justify-center mb-2">
+                      <ArrowLeftRight className="w-8 h-8 text-slate-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-white text-sm font-black uppercase tracking-widest mb-1">Database Kosong</h4>
+                      <p className="text-slate-500 text-xs font-medium max-w-sm mx-auto leading-relaxed">
+                        Data model HP untuk tukar tambah belum tersedia di Supabase. Silakan masuk ke tab <b className="text-white">Pengaturan</b> lalu klik tombol <b>Sinkronisasi & Reset Data (Sync ke Supabase)</b>.
+                      </p>
+                    </div>
+                  </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full">
@@ -2216,25 +2254,77 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                     <Loader2 className="w-10 h-10 text-brand-orange animate-spin" />
                     <span className="text-slate-400 font-bold uppercase tracking-widest text-xs">Memuat SOP Checklist...</span>
                   </div>
+                ) : codTodos.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+                    <div className="w-16 h-16 rounded-[1.5rem] bg-white/5 border border-white/10 flex items-center justify-center mb-2">
+                      <CheckSquare className="w-8 h-8 text-slate-500" />
+                    </div>
+                    <div>
+                      <h4 className="text-white text-sm font-black uppercase tracking-widest mb-1">Checklist Kosong</h4>
+                      <p className="text-slate-500 text-xs font-medium max-w-sm mx-auto leading-relaxed">
+                        SOP COD belum tersedia di Supabase. Silakan masuk ke tab <b className="text-white">Pengaturan</b> lalu klik tombol <b>Sinkronisasi & Reset Data (Sync ke Supabase)</b>.
+                      </p>
+                    </div>
+                  </div>
                 ) : (
-                  <div className="space-y-4">
-                    {codTodos.map((todo) => (
-                      <div key={todo.id} className="flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-orange/30 transition-colors">
-                        <div className="mt-1">
-                          {todo.is_critical ? (
-                            <AlertTriangle className="w-6 h-6 text-rose-500" />
-                          ) : (
-                            <ListTodo className="w-6 h-6 text-brand-orange" />
-                          )}
-                        </div>
-                        <div>
-                          <h4 className={`text-sm font-black uppercase tracking-wider mb-1 ${todo.is_critical ? 'text-rose-400' : 'text-white'}`}>
-                            {todo.title}
-                          </h4>
-                          <p className="text-slate-400 text-xs leading-relaxed">{todo.description}</p>
-                        </div>
+                  <div className="space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-brand-navy p-6 rounded-2xl border border-white/5 shadow-inner gap-4">
+                      <div>
+                        <h4 className="text-white font-black uppercase tracking-widest text-sm mb-1">Status Inspeksi COD</h4>
+                        <p className="text-slate-400 text-xs font-medium">Selesaikan seluruh poin wajib sebelum melakukan pembayaran.</p>
                       </div>
-                    ))}
+                      <div className="text-left sm:text-right">
+                         <span className="text-4xl font-black text-brand-orange">
+                           {codTodos.filter(t => checkedCod[t.id]).length}
+                         </span>
+                         <span className="text-slate-500 font-bold text-lg"> / {codTodos.length}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {codTodos.map((todo) => (
+                        <div 
+                          key={todo.id} 
+                          onClick={() => toggleCodCheck(todo.id)}
+                          className={`flex gap-4 p-6 rounded-2xl border transition-all cursor-pointer ${
+                            checkedCod[todo.id] 
+                              ? 'bg-emerald-500/10 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
+                              : 'bg-white/5 border-white/10 hover:border-brand-orange/30'
+                          }`}
+                        >
+                          <div className={`mt-1 w-6 h-6 rounded-md flex items-center justify-center border-2 transition-colors flex-shrink-0 ${
+                            checkedCod[todo.id]
+                              ? 'bg-emerald-500 border-emerald-500'
+                              : 'border-slate-500 bg-transparent'
+                          }`}>
+                            {checkedCod[todo.id] && <Check className="w-4 h-4 text-white" />}
+                          </div>
+                          <div>
+                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                              <h4 className={`text-sm font-black uppercase tracking-wider ${
+                                checkedCod[todo.id] ? 'text-emerald-400' : (todo.is_critical ? 'text-rose-400' : 'text-white')
+                              }`}>
+                                {todo.title}
+                              </h4>
+                              {todo.is_critical && (
+                                <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 border border-rose-500/20">Wajib</span>
+                              )}
+                            </div>
+                            <p className={`text-xs leading-relaxed transition-colors ${checkedCod[todo.id] ? 'text-emerald-400/70' : 'text-slate-400'}`}>
+                              {todo.description}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      onClick={resetCodChecklist}
+                      className="w-full mt-8 py-5 rounded-xl border border-rose-500/20 text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-[10px] font-black uppercase tracking-widest transition-colors flex justify-center items-center gap-2"
+                    >
+                      <RefreshCcw className="w-4 h-4" />
+                      Reset Checklist untuk COD Berikutnya
+                    </button>
                   </div>
                 )}
               </div>

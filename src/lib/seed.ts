@@ -76,6 +76,20 @@ export async function seedDatabase() {
     if (tError) throw new Error(`Trade In: ${tError.message}`);
     console.log('✓ Trade In Models berhasil dipindah');
 
+    // 5. Sync COD Todos
+    const initialCodTodos = [
+      { id: 'todo_1', order_index: 1, title: 'Cek Kesesuaian Iklan', description: 'Pastikan warna, storage, dan garansi (inter/resmi) sesuai kesepakatan awal.', is_critical: true },
+      { id: 'todo_2', order_index: 2, title: 'Pengecekan Layar & True Tone', description: 'Cek sensitivitas sentuhan seluruh sudut, dead pixel, white spot. Pastikan True Tone aktif untuk iPhone.', is_critical: true },
+      { id: 'todo_3', order_index: 3, title: 'Cek Kamera & Face ID/Fingerprint', description: 'Tes semua lensa (Ultra-wide, Wide, Telephoto), flash, dan fungsi biometrik.', is_critical: true },
+      { id: 'todo_4', order_index: 4, title: 'Cek Sinyal & Wi-Fi', description: 'Masukkan SIM Card aktif beda operator. Pastikan muncul sinyal 4G/5G, tes telepon/internet, cek konektivitas Wi-Fi.', is_critical: true },
+      { id: 'todo_5', order_index: 5, title: 'Cek Baterai & Port Charger', description: 'Cek Battery Health (iPhone), tes colok charger dan pastikan persentase naik.', is_critical: false },
+      { id: 'todo_6', order_index: 6, title: 'Log Out iCloud / Google Account', description: 'Pastikan iCloud atau Google Account sudah terhapus bersih dan di-reset pabrik.', is_critical: true },
+      { id: 'todo_7', order_index: 7, title: 'Pengecekan Kelengkapan', description: 'Cek box, kabel charger, kepala charger ori/oem sesuai kesepakatan.', is_critical: false },
+    ];
+    const { error: codError } = await supabase.from('cod_todos').upsert(initialCodTodos);
+    if (codError) throw new Error(`COD Todos: ${codError.message}`);
+    console.log('✓ COD Todos berhasil dipindah');
+
     return { success: true };
   } catch (error: any) {
     console.error('Seed error:', error.message);
