@@ -2079,7 +2079,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           onClose={() => setEditingBlog(undefined)}
         />
       )}
-      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} />
+      <AiAssistant onFillProduct={handleAiFillProduct} onFillBlog={handleAiFillBlog} products={products} blogPosts={blogPosts} />
     </div>
   );
 }
