@@ -46,7 +46,7 @@ export default function Testimonials() {
           </div>
           <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter">
             Kepercayaan yang <br />
-            <span className="text-gradient">Terus Bertumbuh</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-orange-400">Terus Bertumbuh</span>
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto text-lg font-medium leading-relaxed">
             Kepuasan pelanggan adalah standar tertinggi kami. Berikut adalah pengalaman tulus mereka bersama <span className="text-white font-black">COREPAWAS</span>.

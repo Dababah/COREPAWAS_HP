@@ -23,6 +23,8 @@ export default function Footer() {
       ? `https://www.google.com/maps/embed/v1/place?key=${googleMapsApiKey}&q=${mapsQuery}`
       : `https://www.google.com/maps?q=${mapsQuery}&output=embed`;
 
+  const formattedWa = waNumber?.replace(/(\d{2})(\d{3,4})(\d{4})(\d+)/, '+$1 $2-$3-$4') || `+${waNumber}`;
+
   return (
     <footer className="bg-background border-t border-border relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-orange/5 blur-[150px] pointer-events-none rounded-full" />
@@ -77,7 +79,7 @@ export default function Footer() {
                   <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-green-500/20 transition-all border border-slate-200">
                     <WhatsAppIcon className="w-5 h-5 text-green-500" />
                   </div>
-                  +{waNumber}
+                  {formattedWa}
                 </a>
               </li>
               <li>
